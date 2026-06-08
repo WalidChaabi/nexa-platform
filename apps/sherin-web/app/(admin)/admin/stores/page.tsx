@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { List, Store } from "lucide-react";
 
+import { createStoreColumns } from "@/app/(admin)/admin/stores/columns";
+import { DataTable } from "@/components/data-table/data-table";
 import { PageHeader } from "@/components/layout/page-header";
 import { useLocale } from "@/components/providers/locale-provider";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
@@ -15,14 +16,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { fetchStores, type StoreSummary } from "@/lib/api/stores";
 
 export default function AdminStoresPage() {
@@ -30,6 +23,7 @@ export default function AdminStoresPage() {
   const [stores, setStores] = useState<StoreSummary[]>([]);
   const [fetching, setFetching] = useState(true);
   const [errorKey, setErrorKey] = useState<string | null>(null);
+  const columns = useMemo(() => createStoreColumns(t), [t]);
 
   useEffect(() => {
     let active = true;
@@ -91,34 +85,13 @@ export default function AdminStoresPage() {
               {t("admin.stores.empty")}
             </p>
           ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>{t("admin.stores.columns.name")}</TableHead>
-                  <TableHead>{t("admin.stores.columns.owner")}</TableHead>
-                  <TableHead>{t("admin.stores.columns.phone")}</TableHead>
-                  <TableHead>{t("admin.stores.columns.status")}</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {stores.map((store) => (
-                  <TableRow key={store.id}>
-                    <TableCell className="font-medium">{store.name}</TableCell>
-                    <TableCell>
-                      {store.owner?.full_name ?? `#${store.user_id}`}
-                    </TableCell>
-                    <TableCell>{store.phone || "—"}</TableCell>
-                    <TableCell>
-                      <Badge variant={store.status === 1 ? "default" : "secondary"}>
-                        {store.status === 1
-                          ? t("admin.stores.statusActive")
-                          : t("admin.stores.statusInactive")}
-                      </Badge>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <DataTable
+              columns={columns}
+              data={stores}
+              filterColumn="name"
+              filterPlaceholder={t("admin.stores.filterPlaceholder")}
+              emptyMessage={t("admin.stores.empty")}
+            />
           )}
         </CardContent>
       </Card>

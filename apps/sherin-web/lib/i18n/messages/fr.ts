@@ -24,6 +24,19 @@ export const fr = {
     dark: "Sombre",
     system: "Système",
   },
+  dataTable: {
+    noResults: "Aucun résultat.",
+    rowsSelected: "{selected} sur {total} ligne(s) sélectionnée(s).",
+    rowsPerPage: "Lignes par page",
+    page: "Page {current} sur {total}",
+    goToFirstPage: "Aller à la première page",
+    goToPreviousPage: "Page précédente",
+    goToNextPage: "Page suivante",
+    goToLastPage: "Aller à la dernière page",
+    sortAsc: "Croissant",
+    sortDesc: "Décroissant",
+    hideColumn: "Masquer",
+  },
   nav: {
     dashboard: "Tableau de bord",
     newInvoice: "Nouvelle facture",
@@ -341,6 +354,7 @@ export const fr = {
       listDescription: "Propriétaires, contacts et statut.",
       loadError: "Impossible de charger les magasins.",
       empty: "Aucun magasin pour le moment.",
+      filterPlaceholder: "Filtrer les magasins par nom...",
       statusActive: "Actif",
       statusInactive: "Inactif",
       columns: {

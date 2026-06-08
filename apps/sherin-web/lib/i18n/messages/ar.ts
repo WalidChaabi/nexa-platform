@@ -24,6 +24,19 @@ export const ar = {
     dark: "داكن",
     system: "النظام",
   },
+  dataTable: {
+    noResults: "لا توجد نتائج.",
+    rowsSelected: "{selected} من {total} صف(وف) محدد.",
+    rowsPerPage: "صفوف لكل صفحة",
+    page: "صفحة {current} من {total}",
+    goToFirstPage: "الانتقال إلى الصفحة الأولى",
+    goToPreviousPage: "الصفحة السابقة",
+    goToNextPage: "الصفحة التالية",
+    goToLastPage: "الانتقال إلى الصفحة الأخيرة",
+    sortAsc: "تصاعدي",
+    sortDesc: "تنازلي",
+    hideColumn: "إخفاء",
+  },
   nav: {
     dashboard: "لوحة التحكم",
     newInvoice: "فاتورة جديدة",
@@ -340,6 +353,7 @@ export const ar = {
       listDescription: "المالكون وبيانات الاتصال والحالة.",
       loadError: "تعذر تحميل المتاجر.",
       empty: "لا توجد متاجر بعد.",
+      filterPlaceholder: "تصفية المتاجر حسب الاسم...",
       statusActive: "نشط",
       statusInactive: "غير نشط",
       columns: {
