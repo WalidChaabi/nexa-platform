@@ -1,6 +1,9 @@
 "use client";
 
+import Link from "next/link";
+
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LogoutButton } from "@/components/auth/logout-button";
 import { useRequireAuth } from "@/hooks/use-require-auth";
@@ -34,8 +37,11 @@ export default function EmployerDashboardPage() {
         <CardHeader>
           <CardTitle>POS workspace</CardTitle>
         </CardHeader>
-        <CardContent className="text-sm text-muted-foreground">
-          POS and invoice flows will be ported here in Phase 2.
+        <CardContent className="space-y-4 text-sm text-muted-foreground">
+          <p>View and manage invoices for your store.</p>
+          <Button asChild>
+            <Link href="/employer/invoices">Open invoices</Link>
+          </Button>
         </CardContent>
       </Card>
     </div>
