@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\ActivityController;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\CampaignController;
 use App\Http\Controllers\Api\V1\CampaignDetailController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\Api\V1\CrossProductController;
 use App\Http\Controllers\Api\V1\CustomerController;
 use App\Http\Controllers\Api\V1\EpinglesController;
 use App\Http\Controllers\Api\V1\InvoiceController;
+use App\Http\Controllers\Api\V1\OwnerController;
 use App\Http\Controllers\Api\V1\PaymentController;
 use App\Http\Controllers\Api\V1\PosCatalogController;
 use App\Http\Controllers\Api\V1\ProductController;
@@ -89,6 +91,21 @@ Route::middleware(['auth:sanctum', 'active'])->group(function () {
     Route::get('/rdvs/{rdv}', [RdvController::class, 'show']);
     Route::put('/rdvs/{rdv}', [RdvController::class, 'update']);
     Route::delete('/rdvs/{rdv}', [RdvController::class, 'destroy']);
+
+    Route::middleware(['role:admin'])->group(function () {
+        Route::get('/owners', [OwnerController::class, 'index']);
+        Route::post('/owners', [OwnerController::class, 'store']);
+        Route::get('/owners/{owner}', [OwnerController::class, 'show']);
+        Route::put('/owners/{owner}', [OwnerController::class, 'update']);
+        Route::post('/owners/{owner}/activate', [OwnerController::class, 'activate']);
+        Route::post('/owners/{owner}/deactivate', [OwnerController::class, 'deactivate']);
+
+        Route::get('/activities', [ActivityController::class, 'index']);
+        Route::post('/activities', [ActivityController::class, 'store']);
+        Route::get('/activities/{activity}', [ActivityController::class, 'show']);
+        Route::put('/activities/{activity}', [ActivityController::class, 'update']);
+        Route::delete('/activities/{activity}', [ActivityController::class, 'destroy']);
+    });
 
     Route::get('/reports/sales', [ReportController::class, 'sales']);
     Route::get('/reports/customers', [ReportController::class, 'customers']);

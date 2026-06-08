@@ -1,7 +1,9 @@
 import {
+  Briefcase,
   CalendarDays,
   CreditCard,
   FileBarChart,
+  UserCog,
   LayoutDashboard,
   Megaphone,
   Package,
@@ -69,6 +71,16 @@ export const adminNav: NavItem[] = [
     href: "/admin",
     icon: LayoutDashboard,
     exact: true,
+  },
+  {
+    titleKey: "nav.owners",
+    href: "/admin/owners",
+    icon: UserCog,
+  },
+  {
+    titleKey: "nav.activities",
+    href: "/admin/activities",
+    icon: Briefcase,
   },
   {
     titleKey: "nav.stores",

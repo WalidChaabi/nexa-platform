@@ -1,9 +1,11 @@
 "use client";
 
 import {
+  Briefcase,
   CalendarDays,
   CreditCard,
   FileBarChart,
+  UserCog,
   LayoutDashboard,
   Megaphone,
   Package,
@@ -48,6 +50,14 @@ export default function AdminDashboardPage() {
         <CardContent className="space-y-4 text-sm text-muted-foreground">
           <p>{t("admin.dashboard.phaseBody")}</p>
           <div className="flex flex-wrap gap-3">
+            <NavLink href="/admin/owners" variant="outline">
+              <UserCog />
+              {t("nav.owners")}
+            </NavLink>
+            <NavLink href="/admin/activities" variant="outline">
+              <Briefcase />
+              {t("nav.activities")}
+            </NavLink>
             <NavLink href="/admin/stores" variant="outline">
               <Store />
               {t("nav.stores")}

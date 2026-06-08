@@ -6,6 +6,8 @@ use App\Contracts\Integrations\PaymentGateway;
 use App\Contracts\Integrations\SmsGateway;
 use App\Integrations\Payment\CmiPaymentGateway;
 use App\Integrations\Sms\BulkSmsGateway;
+use App\Enums\UserRole;
+use App\Models\Activity;
 use App\Models\Campaign;
 use App\Models\CampaignDetail;
 use App\Models\CampaignHistorique;
@@ -18,6 +20,8 @@ use App\Models\Product;
 use App\Models\Rdv;
 use App\Models\SmsCrossSelling;
 use App\Models\Store;
+use App\Models\User;
+use App\Policies\ActivityPolicy;
 use App\Policies\CampaignDetailPolicy;
 use App\Policies\CampaignHistoriquePolicy;
 use App\Policies\CampaignPolicy;
@@ -31,6 +35,7 @@ use App\Policies\RdvPolicy;
 use App\Policies\SmsCrossSellingPolicy;
 use App\Policies\StorePolicy;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -39,6 +44,7 @@ class AppServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
+        Activity::class => ActivityPolicy::class,
         Store::class => StorePolicy::class,
         Invoice::class => InvoicePolicy::class,
         PaymentHistory::class => PaymentHistoryPolicy::class,
@@ -69,5 +75,11 @@ class AppServiceProvider extends ServiceProvider
         foreach ($this->policies as $model => $policy) {
             Gate::policy($model, $policy);
         }
+
+        Route::bind('owner', function (string $value): User {
+            return User::query()
+                ->where('is_admin', UserRole::Owner->value)
+                ->findOrFail($value);
+        });
     }
 }
