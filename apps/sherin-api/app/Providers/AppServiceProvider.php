@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Contracts\Integrations\PaymentGateway;
+use App\Contracts\Integrations\SmsGateway;
+use App\Integrations\Payment\CmiPaymentGateway;
+use App\Integrations\Sms\BulkSmsGateway;
 use App\Models\Campaign;
 use App\Models\Customer;
 use App\Models\Invoice;
@@ -35,7 +39,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(SmsGateway::class, BulkSmsGateway::class);
+        $this->app->bind(PaymentGateway::class, CmiPaymentGateway::class);
     }
 
     /**
