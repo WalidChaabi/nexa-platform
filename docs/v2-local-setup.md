@@ -15,12 +15,50 @@ apps/sherin-api/    # Laravel API
 apps/sherin-web/    # Next.js
 ```
 
-## MySQL (shared dev)
+## Full stack in Docker (recommended)
 
 From repository root:
 
 ```bash
 docker compose up -d
+# or, with auto-rebuild when composer/package files change:
+docker compose watch
+```
+
+| Service | URL |
+|---------|-----|
+| Web | http://localhost:3000 |
+| API | http://localhost:8000/api/v1/health |
+| MySQL | `localhost:3306` — db `sherin_test`, user `me` / password `ok` |
+
+### Hot reload (no rebuild for code edits)
+
+Source is **bind-mounted** into the `api` and `web` containers. After the stack is up once:
+
+- **Web (Next.js):** save a file under `apps/sherin-web/` → dev server recompiles → refresh the browser.
+- **API (Laravel):** save a file under `apps/sherin-api/` → next request uses the new code.
+
+You only need to **rebuild images** when Dockerfiles or lockfiles change:
+
+```bash
+docker compose build api web
+docker compose up -d
+```
+
+If Next.js stops picking up new routes (404 after adding pages), clear the dev cache volume once:
+
+```bash
+docker compose down
+docker volume rm sherin-laravel-app-main_web-next
+docker compose up -d
+```
+
+On Windows, polling env vars are set in `docker-compose.yml` so file watching works through Docker bind mounts.
+
+## MySQL only (optional)
+
+```bash
+docker compose up -d database
 ```
 
 Default: database `sherin_test`, user `me` / password `ok`, port `3306`.
