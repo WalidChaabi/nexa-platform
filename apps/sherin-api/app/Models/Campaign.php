@@ -2,16 +2,22 @@
 
 namespace App\Models;
 
-use App\Models\Concerns\BelongsToStore;
+use Database\Factories\CampaignFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Campaign extends Model
 {
-    use BelongsToStore;
-
+    /** @use HasFactory<CampaignFactory> */
+    use HasFactory;
     protected $fillable = [
-        'store_id',
         'name',
-        'status',
+        'type',
     ];
+
+    public function details(): HasMany
+    {
+        return $this->hasMany(CampaignDetail::class);
+    }
 }

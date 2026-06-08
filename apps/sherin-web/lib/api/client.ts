@@ -113,3 +113,25 @@ export async function apiPut<T>(
 
   return payload as T;
 }
+
+export async function apiDelete(
+  path: string,
+  init?: RequestInit,
+): Promise<void> {
+  const xsrfToken = readXsrfToken();
+
+  const response = await fetch(`${API_BASE}${path}`, {
+    method: "DELETE",
+    credentials: "include",
+    headers: {
+      Accept: "application/json",
+      ...(xsrfToken ? { "X-XSRF-TOKEN": xsrfToken } : {}),
+      ...(init?.headers ?? {}),
+    },
+    ...init,
+  });
+
+  if (!response.ok) {
+    throw new Error(`API ${response.status}: ${path}`);
+  }
+}

@@ -4,6 +4,7 @@ import {
   Building2,
   CreditCard,
   LayoutDashboard,
+  Megaphone,
   Package,
   Receipt,
   Store,
@@ -52,6 +53,10 @@ export default function OwnerDashboardPage() {
             <NavLink href="/owner/payments" variant="outline">
               <CreditCard />
               {t("nav.payments")}
+            </NavLink>
+            <NavLink href="/owner/campaigns" variant="outline">
+              <Megaphone />
+              {t("nav.campaigns")}
             </NavLink>
             <NavLink href="/owner/stores" variant="outline">
               <Store />

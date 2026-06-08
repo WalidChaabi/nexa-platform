@@ -4,12 +4,10 @@ namespace App\Policies;
 
 use App\Models\Campaign;
 use App\Models\User;
-use App\Policies\Concerns\AuthorizesStoreResources;
+use App\Support\Authorization\StoreAccess;
 
 class CampaignPolicy
 {
-    use AuthorizesStoreResources;
-
     public function viewAny(User $user): bool
     {
         return true;
@@ -17,21 +15,21 @@ class CampaignPolicy
 
     public function view(User $user, Campaign $campaign): bool
     {
-        return $this->canAccessStore($user, $this->resourceStoreId($campaign));
+        return true;
     }
 
     public function create(User $user): bool
     {
-        return true;
+        return StoreAccess::isAdmin($user);
     }
 
     public function update(User $user, Campaign $campaign): bool
     {
-        return $this->canAccessStore($user, $this->resourceStoreId($campaign));
+        return StoreAccess::isAdmin($user);
     }
 
     public function delete(User $user, Campaign $campaign): bool
     {
-        return $this->canAccessStore($user, $this->resourceStoreId($campaign));
+        return StoreAccess::isAdmin($user);
     }
 }

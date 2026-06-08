@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\V1\CampaignController;
+use App\Http\Controllers\Api\V1\CampaignDetailController;
+use App\Http\Controllers\Api\V1\CampaignHistoriqueController;
 use App\Http\Controllers\Api\V1\CategoryController;
 use App\Http\Controllers\Api\V1\CustomerController;
 use App\Http\Controllers\Api\V1\InvoiceController;
@@ -58,6 +61,15 @@ Route::middleware(['auth:sanctum', 'active'])->group(function () {
     Route::get('/products/{product}', [ProductController::class, 'show']);
     Route::put('/products/{product}', [ProductController::class, 'update']);
     Route::delete('/products/{product}', [ProductController::class, 'destroy']);
+
+    Route::get('/campaigns', [CampaignController::class, 'index']);
+    Route::get('/campaign-details/filter-defaults', [CampaignDetailController::class, 'filterDefaults']);
+    Route::get('/campaign-details', [CampaignDetailController::class, 'index']);
+    Route::post('/campaign-details', [CampaignDetailController::class, 'store']);
+    Route::get('/campaign-details/{campaignDetail}', [CampaignDetailController::class, 'show']);
+    Route::put('/campaign-details/{campaignDetail}', [CampaignDetailController::class, 'update']);
+    Route::delete('/campaign-details/{campaignDetail}', [CampaignDetailController::class, 'destroy']);
+    Route::get('/campaign-historiques', [CampaignHistoriqueController::class, 'index']);
 
     Route::get('/payments/preview', [PaymentController::class, 'preview']);
     Route::post('/payments/checkout', [PaymentController::class, 'checkout']);

@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'employer@sherin.test',
         ]);
 
+        $this->call(CampaignReferenceSeeder::class);
         $this->call(SherinDemoSeeder::class);
     }
 }

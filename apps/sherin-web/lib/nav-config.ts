@@ -1,6 +1,7 @@
 import {
   CreditCard,
   LayoutDashboard,
+  Megaphone,
   Package,
   PlusCircle,
   Receipt,
@@ -82,6 +83,11 @@ export const adminNav: NavItem[] = [
     icon: CreditCard,
   },
   {
+    titleKey: "nav.campaigns",
+    href: "/admin/campaigns",
+    icon: Megaphone,
+  },
+  {
     titleKey: "nav.settings",
     href: "/admin",
     icon: Settings,
@@ -105,6 +111,11 @@ export const ownerNav: NavItem[] = [
     titleKey: "nav.payments",
     href: "/owner/payments",
     icon: CreditCard,
+  },
+  {
+    titleKey: "nav.campaigns",
+    href: "/owner/campaigns",
+    icon: Megaphone,
   },
   {
     titleKey: "nav.stores",

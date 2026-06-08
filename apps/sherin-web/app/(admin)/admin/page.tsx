@@ -3,6 +3,7 @@
 import {
   CreditCard,
   LayoutDashboard,
+  Megaphone,
   Package,
   Shield,
   Store,
@@ -59,6 +60,10 @@ export default function AdminDashboardPage() {
             <NavLink href="/admin/payments" variant="outline">
               <CreditCard />
               {t("nav.payments")}
+            </NavLink>
+            <NavLink href="/admin/campaigns" variant="outline">
+              <Megaphone />
+              {t("nav.campaigns")}
             </NavLink>
           </div>
         </CardContent>
