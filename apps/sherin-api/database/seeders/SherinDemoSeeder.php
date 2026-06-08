@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Customer;
+use App\Models\Epingles;
 use App\Models\Invoice;
 use App\Models\InvoiceProduct;
 use App\Models\Product;
@@ -34,6 +35,15 @@ class SherinDemoSeeder extends Seeder
         );
 
         $employer->update(['store_id' => $store->id]);
+
+        Epingles::query()->firstOrCreate(
+            ['store_id' => $store->id, 'name' => 'Coupe'],
+            ['color' => '#3b82f6'],
+        );
+        Epingles::query()->firstOrCreate(
+            ['store_id' => $store->id, 'name' => 'Coloration'],
+            ['color' => '#ef4444'],
+        );
 
         $customer = Customer::query()->firstOrCreate(
             ['store_id' => $store->id, 'phone' => '0698765432'],

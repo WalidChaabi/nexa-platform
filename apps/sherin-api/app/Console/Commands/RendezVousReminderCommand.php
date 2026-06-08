@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Services\RdvReminderService;
 use App\Support\Logging\IntegrationLogger;
 use Illuminate\Console\Command;
 
@@ -9,13 +10,20 @@ class RendezVousReminderCommand extends Command
 {
     protected $signature = 'sherin:rendez-vous';
 
-    protected $description = 'Run RDV reminder scheduler (dispatches jobs when calendar module is wired)';
+    protected $description = 'Send SMS reminders for appointments starting within 30 minutes';
 
-    public function handle(): int
+    public function handle(RdvReminderService $reminders): int
     {
-        IntegrationLogger::info('scheduler.rendez_vous.tick');
+        $result = $reminders->sendUpcomingReminders();
 
-        $this->info('RDV reminder scheduler tick recorded.');
+        IntegrationLogger::info('scheduler.rendez_vous.completed', $result);
+
+        $this->info(sprintf(
+            'RDV reminders: %d queued, %d skipped (%d checked).',
+            $result['queued'],
+            $result['skipped'],
+            $result['checked'],
+        ));
 
         return self::SUCCESS;
     }

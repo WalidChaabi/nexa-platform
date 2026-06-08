@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  CalendarDays,
   LayoutDashboard,
   Package,
   PlusCircle,
@@ -99,6 +100,10 @@ export default function EmployerDashboardPage() {
           <NavLink href="/employer/products" variant="outline">
             <Package />
             {t("nav.products")}
+          </NavLink>
+          <NavLink href="/employer/calendar" variant="outline">
+            <CalendarDays />
+            {t("nav.calendar")}
           </NavLink>
         </CardContent>
       </Card>

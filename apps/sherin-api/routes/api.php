@@ -7,10 +7,12 @@ use App\Http\Controllers\Api\V1\CampaignHistoriqueController;
 use App\Http\Controllers\Api\V1\CategoryController;
 use App\Http\Controllers\Api\V1\CrossProductController;
 use App\Http\Controllers\Api\V1\CustomerController;
+use App\Http\Controllers\Api\V1\EpinglesController;
 use App\Http\Controllers\Api\V1\InvoiceController;
 use App\Http\Controllers\Api\V1\PaymentController;
 use App\Http\Controllers\Api\V1\PosCatalogController;
 use App\Http\Controllers\Api\V1\ProductController;
+use App\Http\Controllers\Api\V1\RdvController;
 use App\Http\Controllers\Api\V1\SmsCrossSellingController;
 use App\Http\Controllers\Api\V1\StoreController;
 use Illuminate\Support\Facades\Route;
@@ -79,6 +81,13 @@ Route::middleware(['auth:sanctum', 'active'])->group(function () {
     Route::put('/cross-products/{crossProduct}', [CrossProductController::class, 'update']);
     Route::delete('/cross-products/{crossProduct}', [CrossProductController::class, 'destroy']);
     Route::get('/sms-cross-selling', [SmsCrossSellingController::class, 'index']);
+
+    Route::get('/epingles', [EpinglesController::class, 'index']);
+    Route::get('/rdvs', [RdvController::class, 'index']);
+    Route::post('/rdvs', [RdvController::class, 'store']);
+    Route::get('/rdvs/{rdv}', [RdvController::class, 'show']);
+    Route::put('/rdvs/{rdv}', [RdvController::class, 'update']);
+    Route::delete('/rdvs/{rdv}', [RdvController::class, 'destroy']);
 
     Route::get('/payments/preview', [PaymentController::class, 'preview']);
     Route::post('/payments/checkout', [PaymentController::class, 'checkout']);

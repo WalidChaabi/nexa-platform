@@ -1,4 +1,5 @@
 import {
+  CalendarDays,
   CreditCard,
   LayoutDashboard,
   Megaphone,
@@ -54,6 +55,11 @@ export const employerNav: NavItem[] = [
     href: "/employer/products",
     icon: Package,
   },
+  {
+    titleKey: "nav.calendar",
+    href: "/employer/calendar",
+    icon: CalendarDays,
+  },
 ];
 
 export const adminNav: NavItem[] = [
@@ -94,6 +100,11 @@ export const adminNav: NavItem[] = [
     icon: RefreshCw,
   },
   {
+    titleKey: "nav.calendar",
+    href: "/admin/calendar",
+    icon: CalendarDays,
+  },
+  {
     titleKey: "nav.settings",
     href: "/admin",
     icon: Settings,
@@ -127,6 +138,11 @@ export const ownerNav: NavItem[] = [
     titleKey: "nav.crossSelling",
     href: "/owner/cross-selling",
     icon: RefreshCw,
+  },
+  {
+    titleKey: "nav.calendar",
+    href: "/owner/calendar",
+    icon: CalendarDays,
   },
   {
     titleKey: "nav.stores",

@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  CalendarDays,
   CreditCard,
   LayoutDashboard,
   Megaphone,
@@ -69,6 +70,10 @@ export default function AdminDashboardPage() {
             <NavLink href="/admin/cross-selling" variant="outline">
               <RefreshCw />
               {t("nav.crossSelling")}
+            </NavLink>
+            <NavLink href="/admin/calendar" variant="outline">
+              <CalendarDays />
+              {t("nav.calendar")}
             </NavLink>
           </div>
         </CardContent>

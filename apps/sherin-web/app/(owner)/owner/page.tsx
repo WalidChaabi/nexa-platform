@@ -2,6 +2,7 @@
 
 import {
   Building2,
+  CalendarDays,
   CreditCard,
   LayoutDashboard,
   Megaphone,
@@ -62,6 +63,10 @@ export default function OwnerDashboardPage() {
             <NavLink href="/owner/cross-selling" variant="outline">
               <RefreshCw />
               {t("nav.crossSelling")}
+            </NavLink>
+            <NavLink href="/owner/calendar" variant="outline">
+              <CalendarDays />
+              {t("nav.calendar")}
             </NavLink>
             <NavLink href="/owner/stores" variant="outline">
               <Store />
