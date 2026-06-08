@@ -1,6 +1,7 @@
 import {
   CalendarDays,
   CreditCard,
+  FileBarChart,
   LayoutDashboard,
   Megaphone,
   Package,
@@ -105,6 +106,11 @@ export const adminNav: NavItem[] = [
     icon: CalendarDays,
   },
   {
+    titleKey: "nav.reports",
+    href: "/admin/reports",
+    icon: FileBarChart,
+  },
+  {
     titleKey: "nav.settings",
     href: "/admin",
     icon: Settings,
@@ -143,6 +149,11 @@ export const ownerNav: NavItem[] = [
     titleKey: "nav.calendar",
     href: "/owner/calendar",
     icon: CalendarDays,
+  },
+  {
+    titleKey: "nav.reports",
+    href: "/owner/reports",
+    icon: FileBarChart,
   },
   {
     titleKey: "nav.stores",

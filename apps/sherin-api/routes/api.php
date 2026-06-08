@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\V1\PaymentController;
 use App\Http\Controllers\Api\V1\PosCatalogController;
 use App\Http\Controllers\Api\V1\ProductController;
 use App\Http\Controllers\Api\V1\RdvController;
+use App\Http\Controllers\Api\V1\ReportController;
 use App\Http\Controllers\Api\V1\SmsCrossSellingController;
 use App\Http\Controllers\Api\V1\StoreController;
 use Illuminate\Support\Facades\Route;
@@ -88,6 +89,12 @@ Route::middleware(['auth:sanctum', 'active'])->group(function () {
     Route::get('/rdvs/{rdv}', [RdvController::class, 'show']);
     Route::put('/rdvs/{rdv}', [RdvController::class, 'update']);
     Route::delete('/rdvs/{rdv}', [RdvController::class, 'destroy']);
+
+    Route::get('/reports/sales', [ReportController::class, 'sales']);
+    Route::get('/reports/customers', [ReportController::class, 'customers']);
+    Route::get('/reports/products', [ReportController::class, 'products']);
+    Route::get('/reports/{type}/export', [ReportController::class, 'export'])
+        ->whereIn('type', ['sales', 'customers', 'products']);
 
     Route::get('/payments/preview', [PaymentController::class, 'preview']);
     Route::post('/payments/checkout', [PaymentController::class, 'checkout']);

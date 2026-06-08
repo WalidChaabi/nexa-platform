@@ -4,6 +4,7 @@ import {
   Building2,
   CalendarDays,
   CreditCard,
+  FileBarChart,
   LayoutDashboard,
   Megaphone,
   Package,
@@ -67,6 +68,10 @@ export default function OwnerDashboardPage() {
             <NavLink href="/owner/calendar" variant="outline">
               <CalendarDays />
               {t("nav.calendar")}
+            </NavLink>
+            <NavLink href="/owner/reports" variant="outline">
+              <FileBarChart />
+              {t("nav.reports")}
             </NavLink>
             <NavLink href="/owner/stores" variant="outline">
               <Store />

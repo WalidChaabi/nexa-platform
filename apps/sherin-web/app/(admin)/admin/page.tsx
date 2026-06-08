@@ -3,6 +3,7 @@
 import {
   CalendarDays,
   CreditCard,
+  FileBarChart,
   LayoutDashboard,
   Megaphone,
   Package,
@@ -74,6 +75,10 @@ export default function AdminDashboardPage() {
             <NavLink href="/admin/calendar" variant="outline">
               <CalendarDays />
               {t("nav.calendar")}
+            </NavLink>
+            <NavLink href="/admin/reports" variant="outline">
+              <FileBarChart />
+              {t("nav.reports")}
             </NavLink>
           </div>
         </CardContent>
