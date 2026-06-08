@@ -89,6 +89,19 @@ class InvoiceApiTest extends TestCase
             ->assertJsonPath('data.status', InvoiceStatus::Cancelled->value);
     }
 
+    public function test_employer_can_fetch_invoice_print_payload(): void
+    {
+        $store = Store::factory()->create(['name' => 'Print Store']);
+        $employer = User::factory()->employer()->create(['store_id' => $store->id]);
+        $invoice = \App\Models\Invoice::factory()->forStore($store)->create();
+
+        $this->actingAs($employer)
+            ->getJson("/api/v1/invoices/{$invoice->id}/print")
+            ->assertOk()
+            ->assertJsonPath('data.id', $invoice->id)
+            ->assertJsonPath('data.store.name', 'Print Store');
+    }
+
     public function test_cannot_create_invoice_for_inaccessible_store(): void
     {
         $store = Store::factory()->create();

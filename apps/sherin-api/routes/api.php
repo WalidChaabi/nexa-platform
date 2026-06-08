@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\InvoiceController;
+use App\Http\Controllers\Api\V1\PosCatalogController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/health', function () {
@@ -27,8 +28,10 @@ Route::middleware(['auth:sanctum', 'active', 'role:admin'])->get('/admin/ping', 
 });
 
 Route::middleware(['auth:sanctum', 'active'])->group(function () {
+    Route::get('/pos/catalog', [PosCatalogController::class, 'show']);
     Route::get('/invoices', [InvoiceController::class, 'index']);
     Route::post('/invoices', [InvoiceController::class, 'store']);
     Route::get('/invoices/{invoice}', [InvoiceController::class, 'show']);
+    Route::get('/invoices/{invoice}/print', [InvoiceController::class, 'print']);
     Route::post('/invoices/{invoice}/cancel', [InvoiceController::class, 'cancel']);
 });

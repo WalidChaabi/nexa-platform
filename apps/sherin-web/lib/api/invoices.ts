@@ -82,3 +82,42 @@ export async function cancelInvoice(id: number): Promise<InvoiceSummary> {
   );
   return response.data;
 }
+
+export type CreateInvoicePayload = {
+  store_id: number;
+  customer_id: number;
+  payment_method: number;
+  paid_amount: number;
+  total: number;
+  total_ht: number;
+  products: Array<{
+    product_id: number;
+    qte: number;
+    price?: number;
+  }>;
+};
+
+export async function createInvoice(
+  payload: CreateInvoicePayload,
+): Promise<InvoiceSummary> {
+  await ensureCsrfCookie();
+  const response = await apiPost<InvoiceResponse>("/api/v1/invoices", payload);
+  return response.data;
+}
+
+export type InvoiceSummaryWithStore = InvoiceSummary & {
+  store?: {
+    id: number;
+    name: string;
+    phone: string;
+    address: string | null;
+    invoice_message: string | null;
+  };
+};
+
+export async function fetchInvoiceForPrint(
+  id: number,
+): Promise<InvoiceSummaryWithStore> {
+  const response = await apiGet<InvoiceResponse>(`/api/v1/invoices/${id}/print`);
+  return response.data as InvoiceSummaryWithStore;
+}

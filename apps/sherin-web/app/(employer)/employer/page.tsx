@@ -1,9 +1,7 @@
 "use client";
 
-import Link from "next/link";
-
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { NavLink } from "@/components/ui/nav-link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LogoutButton } from "@/components/auth/logout-button";
 import { useRequireAuth } from "@/hooks/use-require-auth";
@@ -37,11 +35,11 @@ export default function EmployerDashboardPage() {
         <CardHeader>
           <CardTitle>POS workspace</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4 text-sm text-muted-foreground">
-          <p>View and manage invoices for your store.</p>
-          <Button asChild>
-            <Link href="/employer/invoices">Open invoices</Link>
-          </Button>
+        <CardContent className="flex flex-wrap gap-3 text-sm text-muted-foreground">
+          <NavLink href="/employer/invoices/create">New invoice</NavLink>
+          <NavLink href="/employer/invoices" variant="outline">
+            Invoice history
+          </NavLink>
         </CardContent>
       </Card>
     </div>

@@ -37,6 +37,13 @@ class InvoiceResource extends JsonResource
                 'full_name' => $this->employer->full_name,
             ]),
             'items' => InvoiceProductResource::collection($this->whenLoaded('items')),
+            'store' => $this->whenLoaded('store', fn () => [
+                'id' => $this->store->id,
+                'name' => $this->store->name,
+                'phone' => $this->store->phone,
+                'address' => $this->store->address,
+                'invoice_message' => $this->store->invoice_message,
+            ]),
         ];
     }
 }

@@ -1,12 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 
 import { LogoutButton } from "@/components/auth/logout-button";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { NavLink } from "@/components/ui/nav-link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useRequireAuth } from "@/hooks/use-require-auth";
 import { fetchInvoice, type InvoiceSummary } from "@/lib/api/invoices";
@@ -69,9 +68,12 @@ export default function EmployerInvoiceDetailPage() {
           </h1>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="outline" asChild>
-            <Link href="/employer/invoices">Back to list</Link>
-          </Button>
+          <NavLink href={`/employer/invoices/${params.id}/print`} variant="outline">
+            Print
+          </NavLink>
+          <NavLink href="/employer/invoices" variant="outline">
+            Back to list
+          </NavLink>
           <LogoutButton />
         </div>
       </div>

@@ -1,12 +1,12 @@
 "use client";
 
-import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { LogoutButton } from "@/components/auth/logout-button";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { NavLink } from "@/components/ui/nav-link";
 import { useRequireAuth } from "@/hooks/use-require-auth";
 import {
   cancelInvoice,
@@ -44,32 +44,44 @@ export default function EmployerInvoicesPage() {
   const [fetching, setFetching] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [cancellingId, setCancellingId] = useState<number | null>(null);
+  const [reloadKey, setReloadKey] = useState(0);
 
-  const loadInvoices = useCallback(async () => {
-    if (!user?.store_id) {
-      setInvoices([]);
-      setFetching(false);
+  const storeId = user?.store_id;
+
+  useEffect(() => {
+    if (loading || storeId == null) {
       return;
     }
 
-    setFetching(true);
-    setError(null);
+    const activeStoreId = storeId;
+    let active = true;
 
-    try {
-      const data = await fetchInvoices({ store_id: user.store_id });
-      setInvoices(data);
-    } catch {
-      setError("Unable to load invoices.");
-    } finally {
-      setFetching(false);
-    }
-  }, [user?.store_id]);
+    async function loadInvoices() {
+      setFetching(true);
+      setError(null);
 
-  useEffect(() => {
-    if (!loading && user) {
-      void loadInvoices();
+      try {
+        const data = await fetchInvoices({ store_id: activeStoreId });
+        if (active) {
+          setInvoices(data);
+        }
+      } catch {
+        if (active) {
+          setError("Unable to load invoices.");
+        }
+      } finally {
+        if (active) {
+          setFetching(false);
+        }
+      }
     }
-  }, [loading, user, loadInvoices]);
+
+    void loadInvoices();
+
+    return () => {
+      active = false;
+    };
+  }, [loading, storeId, reloadKey]);
 
   async function handleCancel(invoiceId: number) {
     setCancellingId(invoiceId);
@@ -77,7 +89,7 @@ export default function EmployerInvoicesPage() {
 
     try {
       await cancelInvoice(invoiceId);
-      await loadInvoices();
+      setReloadKey((value) => value + 1);
     } catch {
       setError("Unable to cancel this invoice.");
     } finally {
@@ -108,9 +120,10 @@ export default function EmployerInvoicesPage() {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="outline" asChild>
-            <Link href="/employer">Dashboard</Link>
-          </Button>
+          <NavLink href="/employer/invoices/create">New invoice</NavLink>
+          <NavLink href="/employer" variant="outline">
+            Dashboard
+          </NavLink>
           <LogoutButton />
         </div>
       </div>
@@ -122,7 +135,11 @@ export default function EmployerInvoicesPage() {
         <CardContent className="space-y-4">
           {error ? <p className="text-sm text-destructive">{error}</p> : null}
 
-          {fetching ? (
+          {!storeId ? (
+            <p className="text-sm text-muted-foreground">
+              No store assigned to this employer account.
+            </p>
+          ) : fetching ? (
             <p className="text-sm text-muted-foreground">Loading...</p>
           ) : invoices.length === 0 ? (
             <p className="text-sm text-muted-foreground">
@@ -163,11 +180,13 @@ export default function EmployerInvoicesPage() {
                       </td>
                       <td className="py-3">
                         <div className="flex gap-2">
-                          <Button variant="outline" size="sm" asChild>
-                            <Link href={`/employer/invoices/${invoice.id}`}>
-                              View
-                            </Link>
-                          </Button>
+                          <NavLink
+                            href={`/employer/invoices/${invoice.id}`}
+                            variant="outline"
+                            size="sm"
+                          >
+                            View
+                          </NavLink>
                           {invoice.status_label === "pending" ? (
                             <Button
                               variant="destructive"

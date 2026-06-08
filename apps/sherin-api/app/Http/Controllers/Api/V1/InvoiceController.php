@@ -58,9 +58,26 @@ class InvoiceController extends Controller
     {
         $this->authorize('view', $invoice);
 
-        $invoice->load(['customer', 'employer', 'items.product']);
+        $invoice->load($this->invoiceRelations());
 
         return new InvoiceResource($invoice);
+    }
+
+    public function print(Request $request, Invoice $invoice): InvoiceResource
+    {
+        $this->authorize('view', $invoice);
+
+        $invoice->load($this->invoiceRelations());
+
+        return new InvoiceResource($invoice);
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function invoiceRelations(): array
+    {
+        return ['customer', 'employer', 'items.product', 'store'];
     }
 
     public function cancel(Request $request, Invoice $invoice): InvoiceResource
