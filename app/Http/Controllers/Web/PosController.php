@@ -12,6 +12,7 @@ use App\Services\CampaignService;
 use App\Services\CustomerService;
 use App\Services\InvoiceService;
 use App\Services\CategorieService;
+use App\Services\PosTokenService;
 use App\Services\ProductService;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
@@ -107,16 +108,21 @@ class PosController extends Controller
         return [$total, $totalHt, $pointsWithoutDiscount, $useRedFinal, $useRed];
     }
 
-    public function checkPassword(Request $request)
+    public function checkPassword(Request $request, PosTokenService $posTokenService)
     {
+        $request->validate([
+            'store_id' => 'required|integer|exists:stores,id',
+            'token' => 'required|string|max:255',
+        ]);
+
         $store = Store::FindOrFail($request->store_id);
-        $user_id = $store->user_id;
-        $user = User::findOrFail($user_id);
-        if ($request->token == $user->token) {
+        $user = User::findOrFail($store->user_id);
+
+        if ($posTokenService->verify($user, $request->token)) {
             return Response()->json(['mes' => 'token is valid']);
-        }else{
-            return Response()->json(['mes' => 'token is not valid'],403);
         }
+
+        return Response()->json(['mes' => 'token is not valid'], 403);
     }
 
 

@@ -391,12 +391,20 @@ Week 3–4:
 
 ## Definition of done — V1 Phase 0
 
+- [x] Phase 0 + Phase 1 **code** complete on stacked `v1/*` branches (PRs #1–#7)
 - [ ] All Phase 0 PRs merged to `main`
 - [ ] Production secrets rotated
 - [ ] CI green on `main`
 - [ ] No open **critical** or **high** items from [technical audit](../technical-audit-report.md)
 - [ ] Feature freeze announced
 - [ ] V2 bootstrap started
+
+### Ops gates (after merge)
+
+1. Rotate BulkSMS / CMI credentials — `docs/runbooks/secret-rotation.md`
+2. `php artisan migrate` + `php artisan sherin:migrate-pos-tokens` — `docs/runbooks/pos-token-migration.md`
+3. Enable cron: `* * * * * php artisan schedule:run`
+4. Remove `gb/` from production docroot if present
 
 ---
 
@@ -405,3 +413,4 @@ Week 3–4:
 | Date | Change |
 |------|--------|
 | 2026-06-08 | Initial V1 plan |
+| 2026-06-08 | V1 code-complete: XSS closeout, POS token hashing, admin payment audit, test baseline |

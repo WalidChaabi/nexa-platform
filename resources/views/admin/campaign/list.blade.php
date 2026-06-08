@@ -48,6 +48,7 @@
                                 <div class="card-body">
                                     <form action="{{ route('admin.campaigns.reset') }}" method="POST">
                                         @csrf
+                                        <input type="hidden" name="admin_payment_confirmation" value="CONFIRM">
                                         <input type="hidden" value="0" name="campaignType">
                                         <div class="row">
                                             <div class="col-md-4 mb-3">
@@ -104,6 +105,7 @@
                                 <div class="card-body">
                                     <form action="{{ route('admin.campaigns.reset') }}" method="POST">
                                         @csrf
+                                        <input type="hidden" name="admin_payment_confirmation" value="CONFIRM">
                                         <input type="hidden" value="1" name="campaignType">
                                         <div class="row">
                                             <div class="col-md-4 mb-3">
@@ -209,6 +211,7 @@
                 </div>
                 <form action="{{ route('admin.campaigns.payAll') }}" method="POST">
                     @csrf
+                    <input type="hidden" name="admin_payment_confirmation" value="CONFIRM">
                     <div class="modal-body col-md-12">
                         <div class="row">
                             <div class="col-md-12 mb-3">

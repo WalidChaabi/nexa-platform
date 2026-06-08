@@ -245,6 +245,7 @@
                 </div>
                 <form action="{{ route('admin.campaigns.payAll') }}" method="POST">
                     @csrf
+                    <input type="hidden" name="admin_payment_confirmation" value="CONFIRM">
                     <div class="modal-body col-md-12">
                         <div class="row">
                             <div class="col-md-12 mb-3">

@@ -12,6 +12,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         'App\Console\Commands\BirthdayCampaign',
         'App\Console\Commands\CrosSelling',
+        'App\Console\Commands\MigratePosTokens',
     ];
 
     protected function schedule(Schedule $schedule)

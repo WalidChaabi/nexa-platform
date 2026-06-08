@@ -274,7 +274,7 @@
         const container = document.getElementById('messagetemp');
         const formMessages = document.getElementById('form_messages');
 
-        const messages = {!! json_encode($campaign_details->message_camp->pluck('messages')->flatten()) !!};
+        const messages = @json($campaign_details->message_camp->pluck('messages')->flatten());
 
         console.log('messwages',messages);
 

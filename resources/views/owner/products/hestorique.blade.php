@@ -36,7 +36,7 @@
                                     @foreach ($product_hestoriques as $index => $product_hestorique)
                                         <tr data-record-id="{{ $product_hestorique->id }}">
                                             <td>
-                                                <p>{!! $product_hestorique->notification !!}</p>
+                                                <p>{!! \App\Support\SafeHtml::productNotification($product_hestorique->notification) !!}</p>
                                             </td>
                                         </tr>
                                     @endforeach

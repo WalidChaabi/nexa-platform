@@ -116,6 +116,7 @@
                 </div>
                 <form action="{{route('admin.campaigns.payAll')}}" method="POST">
                     @csrf
+                    <input type="hidden" name="admin_payment_confirmation" value="CONFIRM">
                     <div class="modal-body col-md-12">
                         <div class="row">
                             <div class="col-md-12 mb-3">
@@ -228,6 +229,7 @@
                         <td>
                             <form action="{{route('admin.campaigns.reset', ['store_id' => '']) }}" method="POST" style="margin:0;">
                                 @csrf
+                                <input type="hidden" name="admin_payment_confirmation" value="CONFIRM">
                                 <label style="display: none" id='name' name='name'>XXX</label>
                                 <input type="text" style="display: none" id='${key}1' name='name'></input>
                                 <input id="${key}2" style="display: none" type="number" name="credit1">

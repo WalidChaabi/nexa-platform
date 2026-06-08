@@ -84,3 +84,4 @@ See [Git, PR & Release Workflow](./git-pr-and-release-workflow.md) for full conv
 |------|--------|
 | 2026-06-08 | Initial improvement program documentation created |
 | 2026-06-08 | **V1 Phase 0 started** — security fixes implemented (see commits on `main`) |
+| 2026-06-08 | **V1 code-complete** — stacked PRs #1–#7; ops merge + rotation pending |

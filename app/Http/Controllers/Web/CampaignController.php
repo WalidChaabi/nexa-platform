@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Concerns\AuditsAdminPaymentOverrides;
 use App\Models\Campaign;
 use App\Models\CampaignDetail;
 use App\Models\Filter;
@@ -22,6 +23,7 @@ use Illuminate\Support\Facades\DB;
 
 class CampaignController extends Controller
 {
+    use AuditsAdminPaymentOverrides;
 
     protected $campaignService;
     protected $storeService;
@@ -163,6 +165,20 @@ class CampaignController extends Controller
     }  
     public function resetCampaigns(Request $request)
     {
+        $this->authorizeAdminPaymentOverride($request, 'reset_campaigns');
+
+        $request->merge([
+            'store_id' => $request->input('store_id', $request->input('store')),
+            'credit1' => $request->input('credit1', $request->input('debit')),
+            'name' => $request->input('name', (string) $request->input('campaignType') === '1' ? 'cross-selling' : 'birthday'),
+        ]);
+
+        $request->validate([
+            'store_id' => 'required|integer|exists:stores,id',
+            'credit1' => 'required|numeric|min:0',
+            'name' => 'required|string|max:255',
+        ]);
+
         // dd($request);
         // $campaigns = [];
         // foreach ($request->all() as $key => $value) {
@@ -192,6 +208,12 @@ class CampaignController extends Controller
 
     public function payAll(Request $request)
     {
+        $this->authorizeAdminPaymentOverride($request, 'pay_all');
+
+        $request->validate([
+            'ownerId' => 'required|integer|exists:users,id',
+        ]);
+
         $stores_id = Store::where('user_id', $request->ownerId)->pluck('id')->toArray();
         $details = $this->campaignService->payAllCampaign($stores_id);
         $key = 'detail_invoice' . $request->ownerId;

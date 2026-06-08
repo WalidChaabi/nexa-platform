@@ -23,7 +23,9 @@
 <div class="container-fluid">
 	<div class="col-sm-12">
 		@if ($errors->any())
-			{!! implode('', $errors->all('<span class="text text-danger">:message</span>')) !!}
+			@foreach ($errors->all() as $error)
+				<span class="text text-danger">{{ $error }}</span>
+			@endforeach
 		@endif
 		<div class="card">
 			<div class="card-header">
