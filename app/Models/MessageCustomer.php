@@ -9,7 +9,6 @@ class MessageCustomer extends Model
     protected $table="messages_customers";
 
     protected $fillable = [
-        'id',
         'store_id',
         'customer_id',
         'message',

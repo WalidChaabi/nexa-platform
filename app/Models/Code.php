@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Code extends Model
 {
-    protected $fillable = [ 
-        'id',
+    protected $fillable = [
         'customer_id',
         'code_red' , 
         'status', 

@@ -21,7 +21,7 @@ class EpinglesController extends Controller
             'color'  => 'required|string',
         ]);
 
-        Epingles::create($request->all());
+        Epingles::create($request->only(['store_id', 'name', 'color']));
 
         return redirect()->back();
     }
@@ -34,7 +34,7 @@ class EpinglesController extends Controller
             'color'  => 'required|string',
         ]);
 
-        $epingles->update($request->all());
+        $epingles->update($request->only(['store_id', 'name', 'color']));
 
         return response('UPDATED SUCCESSFULLY', 200);
     }

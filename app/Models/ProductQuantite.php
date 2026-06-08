@@ -11,7 +11,7 @@ class ProductQuantite extends Model
 
 
     protected $fillable = [
-        "id" ,"quantite",
+        'quantite',
     ];
     public function productQuantiteDetails(){
         return $this->hasMany(ProductQuantite::class,'product_quantite_id');

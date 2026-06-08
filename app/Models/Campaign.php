@@ -9,7 +9,7 @@ class Campaign extends Model
     public $timestamps=false;
     
     protected $fillable = [
-        'id','name','type'
+        'name', 'type',
     ];
 
     public function template(){

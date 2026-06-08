@@ -113,8 +113,7 @@ class InvoiceController extends Controller
         ]);
         // $isChecked = $request->has('ResteCheck');
         // $isChecked = $request['ResteCheck'];
-        $data = $request->all();
-        // dd($data);
+        $data = $this->validatedInvoicePayload($request);
 
         $client = $this->findAuthorizedStoreScopedModel(Customer::class, $request->customer);
         $use_red_final = $client->points;
@@ -415,7 +414,7 @@ class InvoiceController extends Controller
         ]);
         $total_ht = $request->total_ht;
 
-        $data = $request->all();
+        $data = $this->validatedInvoicePayload($request);
         $oldInvoice = $this->findAuthorizedInvoice($id);
         $client = $this->findAuthorizedStoreScopedModel(Customer::class, $request->customer);
         $use_red_final = $client->points;
@@ -568,6 +567,21 @@ class InvoiceController extends Controller
 
     protected function calculatePoints($total, $base_profit, $base)
     {
+    }
+
+    /**
+     * Whitelist invoice form fields passed to InvoiceService (no mass assignment of extras).
+     */
+    protected function validatedInvoicePayload(Request $request): array
+    {
+        $data = $request->only([
+            'customer', 'paid_amount', 'products', 'quantity', 'total', 'total_ht',
+            'for', 'description', 'payment_method', 'Reste', 'type', 'userData',
+            'code_valide', 'code_red', 'use_points', 'userId',
+        ]);
+        $data['ResteCheck'] = $request->has('ResteCheck');
+
+        return $data;
     }
 
     public function getCanceledInvoices($items = 25)

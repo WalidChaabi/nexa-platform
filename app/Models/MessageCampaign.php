@@ -7,9 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class MessageCampaign extends Model
 {
 
-    protected $fillable = [ 
-        'id',
-        'campaign_detail_id', 
+    protected $fillable = [
+        'campaign_detail_id',
         'message_id',
     ];
     public function CampaignDetail(){

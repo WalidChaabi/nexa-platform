@@ -100,7 +100,10 @@ class CampaignDetailController extends Controller
             'active' => 'required',
         ]);
 
-        $campaign = CampaignDetail::create($request->all());
+        $campaign = CampaignDetail::create($request->only([
+            'campaign_name', 'campaign_id', 'filter_id', 'store_id', 'product_id',
+            'reduction', 'active', 'nombre_client',
+        ]));
         // dd($campaign);
 
         $messages = json_decode($request->messages);
@@ -127,18 +130,18 @@ class CampaignDetailController extends Controller
                 $count++;
                 if ($count <= 1) {  
                     $req['type_envoi'] = 1;
-                    $message = Message::create($req->all());    
+                    $message = Message::create($req->only(['message', 'date_start', 'type_envoi']));
                 }
                 else if ($count <= 2) {  
                     $req['type_envoi'] = 2;
-                    $message = Message::create($req->all());
+                    $message = Message::create($req->only(['message', 'date_start', 'type_envoi']));
                 }
                 else{
                     $req['type_envoi'] = 0;
-                    $message = Message::create($req->all());
+                    $message = Message::create($req->only(['message', 'date_start', 'type_envoi']));
                 }
             }else{
-                $message = Message::create($req->all());
+                $message = Message::create($req->only(['message', 'date_start', 'type_envoi']));
             }
             MessageCampaign::create([
                 'message_id' => $message->id,
@@ -175,8 +178,13 @@ class CampaignDetailController extends Controller
             // 'product_id'=>'integer|exists:products,id',
             'reduction' => 'integer',
         ]);
-        $CampaignDetail->update($request->all());
-        $CampaignDetail->filter->update($request->all());
+        $CampaignDetail->update($request->only([
+            'campaign_id', 'filter_id', 'store_id', 'product_id', 'reduction',
+            'nombre_client', 'campaign_name', 'active',
+        ]));
+        $CampaignDetail->filter->update($request->only([
+            'points', 'age_max', 'age_min', 'last_visit', 'sexe', 'heure_start', 'heure_end', 'active',
+        ]));
         $CampaignDetail->message_camp()->forceDelete();
 
         $messages = json_decode($request->messages);
@@ -191,7 +199,7 @@ class CampaignDetailController extends Controller
             if ($validator->fails()) {
                 return response()->json(['error' => $validator->errors()]);
             }
-            $messageUpdate->update($req->toArray());
+            $messageUpdate->update($req->only(['message', 'date_start', 'type_envoi']));
 
             MessageCampaign::create([
                 'message_id' => $msg->id,

@@ -11,7 +11,7 @@ class ProductHestorique extends Model
 
 
     protected $fillable = [
-        'id','store_id','user_id','product_id', "notification",
+        'store_id', 'user_id', 'product_id', 'notification',
     ];
     public function store(){
         return $this->belongsTo(Store::class,'store_id');

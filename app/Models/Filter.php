@@ -8,8 +8,7 @@ use App\Models\Store;
 class Filter extends Model
 {
     public $timestamps = false;
-    protected $fillable = [ 
-        'id',
+    protected $fillable = [
         'age_min' , 
         'age_max' , 
         'points' ,

@@ -31,7 +31,7 @@ class TableController extends Controller
             return $validator->errors();
         }
 
-        $achat = Table::create($request->all());
+        $achat = Table::create($request->only(['store_id', 'number', 'description']));
         return back();
     }
 

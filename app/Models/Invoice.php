@@ -9,7 +9,8 @@ class Invoice extends Model
     public $timestamps=false;
 
     protected $fillable = [
-        'user_id','store_id','employ_id','promotion_price','description' ,'store_id','customer_id','invoice_date','total','paid_amount','mode_payment','points','for_sexe','reste','reste_payer','payment_method'
+        'user_id', 'store_id', 'employ_id', 'promotion_price', 'description', 'customer_id',
+        'invoice_date', 'total', 'paid_amount', 'mode_payment', 'for_sexe', 'reste', 'reste_payer', 'payment_method',
     ];
 
     public function customer(){

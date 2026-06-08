@@ -80,7 +80,9 @@ class ProductController extends Controller
             'quantite' => '',
         ]);
         $this->authorizeStoreIdFromRequest($request->store_id);
-        $product = Product::create($request->all());
+        $product = Product::create($request->only([
+            'store_id', 'categorie_id', 'label', 'price', 'promotion_price', 'quantite',
+        ]));
         if ($request->hasFile('image')) {
             $request->validate(['image' => SecureImageUpload::rules()]);
             $filename = SecureImageUpload::store(
@@ -196,8 +198,12 @@ class ProductController extends Controller
         $action = 'changé';
         $oldProduct = $this->findAuthorizedStoreScopedModel(Product::class, $id);
         $product = $oldProduct;
-        $updatedProduct = $request->all();
-        $product->update($updatedProduct);
+        $attributes = $request->only(['label', 'price', 'promotion_price', 'quantite', 'categorie_id']);
+        if ($request->filled('store_id')) {
+            $this->authorizeStoreIdFromRequest($request->store_id);
+            $attributes['store_id'] = $request->store_id;
+        }
+        $product->update($attributes);
 
         if ($request->hasFile('image')) {
             $request->validate(['image' => SecureImageUpload::rules()]);

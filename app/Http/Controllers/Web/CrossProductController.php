@@ -51,7 +51,7 @@ class CrossProductController extends Controller
             'message'=>'required',
             'days'=>'required',
         ]);
-        $this->crossProductService->create($request->all());
+        $this->crossProductService->create($request->only(['product_id', 'message', 'days']));
        return redirect(route('admin.cross-products'));
     }
 
@@ -91,7 +91,7 @@ class CrossProductController extends Controller
             'message'=>'required',
             'days'=>'required',
         ]);
-        $this->crossProductService->edit($id,$request->all());
+        $this->crossProductService->edit($id, $request->only(['product_id', 'message', 'days']));
        return redirect(route('admin.cross-products'));
     }
 

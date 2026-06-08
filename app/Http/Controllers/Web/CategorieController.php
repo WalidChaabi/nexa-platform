@@ -36,7 +36,7 @@ class CategorieController extends Controller
             'name'=>'string|required',
             'description'=>'string|required',
         ]);
-        Categorie::create($request->all());
+        Categorie::create($request->only(['store_id', 'name', 'description']));
 
         return back();
     }
@@ -61,7 +61,7 @@ class CategorieController extends Controller
             'name'=>'string|required',
             'description'=>'string|required',
         ]);
-        $categorie->update($request->all());
+        $categorie->update($request->only(['store_id', 'name', 'description']));
         return back();
 
     }
