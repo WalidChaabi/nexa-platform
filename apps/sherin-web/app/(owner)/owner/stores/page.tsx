@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { List, Pencil, Plus, Store } from "lucide-react";
 
 import { PageHeader } from "@/components/layout/page-header";
 import { useLocale } from "@/components/providers/locale-provider";
@@ -126,6 +127,7 @@ export default function OwnerStoresPage() {
   return (
     <div className="space-y-6">
       <PageHeader
+        icon={Store}
         title={t("owner.stores.title")}
         description={t("owner.stores.description")}
       />
@@ -139,7 +141,10 @@ export default function OwnerStoresPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>{t("owner.stores.createTitle")}</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <Plus className="size-4 text-primary" />
+            {t("owner.stores.createTitle")}
+          </CardTitle>
           <CardDescription>{t("owner.stores.createDescription")}</CardDescription>
         </CardHeader>
         <CardContent>
@@ -188,6 +193,7 @@ export default function OwnerStoresPage() {
             </div>
             <div className="sm:col-span-2">
               <Button type="submit" disabled={creating}>
+                <Plus />
                 {creating ? t("owner.stores.creating") : t("owner.stores.create")}
               </Button>
             </div>
@@ -198,7 +204,10 @@ export default function OwnerStoresPage() {
       {editingId != null ? (
         <Card>
           <CardHeader>
-            <CardTitle>{t("owner.stores.editTitle")}</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <Pencil className="size-4 text-primary" />
+              {t("owner.stores.editTitle")}
+            </CardTitle>
             <CardDescription>{t("owner.stores.editDescription")}</CardDescription>
           </CardHeader>
           <CardContent>
@@ -264,7 +273,10 @@ export default function OwnerStoresPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>{t("owner.stores.listTitle")}</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <List className="size-4 text-primary" />
+            {t("owner.stores.listTitle")}
+          </CardTitle>
           <CardDescription>{t("owner.stores.listDescription")}</CardDescription>
         </CardHeader>
         <CardContent>
@@ -308,6 +320,7 @@ export default function OwnerStoresPage() {
                         variant="outline"
                         onClick={() => startEdit(store)}
                       >
+                        <Pencil />
                         {t("owner.stores.edit")}
                       </Button>
                     </TableCell>

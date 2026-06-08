@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { List, Store } from "lucide-react";
 
 import { PageHeader } from "@/components/layout/page-header";
 import { useLocale } from "@/components/providers/locale-provider";
@@ -59,6 +60,7 @@ export default function AdminStoresPage() {
   return (
     <div className="space-y-6">
       <PageHeader
+        icon={Store}
         title={t("admin.stores.title")}
         description={t("admin.stores.description")}
       />
@@ -72,7 +74,10 @@ export default function AdminStoresPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>{t("admin.stores.listTitle")}</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <List className="size-4 text-primary" />
+            {t("admin.stores.listTitle")}
+          </CardTitle>
           <CardDescription>{t("admin.stores.listDescription")}</CardDescription>
         </CardHeader>
         <CardContent>

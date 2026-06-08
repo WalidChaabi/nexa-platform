@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Eye, List, PlusCircle, Receipt, XCircle } from "lucide-react";
 
 import { useDashboardAuth } from "@/components/layout/dashboard-auth";
 import { PageHeader } from "@/components/layout/page-header";
@@ -104,6 +105,7 @@ export default function EmployerInvoicesPage() {
   return (
     <div className="space-y-6">
       <PageHeader
+        icon={Receipt}
         title={t("employer.invoices.title")}
         description={
           storeId
@@ -114,12 +116,18 @@ export default function EmployerInvoicesPage() {
             : t("common.noStore")
         }
       >
-        <NavLink href="/employer/invoices/create">{t("nav.newInvoice")}</NavLink>
+        <NavLink href="/employer/invoices/create">
+          <PlusCircle />
+          {t("nav.newInvoice")}
+        </NavLink>
       </PageHeader>
 
       <Card>
         <CardHeader>
-          <CardTitle>{t("employer.invoices.recentTitle")}</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <List className="size-4 text-primary" />
+            {t("employer.invoices.recentTitle")}
+          </CardTitle>
           <CardDescription>
             {t("employer.invoices.recentDescription")}
           </CardDescription>
@@ -146,6 +154,7 @@ export default function EmployerInvoicesPage() {
                 {t("employer.invoices.empty")}
               </p>
               <NavLink href="/employer/invoices/create">
+                <PlusCircle />
                 {t("employer.invoices.createFirst")}
               </NavLink>
             </div>
@@ -188,6 +197,7 @@ export default function EmployerInvoicesPage() {
                           variant="outline"
                           size="sm"
                         >
+                          <Eye />
                           {t("common.view")}
                         </NavLink>
                         {invoice.status_label === "pending" ? (
@@ -197,6 +207,7 @@ export default function EmployerInvoicesPage() {
                             disabled={cancellingId === invoice.id}
                             onClick={() => void handleCancel(invoice.id)}
                           >
+                            <XCircle />
                             {cancellingId === invoice.id
                               ? t("common.cancelling")
                               : t("common.cancel")}

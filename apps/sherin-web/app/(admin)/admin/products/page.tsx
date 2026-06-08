@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { List, Package, Search } from "lucide-react";
 
 import { PageHeader } from "@/components/layout/page-header";
 import { useLocale } from "@/components/providers/locale-provider";
@@ -62,6 +63,7 @@ export default function AdminProductsPage() {
   return (
     <div className="space-y-6">
       <PageHeader
+        icon={Package}
         title={t("admin.products.title")}
         description={t("admin.products.description")}
       />
@@ -75,7 +77,10 @@ export default function AdminProductsPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>{t("admin.products.searchTitle")}</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <Search className="size-4 text-primary" />
+            {t("admin.products.searchTitle")}
+          </CardTitle>
           <CardDescription>{t("admin.products.searchDescription")}</CardDescription>
         </CardHeader>
         <CardContent>
@@ -89,7 +94,10 @@ export default function AdminProductsPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>{t("admin.products.listTitle")}</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <List className="size-4 text-primary" />
+            {t("admin.products.listTitle")}
+          </CardTitle>
         </CardHeader>
         <CardContent>
           {fetching ? (

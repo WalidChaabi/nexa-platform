@@ -1,6 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import {
+  List,
+  Package,
+  Pencil,
+  Plus,
+  Search,
+  Tags,
+} from "lucide-react";
 
 import { useDashboardAuth } from "@/components/layout/dashboard-auth";
 import { PageHeader } from "@/components/layout/page-header";
@@ -256,6 +264,7 @@ export default function EmployerProductsPage() {
   return (
     <div className="space-y-6">
       <PageHeader
+        icon={Package}
         title={t("employer.products.title")}
         description={t("employer.products.description")}
       />
@@ -269,7 +278,10 @@ export default function EmployerProductsPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>{t("employer.products.categoriesTitle")}</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <Tags className="size-4 text-primary" />
+            {t("employer.products.categoriesTitle")}
+          </CardTitle>
           <CardDescription>
             {t("employer.products.categoriesDescription")}
           </CardDescription>
@@ -297,6 +309,7 @@ export default function EmployerProductsPage() {
             </div>
             <div className="space-y-2 sm:col-span-2">
               <Button type="submit" disabled={creatingCategory}>
+                <Plus />
                 {creatingCategory
                   ? t("employer.products.categoryCreating")
                   : t("employer.products.categoryCreate")}
@@ -360,6 +373,7 @@ export default function EmployerProductsPage() {
                         variant="outline"
                         onClick={() => startEditCategory(category)}
                       >
+                        <Pencil />
                         {t("employer.products.edit")}
                       </Button>
                     </TableCell>
@@ -377,7 +391,10 @@ export default function EmployerProductsPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>{t("employer.products.searchTitle")}</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <Search className="size-4 text-primary" />
+            {t("employer.products.searchTitle")}
+          </CardTitle>
         </CardHeader>
         <CardContent className="grid gap-4 sm:grid-cols-2">
           <Input
@@ -408,7 +425,10 @@ export default function EmployerProductsPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>{t("employer.products.createTitle")}</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <Plus className="size-4 text-primary" />
+            {t("employer.products.createTitle")}
+          </CardTitle>
           <CardDescription>{t("employer.products.createDescription")}</CardDescription>
         </CardHeader>
         <CardContent>
@@ -498,6 +518,7 @@ export default function EmployerProductsPage() {
             </div>
             <div className="sm:col-span-2">
               <Button type="submit" disabled={creatingProduct}>
+                <Plus />
                 {creatingProduct
                   ? t("employer.products.creating")
                   : t("employer.products.create")}
@@ -510,7 +531,10 @@ export default function EmployerProductsPage() {
       {editingProductId != null ? (
         <Card>
           <CardHeader>
-            <CardTitle>{t("employer.products.editTitle")}</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <Pencil className="size-4 text-primary" />
+              {t("employer.products.editTitle")}
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <form className="grid gap-4 sm:grid-cols-2" onSubmit={handleUpdateProduct}>
@@ -609,7 +633,10 @@ export default function EmployerProductsPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>{t("employer.products.listTitle")}</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <List className="size-4 text-primary" />
+            {t("employer.products.listTitle")}
+          </CardTitle>
         </CardHeader>
         <CardContent>
           {fetching ? (
@@ -650,6 +677,7 @@ export default function EmployerProductsPage() {
                         variant="outline"
                         onClick={() => startEditProduct(product)}
                       >
+                        <Pencil />
                         {t("employer.products.edit")}
                       </Button>
                     </TableCell>

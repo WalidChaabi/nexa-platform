@@ -1,6 +1,13 @@
 "use client";
 
-import { PlusCircle, Receipt, Store } from "lucide-react";
+import {
+  LayoutDashboard,
+  Package,
+  PlusCircle,
+  Receipt,
+  Store,
+  Users,
+} from "lucide-react";
 
 import { useDashboardAuth } from "@/components/layout/dashboard-auth";
 import { PageHeader } from "@/components/layout/page-header";
@@ -21,6 +28,7 @@ export default function EmployerDashboardPage() {
   return (
     <div className="space-y-6">
       <PageHeader
+        icon={LayoutDashboard}
         title={t("employer.dashboard.title")}
         description={t("employer.dashboard.signedIn", { name: user.full_name })}
       />
@@ -76,9 +84,21 @@ export default function EmployerDashboardPage() {
           <CardDescription>{t("employer.dashboard.posDescription")}</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-wrap gap-3">
-          <NavLink href="/employer/invoices/create">{t("nav.newInvoice")}</NavLink>
+          <NavLink href="/employer/invoices/create">
+            <PlusCircle />
+            {t("nav.newInvoice")}
+          </NavLink>
           <NavLink href="/employer/invoices" variant="outline">
+            <Receipt />
             {t("employer.dashboard.invoiceHistory")}
+          </NavLink>
+          <NavLink href="/employer/customers" variant="outline">
+            <Users />
+            {t("nav.customers")}
+          </NavLink>
+          <NavLink href="/employer/products" variant="outline">
+            <Package />
+            {t("nav.products")}
           </NavLink>
         </CardContent>
       </Card>

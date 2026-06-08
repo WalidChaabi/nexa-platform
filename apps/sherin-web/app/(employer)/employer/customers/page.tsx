@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { List, Pencil, Plus, Search, UserPlus, Users } from "lucide-react";
 
 import { useDashboardAuth } from "@/components/layout/dashboard-auth";
 import { PageHeader } from "@/components/layout/page-header";
@@ -152,6 +153,7 @@ export default function EmployerCustomersPage() {
   return (
     <div className="space-y-6">
       <PageHeader
+        icon={Users}
         title={t("employer.customers.title")}
         description={t("employer.customers.description")}
       />
@@ -165,7 +167,10 @@ export default function EmployerCustomersPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>{t("employer.customers.searchTitle")}</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <Search className="size-4 text-primary" />
+            {t("employer.customers.searchTitle")}
+          </CardTitle>
           <CardDescription>{t("employer.customers.searchDescription")}</CardDescription>
         </CardHeader>
         <CardContent>
@@ -179,7 +184,10 @@ export default function EmployerCustomersPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>{t("employer.customers.createTitle")}</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <UserPlus className="size-4 text-primary" />
+            {t("employer.customers.createTitle")}
+          </CardTitle>
           <CardDescription>{t("employer.customers.createDescription")}</CardDescription>
         </CardHeader>
         <CardContent>
@@ -230,6 +238,7 @@ export default function EmployerCustomersPage() {
             </div>
             <div className="sm:col-span-2">
               <Button type="submit" disabled={creating}>
+                <Plus />
                 {creating
                   ? t("employer.customers.creating")
                   : t("employer.customers.create")}
@@ -242,7 +251,10 @@ export default function EmployerCustomersPage() {
       {editingId != null ? (
         <Card>
           <CardHeader>
-            <CardTitle>{t("employer.customers.editTitle")}</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <Pencil className="size-4 text-primary" />
+              {t("employer.customers.editTitle")}
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <form className="grid gap-4 sm:grid-cols-2" onSubmit={handleUpdate}>
@@ -311,7 +323,10 @@ export default function EmployerCustomersPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>{t("employer.customers.listTitle")}</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <List className="size-4 text-primary" />
+            {t("employer.customers.listTitle")}
+          </CardTitle>
         </CardHeader>
         <CardContent>
           {fetching ? (
@@ -350,6 +365,7 @@ export default function EmployerCustomersPage() {
                         variant="outline"
                         onClick={() => startEdit(customer)}
                       >
+                        <Pencil />
                         {t("employer.customers.edit")}
                       </Button>
                     </TableCell>

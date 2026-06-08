@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { Printer } from "lucide-react";
+import { ArrowLeft, List, Printer, Receipt } from "lucide-react";
 
 import { useDashboardAuth } from "@/components/layout/dashboard-auth";
 import { PageHeader } from "@/components/layout/page-header";
@@ -57,6 +57,7 @@ export default function EmployerInvoiceDetailPage() {
   return (
     <div className="mx-auto w-full max-w-3xl space-y-6">
       <PageHeader
+        icon={Receipt}
         title={t("employer.detail.title", { id: params.id })}
         description={t("employer.detail.description")}
       >
@@ -68,13 +69,17 @@ export default function EmployerInvoiceDetailPage() {
           {t("common.print")}
         </NavLink>
         <NavLink href="/employer/invoices" variant="outline">
+          <ArrowLeft />
           {t("common.backToList")}
         </NavLink>
       </PageHeader>
 
       <Card>
         <CardHeader>
-          <CardTitle>{t("employer.detail.cardTitle")}</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <List className="size-4 text-primary" />
+            {t("employer.detail.cardTitle")}
+          </CardTitle>
           <CardDescription>{t("employer.detail.cardDescription")}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4 text-sm">

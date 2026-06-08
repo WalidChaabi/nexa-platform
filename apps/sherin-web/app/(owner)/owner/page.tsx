@@ -1,6 +1,12 @@
 "use client";
 
-import { Building2 } from "lucide-react";
+import {
+  Building2,
+  LayoutDashboard,
+  Package,
+  Store,
+  Users,
+} from "lucide-react";
 
 import { useDashboardAuth } from "@/components/layout/dashboard-auth";
 import { PageHeader } from "@/components/layout/page-header";
@@ -12,6 +18,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { NavLink } from "@/components/ui/nav-link";
 
 export default function OwnerDashboardPage() {
   const { user } = useDashboardAuth();
@@ -20,6 +27,7 @@ export default function OwnerDashboardPage() {
   return (
     <div className="space-y-6">
       <PageHeader
+        icon={LayoutDashboard}
         title={t("owner.dashboard.title")}
         description={t("owner.dashboard.signedIn", { name: user.full_name })}
       />
@@ -32,8 +40,22 @@ export default function OwnerDashboardPage() {
           </CardTitle>
           <CardDescription>{t("owner.dashboard.opsDescription")}</CardDescription>
         </CardHeader>
-        <CardContent className="text-sm text-muted-foreground">
-          {t("owner.dashboard.opsBody")}
+        <CardContent className="space-y-4 text-sm text-muted-foreground">
+          <p>{t("owner.dashboard.opsBody")}</p>
+          <div className="flex flex-wrap gap-3">
+            <NavLink href="/owner/stores" variant="outline">
+              <Store />
+              {t("nav.stores")}
+            </NavLink>
+            <NavLink href="/owner/customers" variant="outline">
+              <Users />
+              {t("nav.customers")}
+            </NavLink>
+            <NavLink href="/owner/products" variant="outline">
+              <Package />
+              {t("nav.products")}
+            </NavLink>
+          </div>
         </CardContent>
       </Card>
     </div>

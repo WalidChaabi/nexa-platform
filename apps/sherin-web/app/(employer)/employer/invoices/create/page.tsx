@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { Plus, Trash2 } from "lucide-react";
+import { ArrowLeft, Plus, PlusCircle, Trash2 } from "lucide-react";
 
 import { useDashboardAuth } from "@/components/layout/dashboard-auth";
 import { PageHeader } from "@/components/layout/page-header";
@@ -167,17 +167,22 @@ export default function CreateInvoicePage() {
   return (
     <div className="mx-auto w-full max-w-3xl space-y-6">
       <PageHeader
+        icon={PlusCircle}
         title={t("employer.create.title")}
         description={t("employer.create.description")}
       >
         <NavLink href="/employer/invoices" variant="outline">
+          <ArrowLeft />
           {t("common.backToList")}
         </NavLink>
       </PageHeader>
 
       <Card>
         <CardHeader>
-          <CardTitle>{t("employer.create.cardTitle")}</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <PlusCircle className="size-4 text-primary" />
+            {t("employer.create.cardTitle")}
+          </CardTitle>
           <CardDescription>{t("employer.create.cardDescription")}</CardDescription>
         </CardHeader>
         <CardContent>
