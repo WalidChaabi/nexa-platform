@@ -56,7 +56,11 @@
                                             <li><a class="btn" style="background-color: #ea2087;width:25px" href="#"><i   class="fa fa-eye" data-toggle="modal" data-target=".bd-example-modal-lg-store-{{$item->id}}"    title="{{trans('Consulter')}}"></i></a></li>
                                             <li><a class="btn" style="background-color: #a927f9;width:25px" href="{{url('/owner/stores/'.$item->id.'/edit')}}"><i class="fa fa-pencil" title="{{trans('Modifier')}}"></i></a></li>
                                             @if($item->status==1)
-                                            <li><a class="btn" style="background-color: #7366ff;width:25px" href="{{url('/owner/stores/'.$item->id.'/delete')}}"><i  class="fa fa-trash" title="{{trans('Supprimer')}}"></i></a></li>
+                                            <li>
+                                                @component('components.delete-button', ['action' => route('owner.stores.delete', $item->id), 'class' => 'btn', 'title' => trans('Supprimer')])
+                                                    <i class="fa fa-trash"></i>
+                                                @endcomponent
+                                            </li>
                                             @else
                                             <li><a href="{{url('/owner/stores/'.$item->id.'/active')}}"><i class="fa fa-check" title="{{trans('Activer')}}"></i></a></li>
                                             @endif

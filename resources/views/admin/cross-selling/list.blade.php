@@ -62,7 +62,11 @@
                                 <td>
                                         <ul>
                                             <li><a href="{{route('admin.cross-products.edit',$product->id)}}" class="btn btn-primary"><i class="fa fa-pencil" title="{{trans('Modifier')}}"></i></a></li>
-                                            <li><a href="{{route('admin.cross-products.delete',$product->id)}}" class="btn btn-danger"><i class="fa fa-trash" title="{{trans('Modifier')}}"></i></a></li>
+                                            <li>
+                                                @component('components.delete-button', ['action' => route('admin.cross-products.delete', $product->id), 'class' => 'btn btn-danger', 'title' => trans('Supprimer')])
+                                                    <i class="fa fa-trash"></i>
+                                                @endcomponent
+                                            </li>
                                         </ul>
                                 </td>
                              </tr>

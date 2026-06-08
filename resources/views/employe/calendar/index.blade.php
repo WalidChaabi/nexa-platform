@@ -247,6 +247,24 @@
 
         }
 
+        const employeRdvDeleteUrl = @json(url('/employe/rdv'));
+
+        function deleteRdvById(id, token, onSuccess) {
+            if (!confirm('Vous voulez vraiment supprimer ce rendez-vous ?')) {
+                return;
+            }
+            $.ajax({
+                type: 'DELETE',
+                url: employeRdvDeleteUrl + '/' + id,
+                data: { _token: token },
+                success: function() {
+                    if (onSuccess) {
+                        onSuccess();
+                    }
+                }
+            });
+        }
+
         function storeRdv(obj) {
             let _token = $('meta[name="csrf-token"]').attr('content');
             if (obj.customerId == "0" || obj.start == "" || obj.eventId == "") {
@@ -323,13 +341,17 @@
                                     content += '<p>Date du rendez-vous : ' + rdvInfo.start +'</p>';
 
 									var buttons ='<button class="btn btn-primary" type="button" data-dismiss="modal">Fermer</button>'
-									buttons +='<a href="http://127.0.0.1:8000/employe/rdv/delete-rdv/'+rdvInfo.id+'" class="btn btn-danger" >Supprimer</a>';
+									buttons +='<button type="button" class="btn btn-danger" id="rdv-delete-btn" data-rdv-id="'+rdvInfo.id+'">Supprimer</button>';
 
                                     rdvDetailsDiv.innerHTML = content;
                                     divButtons.innerHTML = buttons;
+                                    document.getElementById('rdv-delete-btn').addEventListener('click', function() {
+                                        deleteRdvById(rdvInfo.id, _token, function() {
+                                            calendarRender();
+                                        });
+                                    });
 									toggle_modal_rdv = document.getElementById('button_details')
 									toggle_modal_rdv.click()
-									calendarRender();
                                 }
                             });
                         },

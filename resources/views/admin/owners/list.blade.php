@@ -54,7 +54,9 @@
                                     <a href="#" class="btn btn-primary"><i class="fa fa-eye" data-toggle="modal" data-target=".bd-example-modal-lg-owner-{{$item->id}}" title="{{trans('Consulter')}}"></i></a>
                                     <a class="btn" style="background-color: #a927f9" href="{{url('/admin/owners/'.$item->id.'/edit')}}"><i class="fa fa-pencil" title="{{trans('Modifier')}}"></i></a>
                                     @if($item->is_active==1)
-                                    <a href="{{url('/admin/owners/'.$item->id.'/delete')}}" class="btn btn-success"><i class=" fa fa-check" title="{{trans('Supprimer')}}"></i></a>
+                                    @component('components.delete-button', ['action' => route('admin.destroy.owners', $item->id), 'class' => 'btn btn-success', 'title' => trans('Supprimer')])
+                                        <i class="fa fa-check"></i>
+                                    @endcomponent
                                     @else
                                     <a href="{{url('/admin/owners/'.$item->id.'/active')}}" class="btn btn-secondary"><i class="fa fa-trash" title="{{trans('Activer')}}"></i></a>
                                     @endif

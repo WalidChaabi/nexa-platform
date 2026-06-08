@@ -70,9 +70,11 @@
                                                                 class="fa fa-pencil"
                                                                 title="{{ trans('Modifier') }}"></i></a></li>
                                                     @if ($item->status == 1)
-                                                        <li><a href="{{ url('/admin/stores/' . $item->id . '/delete') }}"><i
-                                                                    class="fa fa-trash"
-                                                                    title="{{ trans('Supprimer') }}"></i></a></li>
+                                                        <li>
+                                                            @component('components.delete-button', ['action' => route('admin.stores.delete', $item->id), 'class' => 'btn btn-link p-0 border-0', 'title' => trans('Supprimer')])
+                                                                <i class="fa fa-trash"></i>
+                                                            @endcomponent
+                                                        </li>
                                                     @else
                                                         <li><a href="{{ url('/admin/stores/' . $item->id . '/active') }}"><i
                                                                     class="fa fa-check"

@@ -98,7 +98,7 @@ Route::group(['domain' => '127.0.0.1'], function () {
         $router->get('this-month-customers-solde', 'CustomerController@getCustomersTarget');
         $router->get('owners', 'OwnerController@index')->name('.owners');
         $router->get('owners/{id}/edit', 'OwnerController@edit')->name('.edit.owner');
-        $router->get('owners/{id}/delete', 'OwnerController@destroy')->name('.destroy.owners');
+        $router->delete('owners/{id}', 'OwnerController@destroy')->name('.destroy.owners');
         $router->get('owners/{id}/active', 'OwnerController@active')->name('.active.owners');
         $router->post('/owners/store', 'OwnerController@store')->name('.store.owner');
         $router->post('/owner/{id}/update', 'OwnerController@update')->name('.update.owner');
@@ -124,7 +124,7 @@ Route::group(['domain' => '127.0.0.1'], function () {
         $router->post('/stores/store', 'StoreController@store')->name('.stores.store');
         $router->get('/stores/{id}/edit', 'StoreController@edit')->name('.stores.edit');
         $router->post('/stores/{id}/update', 'StoreController@update')->name('.stores.update');
-        $router->get('/stores/{id}/delete', 'StoreController@destroy')->name('.stores.delete');
+        $router->delete('/stores/{id}', 'StoreController@destroy')->name('.stores.delete');
         $router->get('/stores/{id}/active', 'StoreController@activate')->name('.stores.activate');
         $router->get('/stores/products', 'StoreController@getProductsStore')->name('.stores.products');
         /**End of Admin Stores Routes */
@@ -137,7 +137,7 @@ Route::group(['domain' => '127.0.0.1'], function () {
         $router->post('/products/import', 'ProductController@import')->name('.import.products');
 
         $router->get('cross-products', 'CrossProductController@index')->name('.cross-products');
-        $router->get('cross-products/{id}/delete', 'CrossProductController@destroy')->name('.cross-products.delete');
+        $router->delete('cross-products/{id}', 'CrossProductController@destroy')->name('.cross-products.delete');
         $router->get('cross-products/{id}/edit', 'CrossProductController@edit')->name('.cross-products.edit');
         $router->post('cross-products/{id}/update', 'CrossProductController@update')->name('.cross-products.update');
         $router->post('cross-products/store', 'CrossProductController@store')->name('.cross-products.store');
@@ -152,7 +152,7 @@ Route::group(['domain' => '127.0.0.1'], function () {
         $router->get('employees/{id}/edit', 'EmployerController@edit')->name('.employees.edit');
         $router->post('employees/{id}/update', 'EmployerController@update')->name('.employees.update');
         $router->post('employees/store', 'EmployerController@store')->name('.employees.store');
-        $router->get('employees/{id}/delete', 'EmployerController@destroy')->name('.employees.delete');
+        $router->delete('employees/{id}', 'EmployerController@destroy')->name('.employees.delete');
         $router->get('employees/{id}/active', 'EmployerController@active')->name('.employees.active');
         /**End of Admin Employees Routes */
 
@@ -163,7 +163,7 @@ Route::group(['domain' => '127.0.0.1'], function () {
         $router->post('templates/store', 'TemplateController@store')->name('.templates.store');
         $router->get('templates/{id}/edit', 'TemplateController@edit')->name('.templates.edit');
         $router->post('templates/{id}/update', 'TemplateController@update')->name('.templates.update');
-
+        $router->delete('templates/{id}', 'TemplateController@destroy')->name('.templates.delete');
 
         /**End of Admin Templates Routes */
 
@@ -245,7 +245,7 @@ Route::group(['domain' => '127.0.0.1'], function () {
         $router->get('/stores/', 'StoreController@index')->name('.stores');
         $router->get('/stores/{id}/edit', 'StoreController@edit')->name('.stores.edit');
         $router->post('/stores/{id}/update', 'StoreController@update')->name('.stores.update');
-        $router->get('/stores/{id}/delete', 'StoreController@destroy')->name('.stores.delete');
+        $router->delete('/stores/{id}', 'StoreController@destroy')->name('.stores.delete');
         $router->get('/stores/{id}/active', 'StoreController@activate')->name('.stores.activate');
         /**End of Owner Stores Routes */
 
@@ -314,7 +314,7 @@ Route::group(['domain' => '127.0.0.1'], function () {
         $router->get('/events/{activityId}', 'CalendarController@getEvents')->name('.events');
         $router->post('/rdv/store', 'RdvController@create')->name('.rdv.store');
         $router->post('/rdv/delete', 'RdvController@delete')->name('.rdv.delete');
-        $router->get('/rdv/delete-rdv/{id}', 'RdvController@deleteRdv')->name('.rdv.deleteRdv');
+        $router->delete('/rdv/{id}', 'RdvController@deleteRdv')->name('.rdv.deleteRdv');
         $router->get('/rdv/detail', 'RdvController@detail')->name('.rdv.detail');
         $router->post('/rdv/update', 'RdvController@update')->name('.rdv.update');
         $router->get('/rdvs', 'RdvController@getAllByStoreId')->name('.rdvs');

@@ -52,7 +52,9 @@
                                     <a class="btn btn-primary"  data-toggle="modal" data-target=".bd-example-modal-lg-employe-{{$item->id}}" style="background-color: #a927f9" href=""  title="{{trans('Consulter')}}"><i class="fa fa-reply" aria-hidden="true"></i></a> 
                                     <a class="btn" style="background-color: #a927f9"  href="{{ route('admin.employees.edit',$item->id) }}"><i class="fa fa-edit"></i></a>
                                     @if($item->is_active==1)
-                                    <a href="{{ route('admin.employees.delete',$item->id)}}" class="btn btn-success"><i class=" fa fa-check" title="{{trans('Supprimer')}}"></i></a>
+                                    @component('components.delete-button', ['action' => route('admin.employees.delete', $item->id), 'class' => 'btn btn-success', 'title' => trans('Supprimer')])
+                                        <i class="fa fa-check"></i>
+                                    @endcomponent
                                     @else
                                     <a href="{{ route('admin.employees.active',$item->id)}}" class="btn btn-secondary"><i class="fa fa-trash" title="{{trans('Activer')}}"></i></a>
                                     @endif
