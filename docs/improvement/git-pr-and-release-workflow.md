@@ -274,15 +274,29 @@ Execute in order; dependencies noted.
 
 ---
 
-## 7. PR catalog — V2 Phase 0 (reference)
+## 7. PR catalog — V2 (reference)
 
-| PR # | Branch | Title |
-|------|--------|-------|
-| V2-PR-01 | `v2/chore/bootstrap` | `chore(v2): initialize Laravel 11 application skeleton` |
-| V2-PR-02 | `v2/chore/ci` | `chore(ci): Pest, Pint, PHPStan level 5, GitHub Actions` |
-| V2-PR-03 | `v2/docs/adr` | `docs(adr): architecture decision records for V2 stack` |
-| V2-PR-04 | `v2/db/port-migrations` | `db(v2): port and normalize migrations with indexes and FKs` |
-| V2-PR-05 | `v2/feat/auth-roles` | `feat(auth): multi-role authentication with policies scaffold` |
+**Execution tracker (status, branches, local-work split):** [V2 GitHub Execution Plan](./v2-github-execution-plan.md)
+
+### Phase 0 — bootstrap
+
+| PR # | Branch | Title | Status (2026-06-08) |
+|------|--------|-------|---------------------|
+| V2-PR-01 | `v2/chore/monorepo-layout` | `chore(v2): monorepo layout — legacy/v1, sherin-api, sherin-web` | PR **#8** open |
+| V2-PR-01b | `v2/chore/docker-dev` | `chore(docker): MySQL + API + web compose stack` | Local only |
+| V2-PR-02 | `v2/chore/ci` | `chore(ci): wire v2-ci to API tests and web build` | Not started |
+| V2-PR-03 | `v2/docs/adr` | `docs(adr): architecture decision records for V2 stack` | Partial |
+| V2-PR-04 | `v2/db/port-migrations` | `db(v2): port and normalize migrations with indexes and FKs` | Local only |
+| V2-PR-05 | `v2/feat/auth-roles` | `feat(auth): Sanctum SPA login and Next.js auth UI` | Local only |
+| V2-PR-06 | `v2/feat/policies` | `feat(auth): store-scoped policies and tests` | Local only |
+
+### Phase 2 — invoices (first module slice)
+
+| PR # | Branch | Title | Status (2026-06-08) |
+|------|--------|-------|---------------------|
+| V2-PR-13a | `v2/feat/invoices-models` | `feat(invoice): models, factories, demo seeder` | Local only |
+| V2-PR-13b | `v2/feat/invoices-api` | `feat(invoice): API list/create/show/cancel` | Local only |
+| V2-PR-13c | `v2/feat/invoices-web` | `feat(invoice-web): employer invoice pages` | Local only |
 
 Full module PR list: [V2 Platform Rebuild Plan](./v2-platform-rebuild.md).
 
@@ -308,3 +322,4 @@ Merge sequentially after each review. Final PR merges into `v2/main`.
 | Date | Change |
 |------|--------|
 | 2026-06-08 | Initial git/PR workflow documentation |
+| 2026-06-08 | Link V2 execution plan; expand Phase 0 + invoices PR status |

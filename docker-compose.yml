@@ -1,18 +1,98 @@
-version: "3.8"
-
-# Shared MySQL for legacy/v1 and apps/sherin-api local development.
+# Sherin V2 local dev stack: MySQL + Laravel API + Next.js web UI.
+#
+# Hot reload: source is bind-mounted into api/web — edit files on the host and
+# refresh the browser. No image rebuild needed for normal code changes.
+#
+#   docker compose up -d          # start once
+#   docker compose watch          # same + auto-rebuild when composer/package files change
+#
+# Rebuild images only when Dockerfiles or base dependencies change:
+#   docker compose build api web
+#
 services:
   database:
     image: mysql:8.0
     ports:
       - 3306:3306
     environment:
-      - MYSQL_DATABASE=sherin_test
-      - MYSQL_USER=me
-      - MYSQL_PASSWORD=ok
-      - MYSQL_ROOT_PASSWORD=ok
+      MYSQL_DATABASE: sherin_test
+      MYSQL_USER: me
+      MYSQL_PASSWORD: ok
+      MYSQL_ROOT_PASSWORD: ok
     volumes:
       - db-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-pok"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+
+  api:
+    build:
+      context: ./apps/sherin-api
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    develop:
+      watch:
+        - path: ./apps/sherin-api/composer.json
+          action: rebuild
+        - path: ./apps/sherin-api/composer.lock
+          action: rebuild
+    environment:
+      APP_NAME: SherinAPI
+      APP_ENV: local
+      APP_DEBUG: "true"
+      PHP_OPCACHE_ENABLE: "0"
+      APP_URL: http://localhost:8000
+      FRONTEND_URL: http://localhost:3000
+      SANCTUM_STATEFUL_DOMAINS: localhost:3000,127.0.0.1:3000
+      DB_CONNECTION: mysql
+      DB_HOST: database
+      DB_PORT: 3306
+      DB_DATABASE: sherin_test
+      DB_USERNAME: me
+      DB_PASSWORD: ok
+      SESSION_DRIVER: database
+      QUEUE_CONNECTION: database
+      CACHE_STORE: database
+    volumes:
+      - ./apps/sherin-api:/var/www/html
+      - api-vendor:/var/www/html/vendor
+    depends_on:
+      database:
+        condition: service_healthy
+
+  web:
+    build:
+      context: ./apps/sherin-web
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    develop:
+      watch:
+        - path: ./apps/sherin-web/package.json
+          action: rebuild
+        - path: ./apps/sherin-web/package-lock.json
+          action: rebuild
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+      API_INTERNAL_URL: http://api:8000
+      # Required for file watching through Docker bind mounts (especially on Windows).
+      WATCHPACK_POLLING: "true"
+      CHOKIDAR_USEPOLLING: "true"
+      CHOKIDAR_INTERVAL: "1000"
+      NEXT_TELEMETRY_DISABLED: "1"
+    volumes:
+      - ./apps/sherin-web:/app
+      - web-node-modules:/app/node_modules
+      - web-next:/app/.next
+    depends_on:
+      - api
 
 volumes:
   db-data:
+  api-vendor:
+  web-node-modules:
+  web-next:
