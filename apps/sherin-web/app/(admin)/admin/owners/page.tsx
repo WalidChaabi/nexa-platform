@@ -33,6 +33,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { onSelectValue } from "@/lib/utils";
 import {
   activateOwner,
   createOwner,
@@ -253,7 +254,10 @@ export default function AdminOwnersPage() {
             </div>
             <div className="space-y-2">
               <Label>{t("admin.owners.fields.allowShare")}</Label>
-              <Select value={allowShare} onValueChange={setAllowShare}>
+              <Select
+                value={allowShare}
+                onValueChange={onSelectValue(setAllowShare, "0")}
+              >
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>

@@ -41,13 +41,14 @@ import {
   type CalendarService,
 } from "@/lib/api/rdvs";
 import { fetchCustomers, type CustomerSummary } from "@/lib/api/customers";
+import { onSelectValue } from "@/lib/utils";
 
 type AppointmentsPanelProps = {
   translationPrefix: "owner.calendar" | "employer.calendar";
   storeFilter?: {
     stores: Array<{ id: number; name: string }>;
     selectedStoreId: string;
-    onStoreChange: (value: string) => void;
+    onStoreChange: (value: string | null) => void;
   };
 };
 
@@ -199,7 +200,10 @@ export function AppointmentsPanel({
           <form className="grid gap-4 md:grid-cols-2" onSubmit={handleCreate}>
             <div className="space-y-2">
               <Label htmlFor="rdv-customer">{t(`${prefix}.fields.customer`)}</Label>
-              <Select value={customerId} onValueChange={setCustomerId}>
+              <Select
+                value={customerId}
+                onValueChange={onSelectValue(setCustomerId)}
+              >
                 <SelectTrigger id="rdv-customer">
                   <SelectValue placeholder={t(`${prefix}.selectCustomer`)} />
                 </SelectTrigger>
@@ -215,7 +219,10 @@ export function AppointmentsPanel({
 
             <div className="space-y-2">
               <Label htmlFor="rdv-service">{t(`${prefix}.fields.service`)}</Label>
-              <Select value={serviceKey} onValueChange={setServiceKey}>
+              <Select
+                value={serviceKey}
+                onValueChange={onSelectValue(setServiceKey)}
+              >
                 <SelectTrigger id="rdv-service">
                   <SelectValue placeholder={t(`${prefix}.selectService`)} />
                 </SelectTrigger>

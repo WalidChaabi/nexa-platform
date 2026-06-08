@@ -41,6 +41,7 @@ import {
   type SmsCrossSellingRecord,
 } from "@/lib/api/cross-selling";
 import { fetchProducts, type ProductSummary } from "@/lib/api/products";
+import { onSelectValue } from "@/lib/utils";
 
 export default function OwnerCrossSellingPage() {
   const { t } = useLocale();
@@ -158,7 +159,10 @@ export default function OwnerCrossSellingPage() {
           <form className="grid gap-4 md:grid-cols-2" onSubmit={handleCreate}>
             <div className="space-y-2">
               <Label htmlFor="cross-product">{t("owner.crossSelling.fields.product")}</Label>
-              <Select value={productId} onValueChange={setProductId}>
+              <Select
+                value={productId}
+                onValueChange={onSelectValue(setProductId)}
+              >
                 <SelectTrigger id="cross-product">
                   <SelectValue placeholder={t("owner.crossSelling.selectProduct")} />
                 </SelectTrigger>

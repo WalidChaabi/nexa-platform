@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Policies;
 
-use App\Models\Campaign;
 use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\Product;
@@ -65,7 +64,6 @@ class StoreScopedPolicyTest extends TestCase
         $resources = [
             new Customer(['store_id' => $storeB->id]),
             new Product(['store_id' => $storeB->id]),
-            new Campaign(['store_id' => $storeB->id]),
             new Rdv(['store_id' => $storeB->id]),
         ];
 

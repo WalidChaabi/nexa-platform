@@ -53,6 +53,7 @@ import {
   type CampaignType,
 } from "@/lib/api/campaigns";
 import { fetchStores, type StoreSummary } from "@/lib/api/stores";
+import { onSelectValue } from "@/lib/utils";
 
 export default function OwnerCampaignsPage() {
   const { t } = useLocale();
@@ -225,7 +226,10 @@ export default function OwnerCampaignsPage() {
           <form className="grid gap-4 md:grid-cols-2" onSubmit={handleCreate}>
             <div className="space-y-2">
               <Label htmlFor="campaign-store">{t("owner.campaigns.fields.store")}</Label>
-              <Select value={storeId} onValueChange={setStoreId}>
+              <Select
+                value={storeId}
+                onValueChange={onSelectValue(setStoreId)}
+              >
                 <SelectTrigger id="campaign-store">
                   <SelectValue placeholder={t("owner.campaigns.selectStore")} />
                 </SelectTrigger>
@@ -241,7 +245,10 @@ export default function OwnerCampaignsPage() {
 
             <div className="space-y-2">
               <Label htmlFor="campaign-type">{t("owner.campaigns.fields.type")}</Label>
-              <Select value={campaignId} onValueChange={setCampaignId}>
+              <Select
+                value={campaignId}
+                onValueChange={onSelectValue(setCampaignId)}
+              >
                 <SelectTrigger id="campaign-type">
                   <SelectValue placeholder={t("owner.campaigns.selectType")} />
                 </SelectTrigger>
