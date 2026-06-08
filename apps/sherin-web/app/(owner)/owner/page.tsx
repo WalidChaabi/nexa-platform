@@ -1,41 +1,39 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { LogoutButton } from "@/components/auth/logout-button";
-import { useRequireAuth } from "@/hooks/use-require-auth";
+import { Building2 } from "lucide-react";
+
+import { useDashboardAuth } from "@/components/layout/dashboard-auth";
+import { PageHeader } from "@/components/layout/page-header";
+import { useLocale } from "@/components/providers/locale-provider";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export default function OwnerDashboardPage() {
-  const { user, loading } = useRequireAuth("owner");
-
-  if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center text-muted-foreground">
-        Loading dashboard...
-      </div>
-    );
-  }
-
-  if (!user) {
-    return null;
-  }
+  const { user } = useDashboardAuth();
+  const { t } = useLocale();
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-3xl flex-col gap-6 px-6 py-12">
-      <div className="flex items-center justify-between">
-        <div>
-          <Badge variant="secondary">Owner</Badge>
-          <h1 className="mt-2 text-3xl font-semibold">Owner dashboard</h1>
-          <p className="text-muted-foreground">Signed in as {user.full_name}</p>
-        </div>
-        <LogoutButton />
-      </div>
+    <div className="space-y-6">
+      <PageHeader
+        title={t("owner.dashboard.title")}
+        description={t("owner.dashboard.signedIn", { name: user.full_name })}
+      />
+
       <Card>
         <CardHeader>
-          <CardTitle>Store operations</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <Building2 className="size-5 text-primary" />
+            {t("owner.dashboard.opsTitle")}
+          </CardTitle>
+          <CardDescription>{t("owner.dashboard.opsDescription")}</CardDescription>
         </CardHeader>
         <CardContent className="text-sm text-muted-foreground">
-          Invoice, campaign, and payment modules will appear here in Phase 2.
+          {t("owner.dashboard.opsBody")}
         </CardContent>
       </Card>
     </div>

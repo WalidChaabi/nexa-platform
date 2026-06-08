@@ -2,16 +2,36 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
+import { Plus, Trash2 } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
+import { useDashboardAuth } from "@/components/layout/dashboard-auth";
+import { PageHeader } from "@/components/layout/page-header";
+import { useLocale } from "@/components/providers/locale-provider";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { NavLink } from "@/components/ui/nav-link";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useRequireAuth } from "@/hooks/use-require-auth";
+import { NavLink } from "@/components/ui/nav-link";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
 import { createInvoice } from "@/lib/api/invoices";
 import { fetchPosCatalog, type PosProduct } from "@/lib/api/pos";
+
+const EMPTY_PRODUCT = "__none__";
 
 type LineDraft = {
   productId: string;
@@ -28,10 +48,11 @@ function lineTotal(product: PosProduct | undefined, qte: number): number {
 
 export default function CreateInvoicePage() {
   const router = useRouter();
-  const { user, loading } = useRequireAuth("employer");
+  const { user } = useDashboardAuth();
+  const { t } = useLocale();
   const [catalogLoading, setCatalogLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [errorKey, setErrorKey] = useState<string | null>(null);
   const [customerId, setCustomerId] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("0");
   const [paidAmount, setPaidAmount] = useState("");
@@ -45,10 +66,10 @@ export default function CreateInvoicePage() {
     Awaited<ReturnType<typeof fetchPosCatalog>>["products"]
   >([]);
 
-  const storeId = user?.store_id;
+  const storeId = user.store_id;
 
   useEffect(() => {
-    if (loading || storeId == null) {
+    if (storeId == null) {
       return;
     }
 
@@ -56,21 +77,21 @@ export default function CreateInvoicePage() {
 
     async function loadCatalog() {
       setCatalogLoading(true);
-      setError(null);
+      setErrorKey(null);
 
       try {
         const catalog = await fetchPosCatalog(activeStoreId);
         setCustomers(catalog.customers);
         setProducts(catalog.products);
       } catch {
-        setError("Unable to load POS catalog.");
+        setErrorKey("employer.create.catalogError");
       } finally {
         setCatalogLoading(false);
       }
     }
 
     void loadCatalog();
-  }, [loading, storeId]);
+  }, [storeId]);
 
   const total = useMemo(() => {
     return lines.reduce((sum, line) => {
@@ -98,8 +119,8 @@ export default function CreateInvoicePage() {
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
 
-    if (!user?.store_id || !customerId) {
-      setError("Select a customer.");
+    if (!user.store_id || !customerId) {
+      setErrorKey("employer.create.selectCustomer");
       return;
     }
 
@@ -116,14 +137,14 @@ export default function CreateInvoicePage() {
       });
 
     if (productLines.length === 0) {
-      setError("Add at least one product.");
+      setErrorKey("employer.create.addProduct");
       return;
     }
 
     const paid = paidAmount === "" ? total : Number(paidAmount);
 
     setSubmitting(true);
-    setError(null);
+    setErrorKey(null);
 
     try {
       const invoice = await createInvoice({
@@ -138,71 +159,75 @@ export default function CreateInvoicePage() {
 
       router.push(`/employer/invoices/${invoice.id}`);
     } catch {
-      setError("Unable to create invoice.");
+      setErrorKey("employer.create.createError");
       setSubmitting(false);
     }
   }
 
-  if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center text-muted-foreground">
-        Loading...
-      </div>
-    );
-  }
-
-  if (!user) {
-    return null;
-  }
-
   return (
-    <div className="mx-auto flex min-h-screen max-w-3xl flex-col gap-6 px-6 py-12">
-      <div className="flex items-center justify-between">
-        <div>
-          <Badge variant="outline">POS</Badge>
-          <h1 className="mt-2 text-3xl font-semibold">New invoice</h1>
-        </div>
+    <div className="mx-auto w-full max-w-3xl space-y-6">
+      <PageHeader
+        title={t("employer.create.title")}
+        description={t("employer.create.description")}
+      >
         <NavLink href="/employer/invoices" variant="outline">
-          Back to list
+          {t("common.backToList")}
         </NavLink>
-      </div>
+      </PageHeader>
 
       <Card>
         <CardHeader>
-          <CardTitle>Create invoice</CardTitle>
+          <CardTitle>{t("employer.create.cardTitle")}</CardTitle>
+          <CardDescription>{t("employer.create.cardDescription")}</CardDescription>
         </CardHeader>
         <CardContent>
           {catalogLoading ? (
-            <p className="text-sm text-muted-foreground">Loading catalog...</p>
+            <div className="space-y-4">
+              <Skeleton className="h-10 w-full" />
+              <Skeleton className="h-24 w-full" />
+              <Skeleton className="h-10 w-full" />
+            </div>
           ) : (
             <form className="space-y-6" onSubmit={(e) => void handleSubmit(e)}>
-              {error ? (
-                <p className="text-sm text-destructive">{error}</p>
+              {errorKey ? (
+                <Alert variant="destructive">
+                  <AlertTitle>{t("employer.create.saveError")}</AlertTitle>
+                  <AlertDescription>{t(errorKey)}</AlertDescription>
+                </Alert>
               ) : null}
 
               <div className="space-y-2">
-                <Label htmlFor="customer">Customer</Label>
-                <select
-                  id="customer"
-                  className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm"
+                <Label>{t("employer.create.customer")}</Label>
+                <Select
                   value={customerId}
-                  onChange={(e) => setCustomerId(e.target.value)}
-                  required
+                  onValueChange={(value) => setCustomerId(value ?? "")}
                 >
-                  <option value="">Select customer</option>
-                  {customers.map((customer) => (
-                    <option key={customer.id} value={customer.id}>
-                      {customer.display_name}
-                    </option>
-                  ))}
-                </select>
+                  <SelectTrigger className="w-full">
+                    <SelectValue
+                      placeholder={t("employer.create.selectCustomerPlaceholder")}
+                    />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {customers.map((customer) => (
+                      <SelectItem key={customer.id} value={String(customer.id)}>
+                        {customer.display_name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <Label>Products</Label>
-                  <Button type="button" variant="outline" size="sm" onClick={addLine}>
-                    Add line
+                  <Label>{t("employer.create.products")}</Label>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={addLine}
+                  >
+                    <Plus />
+                    {t("employer.create.addLine")}
                   </Button>
                 </div>
 
@@ -210,32 +235,46 @@ export default function CreateInvoicePage() {
                   const product = products.find(
                     (p) => String(p.id) === line.productId,
                   );
+                  const selectValue = line.productId || EMPTY_PRODUCT;
 
                   return (
                     <div
                       key={index}
-                      className="grid gap-3 rounded-lg border p-3 md:grid-cols-[1fr_100px_120px_auto]"
+                      className="grid gap-3 rounded-xl border bg-muted/20 p-4 md:grid-cols-[1fr_100px_120px_auto]"
                     >
-                      <select
-                        className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm"
-                        value={line.productId}
-                        onChange={(e) =>
-                          updateLine(index, { productId: e.target.value })
+                      <Select
+                        value={selectValue}
+                        onValueChange={(value) =>
+                          updateLine(index, {
+                            productId:
+                              !value || value === EMPTY_PRODUCT ? "" : value,
+                          })
                         }
                       >
-                        <option value="">Select product</option>
-                        {products.map((item) => (
-                          <option key={item.id} value={item.id}>
-                            {item.label} — {item.price} MAD
-                          </option>
-                        ))}
-                      </select>
+                        <SelectTrigger className="w-full">
+                          <SelectValue
+                            placeholder={t("employer.create.selectProduct")}
+                          />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value={EMPTY_PRODUCT}>
+                            {t("employer.create.selectProduct")}
+                          </SelectItem>
+                          {products.map((item) => (
+                            <SelectItem key={item.id} value={String(item.id)}>
+                              {item.label} — {item.price} MAD
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                       <Input
                         type="number"
                         min={1}
                         value={line.qte}
                         onChange={(e) =>
-                          updateLine(index, { qte: Number(e.target.value) || 1 })
+                          updateLine(index, {
+                            qte: Number(e.target.value) || 1,
+                          })
                         }
                       />
                       <div className="flex items-center text-sm font-medium">
@@ -244,33 +283,45 @@ export default function CreateInvoicePage() {
                       <Button
                         type="button"
                         variant="ghost"
-                        size="sm"
+                        size="icon-sm"
                         disabled={lines.length === 1}
                         onClick={() => removeLine(index)}
+                        aria-label={t("employer.create.removeLine")}
                       >
-                        Remove
+                        <Trash2 />
                       </Button>
                     </div>
                   );
                 })}
               </div>
 
+              <Separator />
+
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-2">
-                  <Label htmlFor="payment">Payment method</Label>
-                  <select
-                    id="payment"
-                    className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm"
+                  <Label>{t("employer.create.paymentMethod")}</Label>
+                  <Select
                     value={paymentMethod}
-                    onChange={(e) => setPaymentMethod(e.target.value)}
+                    onValueChange={(value) => setPaymentMethod(value ?? "0")}
                   >
-                    <option value="0">Cash</option>
-                    <option value="1">Check</option>
-                    <option value="2">Card</option>
-                  </select>
+                    <SelectTrigger className="w-full">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="0">
+                        {t("employer.create.payment.cash")}
+                      </SelectItem>
+                      <SelectItem value="1">
+                        {t("employer.create.payment.check")}
+                      </SelectItem>
+                      <SelectItem value="2">
+                        {t("employer.create.payment.card")}
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="paid">Paid amount (MAD)</Label>
+                  <Label htmlFor="paid">{t("employer.create.paidAmount")}</Label>
                   <Input
                     id="paid"
                     type="number"
@@ -283,17 +334,20 @@ export default function CreateInvoicePage() {
                 </div>
               </div>
 
-              <div className="rounded-lg bg-muted p-4 text-sm">
+              <div className="rounded-xl border bg-muted/40 p-4 text-sm">
                 <p>
-                  Total TTC: <strong>{total.toFixed(2)} MAD</strong>
+                  {t("employer.create.totalTtc")}:{" "}
+                  <strong className="text-foreground">
+                    {total.toFixed(2)} MAD
+                  </strong>
                 </p>
                 <p className="text-muted-foreground">
-                  Total HT: {totalHt.toFixed(2)} MAD
+                  {t("employer.create.totalHt")}: {totalHt.toFixed(2)} MAD
                 </p>
               </div>
 
-              <Button type="submit" disabled={submitting}>
-                {submitting ? "Saving..." : "Create invoice"}
+              <Button type="submit" disabled={submitting} className="w-full sm:w-auto">
+                {submitting ? t("employer.create.saving") : t("employer.create.submit")}
               </Button>
             </form>
           )}

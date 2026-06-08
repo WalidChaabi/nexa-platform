@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+
+import { AppProviders } from "@/components/providers/app-providers";
+import { TooltipProvider } from "@/components/ui/tooltip";
+
 import "./globals.css";
 
 const geistSans = Geist({
@@ -29,7 +33,9 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
-        {children}
+        <AppProviders>
+          <TooltipProvider>{children}</TooltipProvider>
+        </AppProviders>
       </body>
     </html>
   );

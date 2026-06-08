@@ -2,134 +2,136 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import { Printer } from "lucide-react";
 
-import { LogoutButton } from "@/components/auth/logout-button";
+import { useDashboardAuth } from "@/components/layout/dashboard-auth";
+import { PageHeader } from "@/components/layout/page-header";
+import { useLocale } from "@/components/providers/locale-provider";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { NavLink } from "@/components/ui/nav-link";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useRequireAuth } from "@/hooks/use-require-auth";
+import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { fetchInvoice, type InvoiceSummary } from "@/lib/api/invoices";
-
-function formatAmount(value: number): string {
-  return new Intl.NumberFormat("fr-MA", {
-    style: "currency",
-    currency: "MAD",
-  }).format(value);
-}
 
 export default function EmployerInvoiceDetailPage() {
   const params = useParams<{ id: string }>();
-  const { user, loading } = useRequireAuth("employer");
+  useDashboardAuth();
+  const { t, formatCurrency } = useLocale();
   const [invoice, setInvoice] = useState<InvoiceSummary | null>(null);
   const [fetching, setFetching] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [errorKey, setErrorKey] = useState<string | null>(null);
 
   useEffect(() => {
-    if (loading || !user) {
-      return;
-    }
-
     async function load() {
       setFetching(true);
-      setError(null);
+      setErrorKey(null);
 
       try {
         const data = await fetchInvoice(Number(params.id));
         setInvoice(data);
       } catch {
-        setError("Invoice not found or access denied.");
+        setErrorKey("employer.detail.notFoundError");
       } finally {
         setFetching(false);
       }
     }
 
     void load();
-  }, [loading, user, params.id]);
-
-  if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center text-muted-foreground">
-        Loading invoice...
-      </div>
-    );
-  }
-
-  if (!user) {
-    return null;
-  }
+  }, [params.id]);
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-3xl flex-col gap-6 px-6 py-12">
-      <div className="flex items-center justify-between">
-        <div>
-          <Badge variant="outline">Employer</Badge>
-          <h1 className="mt-2 text-3xl font-semibold">
-            Invoice #{params.id}
-          </h1>
-        </div>
-        <div className="flex items-center gap-2">
-          <NavLink href={`/employer/invoices/${params.id}/print`} variant="outline">
-            Print
-          </NavLink>
-          <NavLink href="/employer/invoices" variant="outline">
-            Back to list
-          </NavLink>
-          <LogoutButton />
-        </div>
-      </div>
+    <div className="mx-auto w-full max-w-3xl space-y-6">
+      <PageHeader
+        title={t("employer.detail.title", { id: params.id })}
+        description={t("employer.detail.description")}
+      >
+        <NavLink
+          href={`/employer/invoices/${params.id}/print`}
+          variant="outline"
+        >
+          <Printer />
+          {t("common.print")}
+        </NavLink>
+        <NavLink href="/employer/invoices" variant="outline">
+          {t("common.backToList")}
+        </NavLink>
+      </PageHeader>
 
       <Card>
         <CardHeader>
-          <CardTitle>Details</CardTitle>
+          <CardTitle>{t("employer.detail.cardTitle")}</CardTitle>
+          <CardDescription>{t("employer.detail.cardDescription")}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4 text-sm">
           {fetching ? (
-            <p className="text-muted-foreground">Loading...</p>
-          ) : error ? (
-            <p className="text-destructive">{error}</p>
+            <div className="space-y-2">
+              <Skeleton className="h-6 w-48" />
+              <Skeleton className="h-24 w-full" />
+            </div>
+          ) : errorKey ? (
+            <Alert variant="destructive">
+              <AlertTitle>{t("employer.detail.notFound")}</AlertTitle>
+              <AlertDescription>{t(errorKey)}</AlertDescription>
+            </Alert>
           ) : invoice ? (
             <>
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap items-center gap-3 rounded-xl border bg-muted/30 p-4">
                 <Badge>{invoice.status_label}</Badge>
                 <span className="text-muted-foreground">
-                  Paid: {formatAmount(invoice.paid_amount)}
+                  {t("employer.detail.paid")}: {formatCurrency(invoice.paid_amount)}
                 </span>
-                <span className="font-medium">
-                  Total: {formatAmount(invoice.total)}
+                <span className="font-semibold">
+                  {t("employer.detail.total")}: {formatCurrency(invoice.total)}
                 </span>
               </div>
 
               {invoice.items && invoice.items.length > 0 ? (
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left">
-                    <thead className="border-b text-muted-foreground">
-                      <tr>
-                        <th className="py-2 pr-4 font-medium">Product</th>
-                        <th className="py-2 pr-4 font-medium">Qty</th>
-                        <th className="py-2 pr-4 font-medium">Price</th>
-                        <th className="py-2 font-medium">Line total</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {invoice.items.map((item) => (
-                        <tr key={item.id} className="border-b last:border-0">
-                          <td className="py-2 pr-4">
-                            {item.label ?? `Product #${item.product_id}`}
-                          </td>
-                          <td className="py-2 pr-4">{item.qte}</td>
-                          <td className="py-2 pr-4">
-                            {formatAmount(item.price)}
-                          </td>
-                          <td className="py-2">
-                            {formatAmount(item.line_total)}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>{t("employer.detail.columns.product")}</TableHead>
+                      <TableHead>{t("employer.detail.columns.qty")}</TableHead>
+                      <TableHead>{t("employer.detail.columns.price")}</TableHead>
+                      <TableHead className="text-right">
+                        {t("employer.detail.columns.lineTotal")}
+                      </TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {invoice.items.map((item) => (
+                      <TableRow key={item.id}>
+                        <TableCell>
+                          {item.label ??
+                            t("employer.detail.productFallback", {
+                              id: item.product_id,
+                            })}
+                        </TableCell>
+                        <TableCell>{item.qte}</TableCell>
+                        <TableCell>{formatCurrency(item.price)}</TableCell>
+                        <TableCell className="text-right">
+                          {formatCurrency(item.line_total)}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
               ) : (
-                <p className="text-muted-foreground">No line items.</p>
+                <p className="text-muted-foreground">{t("employer.detail.noItems")}</p>
               )}
             </>
           ) : null}

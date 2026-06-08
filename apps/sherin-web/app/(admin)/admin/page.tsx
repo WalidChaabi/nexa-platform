@@ -1,41 +1,39 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { LogoutButton } from "@/components/auth/logout-button";
-import { useRequireAuth } from "@/hooks/use-require-auth";
+import { Shield } from "lucide-react";
+
+import { useDashboardAuth } from "@/components/layout/dashboard-auth";
+import { PageHeader } from "@/components/layout/page-header";
+import { useLocale } from "@/components/providers/locale-provider";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export default function AdminDashboardPage() {
-  const { user, loading } = useRequireAuth("admin");
-
-  if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center text-muted-foreground">
-        Loading dashboard...
-      </div>
-    );
-  }
-
-  if (!user) {
-    return null;
-  }
+  const { user } = useDashboardAuth();
+  const { t } = useLocale();
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-3xl flex-col gap-6 px-6 py-12">
-      <div className="flex items-center justify-between">
-        <div>
-          <Badge>Admin</Badge>
-          <h1 className="mt-2 text-3xl font-semibold">Admin dashboard</h1>
-          <p className="text-muted-foreground">Signed in as {user.full_name}</p>
-        </div>
-        <LogoutButton />
-      </div>
+    <div className="space-y-6">
+      <PageHeader
+        title={t("admin.dashboard.title")}
+        description={t("admin.dashboard.signedIn", { name: user.full_name })}
+      />
+
       <Card>
         <CardHeader>
-          <CardTitle>Phase 1 foundation</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <Shield className="size-5 text-primary" />
+            {t("admin.dashboard.phaseTitle")}
+          </CardTitle>
+          <CardDescription>{t("admin.dashboard.phaseDescription")}</CardDescription>
         </CardHeader>
         <CardContent className="text-sm text-muted-foreground">
-          Auth and role routing are live. Business modules land in Phase 2.
+          {t("admin.dashboard.phaseBody")}
         </CardContent>
       </Card>
     </div>

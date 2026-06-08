@@ -21,7 +21,11 @@ export function NavLink({
   return (
     <Link
       href={href}
-      className={cn(buttonVariants({ variant, size }), className)}
+      className={cn(
+        buttonVariants({ variant, size }),
+        "inline-flex items-center gap-1.5",
+        className,
+      )}
     >
       {children}
     </Link>

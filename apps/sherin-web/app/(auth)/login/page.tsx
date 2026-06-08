@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { AlertCircle, Sparkles } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
+import { useLocale } from "@/components/providers/locale-provider";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -17,7 +19,8 @@ import { Label } from "@/components/ui/label";
 import { login } from "@/lib/api/auth";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("admin@sherin.test");
+  const { t } = useLocale();
+  const [email, setEmail] = useState("employer@sherin.test");
   const [password, setPassword] = useState("password");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -31,61 +34,75 @@ export default function LoginPage() {
       const user = await login(email, password);
       window.location.assign(user.dashboard_path);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Login failed.");
+      setError(
+        err instanceof Error ? err.message : t("auth.loginFailed"),
+      );
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-muted/40 px-6 py-12">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <Badge className="w-fit" variant="secondary">
-            Sherin V2
-          </Badge>
-          <CardTitle className="text-2xl">Sign in</CardTitle>
-          <CardDescription>
-            Use your Sherin account. Dev seed: admin@sherin.test / password
-          </CardDescription>
-        </CardHeader>
-        <form onSubmit={handleSubmit}>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                autoComplete="email"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                autoComplete="current-password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                required
-              />
-            </div>
-            {error ? (
-              <p className="text-sm text-destructive" role="alert">
-                {error}
-              </p>
-            ) : null}
-          </CardContent>
-          <CardFooter>
-            <Button className="w-full" type="submit" disabled={loading}>
-              {loading ? "Signing in..." : "Sign in"}
-            </Button>
-          </CardFooter>
-        </form>
-      </Card>
-    </div>
+    <Card className="w-full max-w-md border-border/60 shadow-lg">
+      <CardHeader className="space-y-4">
+        <div className="flex items-center gap-3 lg:hidden">
+          <div className="flex size-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+            <Sparkles className="size-4" />
+          </div>
+          <div>
+            <p className="font-semibold">{t("common.appName")}</p>
+            <p className="text-xs text-muted-foreground">
+              {t("auth.signInToContinue")}
+            </p>
+          </div>
+        </div>
+        <div className="space-y-1">
+          <CardTitle className="text-2xl">{t("auth.welcomeBack")}</CardTitle>
+          <CardDescription>{t("auth.signInDescription")}</CardDescription>
+        </div>
+      </CardHeader>
+      <form onSubmit={handleSubmit}>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="email">{t("auth.email")}</Label>
+            <Input
+              id="email"
+              type="email"
+              autoComplete="email"
+              placeholder="you@sherin.test"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              required
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="password">{t("auth.password")}</Label>
+            <Input
+              id="password"
+              type="password"
+              autoComplete="current-password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              required
+            />
+          </div>
+          {error ? (
+            <Alert variant="destructive">
+              <AlertCircle />
+              <AlertTitle>{t("auth.signInFailed")}</AlertTitle>
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          ) : null}
+          <p className="rounded-lg border bg-muted/50 px-3 py-2 text-xs text-muted-foreground">
+            {t("auth.devSeed")}
+          </p>
+        </CardContent>
+        <CardFooter>
+          <Button className="w-full" type="submit" disabled={loading}>
+            {loading ? t("auth.signingIn") : t("auth.signIn")}
+          </Button>
+        </CardFooter>
+      </form>
+    </Card>
   );
 }
