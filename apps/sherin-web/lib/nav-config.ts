@@ -4,6 +4,7 @@ import {
   Receipt,
   Settings,
   Store,
+  Users,
   type LucideIcon,
 } from "lucide-react";
 
@@ -39,6 +40,11 @@ export const employerNav: NavItem[] = [
     href: "/employer/invoices",
     icon: Receipt,
   },
+  {
+    titleKey: "nav.customers",
+    href: "/employer/customers",
+    icon: Users,
+  },
 ];
 
 export const adminNav: NavItem[] = [
@@ -52,6 +58,11 @@ export const adminNav: NavItem[] = [
     titleKey: "nav.stores",
     href: "/admin/stores",
     icon: Store,
+  },
+  {
+    titleKey: "nav.customers",
+    href: "/admin/customers",
+    icon: Users,
   },
   {
     titleKey: "nav.settings",
@@ -72,5 +83,10 @@ export const ownerNav: NavItem[] = [
     titleKey: "nav.stores",
     href: "/owner/stores",
     icon: Store,
+  },
+  {
+    titleKey: "nav.customers",
+    href: "/owner/customers",
+    icon: Users,
   },
 ];

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\V1\CustomerController;
 use App\Http\Controllers\Api\V1\InvoiceController;
 use App\Http\Controllers\Api\V1\PosCatalogController;
 use App\Http\Controllers\Api\V1\StoreController;
@@ -34,6 +35,12 @@ Route::middleware(['auth:sanctum', 'active'])->group(function () {
     Route::get('/stores/{store}', [StoreController::class, 'show']);
     Route::put('/stores/{store}', [StoreController::class, 'update']);
     Route::delete('/stores/{store}', [StoreController::class, 'destroy']);
+
+    Route::get('/customers', [CustomerController::class, 'index']);
+    Route::post('/customers', [CustomerController::class, 'store']);
+    Route::get('/customers/{customer}', [CustomerController::class, 'show']);
+    Route::put('/customers/{customer}', [CustomerController::class, 'update']);
+    Route::delete('/customers/{customer}', [CustomerController::class, 'destroy']);
 
     Route::get('/pos/catalog', [PosCatalogController::class, 'show']);
     Route::get('/invoices', [InvoiceController::class, 'index']);

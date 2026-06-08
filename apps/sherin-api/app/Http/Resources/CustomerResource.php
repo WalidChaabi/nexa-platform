@@ -21,7 +21,13 @@ class CustomerResource extends JsonResource
             'phone' => $this->phone,
             'email' => $this->email,
             'points' => $this->points,
+            'sexe' => $this->sexe,
+            'birth' => $this->birth?->toDateString(),
             'display_name' => trim("{$this->firstname} {$this->lastname}") ?: $this->phone,
+            'store' => $this->whenLoaded('store', fn () => [
+                'id' => $this->store->id,
+                'name' => $this->store->name,
+            ]),
         ];
     }
 }
