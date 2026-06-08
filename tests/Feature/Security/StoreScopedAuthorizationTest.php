@@ -46,6 +46,6 @@ class StoreScopedAuthorizationTest extends TestCase
 
         $rdv = file_get_contents($root . '/app/Http/Controllers/Web/RdvController.php');
         $this->assertContains('findAuthorizedStoreScopedModel(Rdv::class', $rdv);
-        $this->assertNotContains("Rdv::where('id',$rdv_id)", $rdv);
+        $this->assertNotContains("Rdv::where('id',", $rdv);
     }
 }
