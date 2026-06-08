@@ -7,12 +7,14 @@ use App\Contracts\Integrations\SmsGateway;
 use App\Integrations\Payment\CmiPaymentGateway;
 use App\Integrations\Sms\BulkSmsGateway;
 use App\Models\Campaign;
+use App\Models\Category;
 use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\Product;
 use App\Models\Rdv;
 use App\Models\Store;
 use App\Policies\CampaignPolicy;
+use App\Policies\CategoryPolicy;
 use App\Policies\CustomerPolicy;
 use App\Policies\InvoicePolicy;
 use App\Policies\ProductPolicy;
@@ -30,6 +32,7 @@ class AppServiceProvider extends ServiceProvider
         Store::class => StorePolicy::class,
         Invoice::class => InvoicePolicy::class,
         Customer::class => CustomerPolicy::class,
+        Category::class => CategoryPolicy::class,
         Product::class => ProductPolicy::class,
         Campaign::class => CampaignPolicy::class,
         Rdv::class => RdvPolicy::class,

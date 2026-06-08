@@ -1,5 +1,6 @@
 import {
   LayoutDashboard,
+  Package,
   PlusCircle,
   Receipt,
   Settings,
@@ -45,6 +46,11 @@ export const employerNav: NavItem[] = [
     href: "/employer/customers",
     icon: Users,
   },
+  {
+    titleKey: "nav.products",
+    href: "/employer/products",
+    icon: Package,
+  },
 ];
 
 export const adminNav: NavItem[] = [
@@ -63,6 +69,11 @@ export const adminNav: NavItem[] = [
     titleKey: "nav.customers",
     href: "/admin/customers",
     icon: Users,
+  },
+  {
+    titleKey: "nav.products",
+    href: "/admin/products",
+    icon: Package,
   },
   {
     titleKey: "nav.settings",
@@ -88,5 +99,10 @@ export const ownerNav: NavItem[] = [
     titleKey: "nav.customers",
     href: "/owner/customers",
     icon: Users,
+  },
+  {
+    titleKey: "nav.products",
+    href: "/owner/products",
+    icon: Package,
   },
 ];
