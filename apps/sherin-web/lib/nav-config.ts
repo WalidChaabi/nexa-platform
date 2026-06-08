@@ -3,6 +3,7 @@ import {
   LayoutDashboard,
   Megaphone,
   Package,
+  RefreshCw,
   PlusCircle,
   Receipt,
   Settings,
@@ -88,6 +89,11 @@ export const adminNav: NavItem[] = [
     icon: Megaphone,
   },
   {
+    titleKey: "nav.crossSelling",
+    href: "/admin/cross-selling",
+    icon: RefreshCw,
+  },
+  {
     titleKey: "nav.settings",
     href: "/admin",
     icon: Settings,
@@ -116,6 +122,11 @@ export const ownerNav: NavItem[] = [
     titleKey: "nav.campaigns",
     href: "/owner/campaigns",
     icon: Megaphone,
+  },
+  {
+    titleKey: "nav.crossSelling",
+    href: "/owner/cross-selling",
+    icon: RefreshCw,
   },
   {
     titleKey: "nav.stores",

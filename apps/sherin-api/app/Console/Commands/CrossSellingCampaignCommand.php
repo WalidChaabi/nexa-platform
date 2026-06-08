@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Services\CrossSellingAutomationService;
 use App\Support\Logging\IntegrationLogger;
 use Illuminate\Console\Command;
 
@@ -9,13 +10,20 @@ class CrossSellingCampaignCommand extends Command
 {
     protected $signature = 'sherin:cross-selling';
 
-    protected $description = 'Run cross-selling SMS scheduler (dispatches jobs when campaigns module is wired)';
+    protected $description = 'Queue cross-selling SMS for customers who bought linked products N days ago';
 
-    public function handle(): int
+    public function handle(CrossSellingAutomationService $automation): int
     {
-        IntegrationLogger::info('scheduler.cross_selling.tick');
+        $result = $automation->runDaily();
 
-        $this->info('Cross-selling scheduler tick recorded.');
+        IntegrationLogger::info('scheduler.cross_selling.completed', $result);
+
+        $this->info(sprintf(
+            'Cross-selling run complete: %d queued, %d skipped (%d rules).',
+            $result['sms_queued'],
+            $result['skipped'],
+            $result['rules_processed'],
+        ));
 
         return self::SUCCESS;
     }

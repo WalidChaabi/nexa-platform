@@ -5,11 +5,13 @@ use App\Http\Controllers\Api\V1\CampaignController;
 use App\Http\Controllers\Api\V1\CampaignDetailController;
 use App\Http\Controllers\Api\V1\CampaignHistoriqueController;
 use App\Http\Controllers\Api\V1\CategoryController;
+use App\Http\Controllers\Api\V1\CrossProductController;
 use App\Http\Controllers\Api\V1\CustomerController;
 use App\Http\Controllers\Api\V1\InvoiceController;
 use App\Http\Controllers\Api\V1\PaymentController;
 use App\Http\Controllers\Api\V1\PosCatalogController;
 use App\Http\Controllers\Api\V1\ProductController;
+use App\Http\Controllers\Api\V1\SmsCrossSellingController;
 use App\Http\Controllers\Api\V1\StoreController;
 use Illuminate\Support\Facades\Route;
 
@@ -70,6 +72,13 @@ Route::middleware(['auth:sanctum', 'active'])->group(function () {
     Route::put('/campaign-details/{campaignDetail}', [CampaignDetailController::class, 'update']);
     Route::delete('/campaign-details/{campaignDetail}', [CampaignDetailController::class, 'destroy']);
     Route::get('/campaign-historiques', [CampaignHistoriqueController::class, 'index']);
+
+    Route::get('/cross-products', [CrossProductController::class, 'index']);
+    Route::post('/cross-products', [CrossProductController::class, 'store']);
+    Route::get('/cross-products/{crossProduct}', [CrossProductController::class, 'show']);
+    Route::put('/cross-products/{crossProduct}', [CrossProductController::class, 'update']);
+    Route::delete('/cross-products/{crossProduct}', [CrossProductController::class, 'destroy']);
+    Route::get('/sms-cross-selling', [SmsCrossSellingController::class, 'index']);
 
     Route::get('/payments/preview', [PaymentController::class, 'preview']);
     Route::post('/payments/checkout', [PaymentController::class, 'checkout']);

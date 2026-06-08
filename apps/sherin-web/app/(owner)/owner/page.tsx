@@ -7,6 +7,7 @@ import {
   Megaphone,
   Package,
   Receipt,
+  RefreshCw,
   Store,
   Users,
 } from "lucide-react";
@@ -57,6 +58,10 @@ export default function OwnerDashboardPage() {
             <NavLink href="/owner/campaigns" variant="outline">
               <Megaphone />
               {t("nav.campaigns")}
+            </NavLink>
+            <NavLink href="/owner/cross-selling" variant="outline">
+              <RefreshCw />
+              {t("nav.crossSelling")}
             </NavLink>
             <NavLink href="/owner/stores" variant="outline">
               <Store />

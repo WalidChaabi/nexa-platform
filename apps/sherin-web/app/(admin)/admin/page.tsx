@@ -5,6 +5,7 @@ import {
   LayoutDashboard,
   Megaphone,
   Package,
+  RefreshCw,
   Shield,
   Store,
   Users,
@@ -64,6 +65,10 @@ export default function AdminDashboardPage() {
             <NavLink href="/admin/campaigns" variant="outline">
               <Megaphone />
               {t("nav.campaigns")}
+            </NavLink>
+            <NavLink href="/admin/cross-selling" variant="outline">
+              <RefreshCw />
+              {t("nav.crossSelling")}
             </NavLink>
           </div>
         </CardContent>
