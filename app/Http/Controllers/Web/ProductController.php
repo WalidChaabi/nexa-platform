@@ -11,6 +11,7 @@ use App\Models\ProductHestorique;
 use App\Models\ProductQuantiteDetails;
 use App\Imports\ProductsImport;
 use App\Services\ProductService;
+use App\Support\SecureImageUpload;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -77,11 +78,12 @@ class ProductController extends Controller
         ]);
         $product = Product::create($request->all());
         if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $path = 'uploads/product/images/' . $product->id;
-            $filename = $file->getClientOriginalName();
-            $file->move(public_path($path), $filename);
-            $product->image =$filename;
+            $request->validate(['image' => SecureImageUpload::rules()]);
+            $filename = SecureImageUpload::store(
+                $request->file('image'),
+                'uploads/product/images/' . $product->id
+            );
+            $product->image = $filename;
             $product->save();
         }
         $dataProduct = [
@@ -165,8 +167,7 @@ class ProductController extends Controller
         ? (auth()->user()->firstname ?? '') . ' ' . (auth()->user()->lastname ?? '') 
         : 'anonyme';
 
-        $message ="l'utilisateur <span style='color: blue;'>$userName</span> a <span style='color: green;'>changé</span> le produit <span style='color: blue;'>$product->label</spna>
-        quantité de <span style='color: red;'> $oldProduct->quantite</span> a <span style='color: blue;'>$product->quantite</span> a $date";
+        $message = "l'utilisateur <span style=\"color: blue;\">" . e($userName) . "</span> a <span style=\"color: green;\">changé</span> le produit <span style=\"color: blue;\">" . e($product->label) . "</span> quantité de <span style=\"color: red;\">" . e($oldProduct->quantite) . "</span> a <span style=\"color: blue;\">" . e($product->quantite) . "</span> a " . e($date);
         ProductHestorique::create([
             'store_id' => $request->store_id,
             'user_id' => auth()->user()->id,
@@ -192,22 +193,23 @@ class ProductController extends Controller
         $product->update($updatedProduct);
 
         if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $path = 'uploads/product/images/' . $id;
-            $filename = $file->getClientOriginalName();
-            $file->move(public_path($path), $filename);
-            $product->image =$filename;
+            $request->validate(['image' => SecureImageUpload::rules()]);
+            $filename = SecureImageUpload::store(
+                $request->file('image'),
+                'uploads/product/images/' . $id
+            );
+            $product->image = $filename;
             $product->save();
         }
         $changes = [];
         if ($oldProduct->label != $product->label) {
-            $changes[] = " Label de <span style='color: red;'> $oldProduct->label</span> a <span style='color: blue;'>$product->label</span>";
+            $changes[] = ' Label de <span style="color: red;">' . e($oldProduct->label) . '</span> a <span style="color: blue;">' . e($product->label) . '</span>';
         }
         if ($oldProduct->price != $product->price) {
-            $changes[] = "Prix de <span style='color: red;'> $oldProduct->price</span> a <span style='color: blue;'>$product->price</span>";
+            $changes[] = 'Prix de <span style="color: red;">' . e($oldProduct->price) . '</span> a <span style="color: blue;">' . e($product->price) . '</span>';
         }
         if ($oldProduct->quantite != $product->quantite) {
-            $changes[] = "Quantite de <span style='color: red;'> $oldProduct->quantite</span> a <span style='color: blue;'>$product->quantite</span>";
+            $changes[] = 'Quantite de <span style="color: red;">' . e($oldProduct->quantite) . '</span> a <span style="color: blue;">' . e($product->quantite) . '</span>';
         }
         $dataProduct = [
             'userName' => (auth()->user()->firstname || auth()->user()->lastname) 
@@ -215,7 +217,7 @@ class ProductController extends Controller
                 : 'anonyme',
             'productName' => $product->label, 
         ];
-        $changes[] = "a $product->updated_at";
+        $changes[] = 'a ' . e($product->updated_at);
         $message = $this->productService->Message($action,$dataProduct,$changes);
         ProductHestorique::create([
             'store_id' => $request->store_id,
@@ -223,10 +225,6 @@ class ProductController extends Controller
             'product_id' => $product->id, 
             "notification" => $message,
         ]);
-        // if ($request->hasFile('image')) {
-        //     $updatedProduct['image'] = $request->image->getClientOriginalName();
-        //     $this->move_files($request->image,  $product['store_id']);
-        // }
         if (auth()->user()->is_admin == 1)
             return redirect(route('admin.products') . '?storeId=' . $product->store_id);
         else if(auth()->user()->is_admin == 2)
@@ -237,6 +235,10 @@ class ProductController extends Controller
 
     public function import(Request $request)
     {
+        $request->validate([
+            'products' => 'required|file|mimes:xlsx,xls,csv|max:10240',
+            'store_id' => 'required|integer',
+        ]);
 
         $path1 = $request->file('products')->store('temp');
         $path = storage_path('app') . '/' . $path1;
@@ -248,12 +250,7 @@ class ProductController extends Controller
 
     protected function move_files($file, $id)
     {
-
-        $destinationPath = 'uploads/products/' . $id . '/';
-        //move each file to destination path
-        $file->move($destinationPath, $file->getClientOriginalName());
-        $file_names = $file->getClientOriginalName();
-        return $file_names;
+        return SecureImageUpload::store($file, 'uploads/products/' . $id);
     }
     public function historiqueProduits()
     {

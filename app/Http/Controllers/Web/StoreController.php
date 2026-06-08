@@ -8,6 +8,7 @@ use App\Models\Activity;
 use App\Models\Campaign;
 use App\Models\Store;
 use App\Services\ProductService;
+use App\Support\SecureImageUpload;
 use App\User;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Carbon;
@@ -101,8 +102,14 @@ class StoreController extends Controller
 
     public function store(Request $request)
     {
-        if (auth()->user()->is_admin == 2)
+        if (auth()->user()->is_admin == 2) {
             return abort(403);
+        }
+
+        if ($request->hasFile('logo')) {
+            $request->validate(['logo' => SecureImageUpload::rules()]);
+        }
+
         if ($request->hasFile('logo')) {
             $store = Store::create([
                 'user_id' => $request->owner_id,
@@ -116,11 +123,12 @@ class StoreController extends Controller
                 'base_profit' => $request->base_profit,
                 'coeff' => $request->coeff,
                 'min_point_to_use' => $request->min_point_to_use,
-                'logo' => $request->logo->getClientOriginalName(),
+                'logo' => '',
                 'tva' => $request->tva,
                 'invoice_message' => $request->message_invoice
             ]);
-            $this->move_files($request->logo, $store->id);
+            $logo = $this->move_files($request->logo, $store->id);
+            $store->update(['logo' => $logo]);
         } else {
             $store = Store::create([
                 'user_id' => $request->owner_id,
@@ -145,12 +153,7 @@ class StoreController extends Controller
 
     protected function move_files($file, $id)
     {
-
-        $destinationPath = 'uploads/stores/' . $id . '/';
-        //move each file to destination path
-        $file->move($destinationPath, $file->getClientOriginalName());
-        $file_names = $file->getClientOriginalName();
-        return $file_names;
+        return SecureImageUpload::store($file, 'uploads/stores/' . $id);
     }
 
 
@@ -186,6 +189,7 @@ class StoreController extends Controller
         }
 
         if ($request->hasFile('logo')) {
+            $request->validate(['logo' => SecureImageUpload::rules()]);
             $result = Store::where('id', $id)->update([
                 'user_id' => $owner_id,
                 'activity_id' => $request->activity_id,
