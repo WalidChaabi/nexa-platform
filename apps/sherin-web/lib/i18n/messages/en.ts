@@ -147,6 +147,22 @@ export const en = {
       phaseBody:
         "Business modules — stores, campaigns, payments — land in Phase 2. Use the sidebar to navigate as new sections become available.",
     },
+    stores: {
+      title: "Stores",
+      description: "All retail locations across the platform.",
+      listTitle: "Store directory",
+      listDescription: "Owners, contact details, and status.",
+      loadError: "Could not load stores.",
+      empty: "No stores yet.",
+      statusActive: "Active",
+      statusInactive: "Inactive",
+      columns: {
+        name: "Name",
+        owner: "Owner",
+        phone: "Phone",
+        status: "Status",
+      },
+    },
   },
   owner: {
     dashboard: {
@@ -155,7 +171,39 @@ export const en = {
       opsTitle: "Store operations",
       opsDescription: "Overview of your retail network and performance.",
       opsBody:
-        "Invoice history, campaigns, and payment modules will appear here in Phase 2.",
+        "Manage your stores from the sidebar. Invoice history, campaigns, and payments follow in Phase 2.",
+    },
+    stores: {
+      title: "My stores",
+      description: "Create and manage your retail locations.",
+      createTitle: "New store",
+      createDescription: "Add a location to your network.",
+      editTitle: "Edit store",
+      editDescription: "Update store details.",
+      listTitle: "Your stores",
+      listDescription: "Locations linked to your account.",
+      loadError: "Could not load stores.",
+      createError: "Could not create store.",
+      updateError: "Could not update store.",
+      empty: "You have no stores yet. Create one above.",
+      create: "Create store",
+      creating: "Creating...",
+      edit: "Edit",
+      save: "Save changes",
+      saving: "Saving...",
+      statusActive: "Active",
+      statusInactive: "Inactive",
+      fields: {
+        name: "Store name",
+        phone: "Phone",
+        address: "Address",
+      },
+      columns: {
+        name: "Name",
+        phone: "Phone",
+        status: "Status",
+        actions: "Actions",
+      },
     },
   },
 } as const;

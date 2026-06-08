@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\InvoiceController;
 use App\Http\Controllers\Api\V1\PosCatalogController;
+use App\Http\Controllers\Api\V1\StoreController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/health', function () {
@@ -28,6 +29,12 @@ Route::middleware(['auth:sanctum', 'active', 'role:admin'])->get('/admin/ping', 
 });
 
 Route::middleware(['auth:sanctum', 'active'])->group(function () {
+    Route::get('/stores', [StoreController::class, 'index']);
+    Route::post('/stores', [StoreController::class, 'store']);
+    Route::get('/stores/{store}', [StoreController::class, 'show']);
+    Route::put('/stores/{store}', [StoreController::class, 'update']);
+    Route::delete('/stores/{store}', [StoreController::class, 'destroy']);
+
     Route::get('/pos/catalog', [PosCatalogController::class, 'show']);
     Route::get('/invoices', [InvoiceController::class, 'index']);
     Route::post('/invoices', [InvoiceController::class, 'store']);

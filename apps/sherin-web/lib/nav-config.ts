@@ -49,6 +49,11 @@ export const adminNav: NavItem[] = [
     exact: true,
   },
   {
+    titleKey: "nav.stores",
+    href: "/admin/stores",
+    icon: Store,
+  },
+  {
     titleKey: "nav.settings",
     href: "/admin",
     icon: Settings,
@@ -65,8 +70,7 @@ export const ownerNav: NavItem[] = [
   },
   {
     titleKey: "nav.stores",
-    href: "/owner",
+    href: "/owner/stores",
     icon: Store,
-    exact: true,
   },
 ];

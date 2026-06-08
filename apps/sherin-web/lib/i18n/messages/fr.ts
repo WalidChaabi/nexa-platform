@@ -149,6 +149,22 @@ export const fr = {
       phaseBody:
         "Les modules métier — magasins, campagnes, paiements — arrivent en phase 2. Utilisez la barre latérale pour naviguer.",
     },
+    stores: {
+      title: "Magasins",
+      description: "Tous les points de vente de la plateforme.",
+      listTitle: "Annuaire des magasins",
+      listDescription: "Propriétaires, contacts et statut.",
+      loadError: "Impossible de charger les magasins.",
+      empty: "Aucun magasin pour le moment.",
+      statusActive: "Actif",
+      statusInactive: "Inactif",
+      columns: {
+        name: "Nom",
+        owner: "Propriétaire",
+        phone: "Téléphone",
+        status: "Statut",
+      },
+    },
   },
   owner: {
     dashboard: {
@@ -157,7 +173,39 @@ export const fr = {
       opsTitle: "Opérations magasin",
       opsDescription: "Vue d'ensemble de votre réseau retail et performances.",
       opsBody:
-        "Historique factures, campagnes et paiements apparaîtront ici en phase 2.",
+        "Gérez vos magasins depuis la barre latérale. Historique factures, campagnes et paiements suivent en phase 2.",
+    },
+    stores: {
+      title: "Mes magasins",
+      description: "Créez et gérez vos points de vente.",
+      createTitle: "Nouveau magasin",
+      createDescription: "Ajoutez un lieu à votre réseau.",
+      editTitle: "Modifier le magasin",
+      editDescription: "Mettez à jour les informations du magasin.",
+      listTitle: "Vos magasins",
+      listDescription: "Lieux liés à votre compte.",
+      loadError: "Impossible de charger les magasins.",
+      createError: "Impossible de créer le magasin.",
+      updateError: "Impossible de mettre à jour le magasin.",
+      empty: "Vous n'avez pas encore de magasin. Créez-en un ci-dessus.",
+      create: "Créer le magasin",
+      creating: "Création...",
+      edit: "Modifier",
+      save: "Enregistrer",
+      saving: "Enregistrement...",
+      statusActive: "Actif",
+      statusInactive: "Inactif",
+      fields: {
+        name: "Nom du magasin",
+        phone: "Téléphone",
+        address: "Adresse",
+      },
+      columns: {
+        name: "Nom",
+        phone: "Téléphone",
+        status: "Statut",
+        actions: "Actions",
+      },
     },
   },
 };

@@ -77,3 +77,39 @@ export async function apiPost<T>(
 
   return payload as T;
 }
+
+export async function apiPut<T>(
+  path: string,
+  body?: unknown,
+  init?: RequestInit,
+): Promise<T> {
+  const xsrfToken = readXsrfToken();
+
+  const response = await fetch(`${API_BASE}${path}`, {
+    method: "PUT",
+    credentials: "include",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      ...(xsrfToken ? { "X-XSRF-TOKEN": xsrfToken } : {}),
+      ...(init?.headers ?? {}),
+    },
+    body: body === undefined ? undefined : JSON.stringify(body),
+    ...init,
+  });
+
+  const payload = await response.json().catch(() => ({}));
+
+  if (!response.ok) {
+    const message =
+      typeof payload === "object" &&
+      payload !== null &&
+      "message" in payload &&
+      typeof payload.message === "string"
+        ? payload.message
+        : `API ${response.status}: ${path}`;
+    throw new Error(message);
+  }
+
+  return payload as T;
+}

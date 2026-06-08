@@ -148,6 +148,22 @@ export const ar = {
       phaseBody:
         "وحدات الأعمال — المتاجر، الحملات، المدفوعات — ستتوفر في المرحلة الثانية. استخدم الشريط الجانبي للتنقل.",
     },
+    stores: {
+      title: "المتاجر",
+      description: "جميع نقاط البيع على المنصة.",
+      listTitle: "دليل المتاجر",
+      listDescription: "المالكون وبيانات الاتصال والحالة.",
+      loadError: "تعذر تحميل المتاجر.",
+      empty: "لا توجد متاجر بعد.",
+      statusActive: "نشط",
+      statusInactive: "غير نشط",
+      columns: {
+        name: "الاسم",
+        owner: "المالك",
+        phone: "الهاتف",
+        status: "الحالة",
+      },
+    },
   },
   owner: {
     dashboard: {
@@ -156,7 +172,39 @@ export const ar = {
       opsTitle: "عمليات المتاجر",
       opsDescription: "نظرة عامة على شبكة التجزئة والأداء.",
       opsBody:
-        "سجل الفواتير والحملات والمدفوعات ستظهر هنا في المرحلة الثانية.",
+        "أدر متاجرك من الشريط الجانبي. سجل الفواتير والحملات والمدفوعات يأتي في المرحلة الثانية.",
+    },
+    stores: {
+      title: "متاجري",
+      description: "إنشاء وإدارة نقاط البيع.",
+      createTitle: "متجر جديد",
+      createDescription: "أضف موقعاً إلى شبكتك.",
+      editTitle: "تعديل المتجر",
+      editDescription: "تحديث بيانات المتجر.",
+      listTitle: "متاجرك",
+      listDescription: "المواقع المرتبطة بحسابك.",
+      loadError: "تعذر تحميل المتاجر.",
+      createError: "تعذر إنشاء المتجر.",
+      updateError: "تعذر تحديث المتجر.",
+      empty: "ليس لديك متاجر بعد. أنشئ واحداً أعلاه.",
+      create: "إنشاء متجر",
+      creating: "جارٍ الإنشاء...",
+      edit: "تعديل",
+      save: "حفظ التغييرات",
+      saving: "جارٍ الحفظ...",
+      statusActive: "نشط",
+      statusInactive: "غير نشط",
+      fields: {
+        name: "اسم المتجر",
+        phone: "الهاتف",
+        address: "العنوان",
+      },
+      columns: {
+        name: "الاسم",
+        phone: "الهاتف",
+        status: "الحالة",
+        actions: "إجراءات",
+      },
     },
   },
 };
