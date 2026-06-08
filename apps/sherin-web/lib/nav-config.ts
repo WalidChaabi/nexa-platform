@@ -91,6 +91,11 @@ export const ownerNav: NavItem[] = [
     exact: true,
   },
   {
+    titleKey: "nav.invoices",
+    href: "/owner/invoices",
+    icon: Receipt,
+  },
+  {
     titleKey: "nav.stores",
     href: "/owner/stores",
     icon: Store,

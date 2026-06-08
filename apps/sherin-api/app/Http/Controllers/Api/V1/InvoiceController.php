@@ -21,7 +21,7 @@ class InvoiceController extends Controller
         $this->authorize('viewAny', Invoice::class);
 
         $query = Invoice::query()
-            ->with(['customer', 'employer'])
+            ->with(['customer', 'employer', 'store'])
             ->orderByDesc('invoice_date');
 
         StoreAccess::applyStoreScope($query, $request->user());

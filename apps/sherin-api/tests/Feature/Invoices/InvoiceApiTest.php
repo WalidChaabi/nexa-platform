@@ -122,4 +122,29 @@ class InvoiceApiTest extends TestCase
             ->assertUnprocessable()
             ->assertJsonValidationErrors(['store_id']);
     }
+
+    public function test_owner_can_list_invoices_for_owned_stores(): void
+    {
+        $owner = User::factory()->owner()->create();
+        $store = Store::factory()->create(['user_id' => $owner->id, 'name' => 'Owner Store']);
+        $invoice = Invoice::factory()->forStore($store)->create();
+        Invoice::factory()->forStore(Store::factory()->create())->create();
+
+        $this->actingAs($owner)
+            ->getJson('/api/v1/invoices')
+            ->assertOk()
+            ->assertJsonCount(1, 'data')
+            ->assertJsonPath('data.0.id', $invoice->id)
+            ->assertJsonPath('data.0.store.name', 'Owner Store');
+    }
+
+    public function test_owner_cannot_view_other_store_invoice(): void
+    {
+        $owner = User::factory()->owner()->create();
+        $invoice = Invoice::factory()->forStore(Store::factory()->create())->create();
+
+        $this->actingAs($owner)
+            ->getJson("/api/v1/invoices/{$invoice->id}")
+            ->assertForbidden();
+    }
 }

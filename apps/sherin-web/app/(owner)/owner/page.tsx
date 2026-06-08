@@ -4,6 +4,7 @@ import {
   Building2,
   LayoutDashboard,
   Package,
+  Receipt,
   Store,
   Users,
 } from "lucide-react";
@@ -43,6 +44,10 @@ export default function OwnerDashboardPage() {
         <CardContent className="space-y-4 text-sm text-muted-foreground">
           <p>{t("owner.dashboard.opsBody")}</p>
           <div className="flex flex-wrap gap-3">
+            <NavLink href="/owner/invoices" variant="outline">
+              <Receipt />
+              {t("nav.invoices")}
+            </NavLink>
             <NavLink href="/owner/stores" variant="outline">
               <Store />
               {t("nav.stores")}

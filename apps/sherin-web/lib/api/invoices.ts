@@ -32,6 +32,13 @@ export type InvoiceSummary = {
     id: number;
     full_name: string;
   };
+  store?: {
+    id: number;
+    name: string;
+    phone?: string;
+    address?: string | null;
+    invoice_message?: string | null;
+  };
   items?: InvoiceLine[];
 };
 
