@@ -7,6 +7,7 @@ import { AppointmentsPanel } from "@/components/calendar/appointments-panel";
 import { PageHeader } from "@/components/layout/page-header";
 import { useLocale } from "@/components/providers/locale-provider";
 import { fetchStores, type StoreSummary } from "@/lib/api/stores";
+import { onSelectValue } from "@/lib/utils";
 
 export default function OwnerCalendarPage() {
   const { t } = useLocale();
@@ -47,7 +48,7 @@ export default function OwnerCalendarPage() {
             ? {
                 stores,
                 selectedStoreId: storeId,
-                onStoreChange: setStoreId,
+                onStoreChange: onSelectValue(setStoreId),
               }
             : undefined
         }

@@ -4,7 +4,6 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ArrowLeft, Printer } from "lucide-react";
 
-import { useDashboardAuth } from "@/components/layout/dashboard-auth";
 import { useLocale } from "@/components/providers/locale-provider";
 import { Button } from "@/components/ui/button";
 import { NavLink } from "@/components/ui/nav-link";
@@ -15,17 +14,12 @@ import {
 
 export default function OwnerInvoicePrintPage() {
   const params = useParams<{ id: string }>();
-  const { loading } = useDashboardAuth();
   const { t, formatCurrency, formatDateTime } = useLocale();
   const [invoice, setInvoice] = useState<InvoiceSummaryWithStore | null>(null);
   const [fetching, setFetching] = useState(true);
   const [errorKey, setErrorKey] = useState<string | null>(null);
 
   useEffect(() => {
-    if (loading) {
-      return;
-    }
-
     async function load() {
       setFetching(true);
       setErrorKey(null);
@@ -41,9 +35,9 @@ export default function OwnerInvoicePrintPage() {
     }
 
     void load();
-  }, [loading, params.id]);
+  }, [params.id]);
 
-  if (loading || fetching) {
+  if (fetching) {
     return (
       <div className="flex min-h-screen items-center justify-center text-muted-foreground">
         {t("common.loading")}

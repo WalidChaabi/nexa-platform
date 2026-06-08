@@ -40,6 +40,7 @@ import {
   type ReportType,
   type SalesReport,
 } from "@/lib/api/reports";
+import { onSelectValue } from "@/lib/utils";
 
 type ReportsPanelProps = {
   translationPrefix: "owner.reports" | "admin.reports";
@@ -174,7 +175,10 @@ export function ReportsPanel({ translationPrefix, stores }: ReportsPanelProps) {
 
             <div className="space-y-2">
               <Label>{t(`${prefix}.fields.store`)}</Label>
-              <Select value={storeId} onValueChange={setStoreId}>
+              <Select
+                value={storeId}
+                onValueChange={onSelectValue(setStoreId)}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder={t(`${prefix}.selectStore`)} />
                 </SelectTrigger>
@@ -213,7 +217,10 @@ export function ReportsPanel({ translationPrefix, stores }: ReportsPanelProps) {
             {reportType === "sales" ? (
               <div className="space-y-2 md:col-span-2">
                 <Label>{t(`${prefix}.fields.sexe`)}</Label>
-                <Select value={forSexe} onValueChange={setForSexe}>
+                <Select
+                  value={forSexe}
+                  onValueChange={onSelectValue(setForSexe, "0")}
+                >
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
