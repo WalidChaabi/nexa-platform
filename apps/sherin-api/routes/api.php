@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\AuthController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/health', function () {
@@ -8,4 +9,18 @@ Route::get('/health', function () {
         'service' => 'sherin-api',
         'version' => 'v1',
     ]);
+});
+
+Route::prefix('auth')->group(function () {
+    Route::post('/login', [AuthController::class, 'login'])
+        ->middleware('throttle:6,1');
+
+    Route::middleware(['auth:sanctum', 'active'])->group(function () {
+        Route::post('/logout', [AuthController::class, 'logout']);
+        Route::get('/me', [AuthController::class, 'me']);
+    });
+});
+
+Route::middleware(['auth:sanctum', 'active', 'role:admin'])->get('/admin/ping', function () {
+    return response()->json(['status' => 'ok', 'area' => 'admin']);
 });
