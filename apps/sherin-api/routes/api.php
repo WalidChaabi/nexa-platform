@@ -4,10 +4,13 @@ use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\CategoryController;
 use App\Http\Controllers\Api\V1\CustomerController;
 use App\Http\Controllers\Api\V1\InvoiceController;
+use App\Http\Controllers\Api\V1\PaymentController;
 use App\Http\Controllers\Api\V1\PosCatalogController;
 use App\Http\Controllers\Api\V1\ProductController;
 use App\Http\Controllers\Api\V1\StoreController;
 use Illuminate\Support\Facades\Route;
+
+Route::post('/payments/cmi/callback', [PaymentController::class, 'cmiCallback']);
 
 Route::get('/health', function () {
     return response()->json([
@@ -55,6 +58,11 @@ Route::middleware(['auth:sanctum', 'active'])->group(function () {
     Route::get('/products/{product}', [ProductController::class, 'show']);
     Route::put('/products/{product}', [ProductController::class, 'update']);
     Route::delete('/products/{product}', [ProductController::class, 'destroy']);
+
+    Route::get('/payments/preview', [PaymentController::class, 'preview']);
+    Route::post('/payments/checkout', [PaymentController::class, 'checkout']);
+    Route::get('/payments', [PaymentController::class, 'index']);
+    Route::get('/payments/{paymentHistory}', [PaymentController::class, 'show']);
 
     Route::get('/pos/catalog', [PosCatalogController::class, 'show']);
     Route::get('/invoices', [InvoiceController::class, 'index']);

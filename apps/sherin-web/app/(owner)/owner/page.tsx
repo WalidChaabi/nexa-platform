@@ -2,6 +2,7 @@
 
 import {
   Building2,
+  CreditCard,
   LayoutDashboard,
   Package,
   Receipt,
@@ -47,6 +48,10 @@ export default function OwnerDashboardPage() {
             <NavLink href="/owner/invoices" variant="outline">
               <Receipt />
               {t("nav.invoices")}
+            </NavLink>
+            <NavLink href="/owner/payments" variant="outline">
+              <CreditCard />
+              {t("nav.payments")}
             </NavLink>
             <NavLink href="/owner/stores" variant="outline">
               <Store />

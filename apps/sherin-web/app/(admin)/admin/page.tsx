@@ -1,6 +1,13 @@
 "use client";
 
-import { LayoutDashboard, Package, Shield, Store, Users } from "lucide-react";
+import {
+  CreditCard,
+  LayoutDashboard,
+  Package,
+  Shield,
+  Store,
+  Users,
+} from "lucide-react";
 
 import { useDashboardAuth } from "@/components/layout/dashboard-auth";
 import { PageHeader } from "@/components/layout/page-header";
@@ -48,6 +55,10 @@ export default function AdminDashboardPage() {
             <NavLink href="/admin/products" variant="outline">
               <Package />
               {t("nav.products")}
+            </NavLink>
+            <NavLink href="/admin/payments" variant="outline">
+              <CreditCard />
+              {t("nav.payments")}
             </NavLink>
           </div>
         </CardContent>

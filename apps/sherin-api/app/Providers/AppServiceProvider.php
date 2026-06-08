@@ -10,6 +10,7 @@ use App\Models\Campaign;
 use App\Models\Category;
 use App\Models\Customer;
 use App\Models\Invoice;
+use App\Models\PaymentHistory;
 use App\Models\Product;
 use App\Models\Rdv;
 use App\Models\Store;
@@ -17,6 +18,7 @@ use App\Policies\CampaignPolicy;
 use App\Policies\CategoryPolicy;
 use App\Policies\CustomerPolicy;
 use App\Policies\InvoicePolicy;
+use App\Policies\PaymentHistoryPolicy;
 use App\Policies\ProductPolicy;
 use App\Policies\RdvPolicy;
 use App\Policies\StorePolicy;
@@ -31,6 +33,7 @@ class AppServiceProvider extends ServiceProvider
     protected $policies = [
         Store::class => StorePolicy::class,
         Invoice::class => InvoicePolicy::class,
+        PaymentHistory::class => PaymentHistoryPolicy::class,
         Customer::class => CustomerPolicy::class,
         Category::class => CategoryPolicy::class,
         Product::class => ProductPolicy::class,

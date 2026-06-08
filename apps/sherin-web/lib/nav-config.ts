@@ -1,4 +1,5 @@
 import {
+  CreditCard,
   LayoutDashboard,
   Package,
   PlusCircle,
@@ -76,6 +77,11 @@ export const adminNav: NavItem[] = [
     icon: Package,
   },
   {
+    titleKey: "nav.payments",
+    href: "/admin/payments",
+    icon: CreditCard,
+  },
+  {
     titleKey: "nav.settings",
     href: "/admin",
     icon: Settings,
@@ -94,6 +100,11 @@ export const ownerNav: NavItem[] = [
     titleKey: "nav.invoices",
     href: "/owner/invoices",
     icon: Receipt,
+  },
+  {
+    titleKey: "nav.payments",
+    href: "/owner/payments",
+    icon: CreditCard,
   },
   {
     titleKey: "nav.stores",
