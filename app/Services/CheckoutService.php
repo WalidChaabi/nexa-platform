@@ -7,18 +7,95 @@ use App\Models\Campaign;
 use App\Models\CampaignHistorique;
 use App\Models\EmailCampaign;
 use App\Models\SmsCrossSelling;
+use App\User;
 use CMI\CmiClient;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
 
 class CheckoutService
 {
+    const PENDING_PAYMENT_TTL_MINUTES = 1440;
+
     protected string  $base_url;
     protected $smsService;
+    protected $historiquePaiementService;
     public function __construct()
     {
         $this->base_url =  config('app.sub_url');
         $this->smsService = new SmsService;
+        $this->historiquePaiementService = new HistoriquePaiementService();
+    }
+
+    public function pendingPaymentCacheKey($cmd)
+    {
+        return 'cmi_pending_payment:' . $cmd;
+    }
+
+    public function cachePendingPayment($cmd, $ownerId, array $storeIds, array $invoiceDetail)
+    {
+        Cache::put($this->pendingPaymentCacheKey($cmd), [
+            'owner_id' => (int) $ownerId,
+            'store_ids' => $storeIds,
+            'invoice_detail' => $invoiceDetail,
+        ], now()->addMinutes(self::PENDING_PAYMENT_TTL_MINUTES));
+    }
+
+    public function clearPendingPayment($cmd)
+    {
+        Cache::forget($this->pendingPaymentCacheKey($cmd));
+    }
+
+    /**
+     * Resolve owner, stores, and invoice detail when CMI redirects back (session may be gone).
+     *
+     * @return array{owner: User, store_ids: array, invoice_detail: array}
+     */
+    public function resolvePaymentContext($oid)
+    {
+        if (auth()->check()) {
+            $user = auth()->user();
+            $invoiceDetail = session()->get('detail_invoice' . $user->id);
+            if ($invoiceDetail) {
+                return [
+                    'owner' => $user,
+                    'store_ids' => $user->stores->pluck('id')->toArray(),
+                    'invoice_detail' => $invoiceDetail,
+                ];
+            }
+        }
+
+        if (!$oid) {
+            abort(403, 'Payment reference missing.');
+        }
+
+        $cached = Cache::get($this->pendingPaymentCacheKey($oid));
+        if ($cached) {
+            $owner = User::findOrFail($cached['owner_id']);
+
+            return [
+                'owner' => $owner,
+                'store_ids' => $cached['store_ids'],
+                'invoice_detail' => $cached['invoice_detail'],
+            ];
+        }
+
+        $historique = $this->historiquePaiementService->getByInvoiceId($oid);
+        if ($historique && $historique->owner) {
+            return [
+                'owner' => $historique->owner,
+                'store_ids' => $historique->owner->stores->pluck('id')->toArray(),
+                'invoice_detail' => [
+                    'services' => $historique->services,
+                    'cmd' => $historique->cmd,
+                    'tva' => config('constant.sherin_tva'),
+                    'owner_id' => $historique->owner_id,
+                    'total_ht' => $historique->total_ht,
+                    'total_ttc' => $historique->total_ttc,
+                ],
+            ];
+        }
+
+        abort(403, 'Payment session expired and could not be recovered.');
     }
 
     public function process(array $data = [])
@@ -127,5 +204,11 @@ class CheckoutService
         ];
         $key = 'detail_invoice' . auth()->user()->id;
         session()->put($key, $historiqueInvoice);
+        $this->cachePendingPayment(
+            $cmd,
+            auth()->user()->id,
+            auth()->user()->stores->pluck('id')->toArray(),
+            $historiqueInvoice
+        );
     }
 }

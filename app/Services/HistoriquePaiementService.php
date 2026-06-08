@@ -8,11 +8,25 @@ class HistoriquePaiementService
 {
     public function create($historiquePaiement, $cmd = null, $status = 0)
     {
-        if (!$cmd) {
-            HistoriquePaiement::where('cmd', $cmd)->update(['status' => $status]);
-        } else {
-            return HistoriquePaiement::create($historiquePaiement);
+        if ($cmd) {
+            $existing = HistoriquePaiement::where('cmd', $cmd)->first();
+            if ($existing) {
+                $existing->update(['status' => $status]);
+
+                return $existing;
+            }
         }
+
+        if (!$historiquePaiement || !is_array($historiquePaiement)) {
+            return null;
+        }
+
+        $historiquePaiement['status'] = $status;
+        if ($cmd) {
+            $historiquePaiement['cmd'] = $cmd;
+        }
+
+        return HistoriquePaiement::create($historiquePaiement);
     }
 
 

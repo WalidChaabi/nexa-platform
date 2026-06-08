@@ -20,8 +20,9 @@ class Kernel extends ConsoleKernel
         // $schedule->command('cross:selling')->everyMinute();
         // $schedule->command('rendez:vous')->everyMinute();
 
-        // $schedule->command('birthday:campaign')->dailyAt('12:11');
-        // $schedule->command('command:name')->dailyAt('12:12')->timezone('Africa/Casablanca');
+        $schedule->command('birthday:campaign')
+            ->dailyAt('12:00')
+            ->timezone('Africa/Casablanca');
         
         // $schedule->command('envoi:unique')->dailyAt('13:18')->timezone('Africa/Casablanca');
         // $schedule->command('cross-selling:campaign')->daily();

@@ -116,7 +116,7 @@ class InvoiceController extends Controller
         $data = $request->all();
         // dd($data);
 
-        $client = Customer::find($request->customer);
+        $client = $this->findAuthorizedStoreScopedModel(Customer::class, $request->customer);
         $use_red_final = $client->points;
         $store = Store::find(auth()->user()->store_id);
         $base = $store->base;
@@ -289,7 +289,7 @@ class InvoiceController extends Controller
     public function returnInvoice(Request $request)
     {
 
-        $invoice = Invoice::find($request->invoice_id);
+        $invoice = $this->findAuthorizedInvoice($request->invoice_id);
         $store = Store::find(auth()->user()->store_id);
         $client = $invoice->customer;
         $base = $store->base;
@@ -368,7 +368,11 @@ class InvoiceController extends Controller
 
     public function restePayer(Request $request)
     {
-        $reste = Invoice::select("*")->where('customer_id', $request->customer_id)->orderBy('invoice_date', 'desc')->first();
+        $reste = Invoice::select("*")
+            ->where('customer_id', $request->customer_id)
+            ->where('store_id', auth()->user()->store_id)
+            ->orderBy('invoice_date', 'desc')
+            ->firstOrFail();
         $reste->update([
             'reste' => $reste['reste'] - $request->reste,
         ]);
@@ -412,14 +416,14 @@ class InvoiceController extends Controller
         $total_ht = $request->total_ht;
 
         $data = $request->all();
-        $client = Customer::find($request->customer);
+        $oldInvoice = $this->findAuthorizedInvoice($id);
+        $client = $this->findAuthorizedStoreScopedModel(Customer::class, $request->customer);
         $use_red_final = $client->points;
         $store = Store::find(auth()->user()->store_id);
         $base = $store->base;
         $base_profit = $store->base_profit;
         $total = ceil($request->total); // i added  *0.9 for reduction
         $to_paye = ceil($request->paid_amount); // i added  *0.9 for reduction
-        $oldInvoice = Invoice::find($id);
         $old_points = InvoiceService::calculatePoints(true, $client, $oldInvoice->total, $oldInvoice->paid_amount, $base_profit, $base); // i added  *0.9 for reduction
         if ($client->points - $old_points <= 0) {
             $client->points = 0;
@@ -472,7 +476,6 @@ class InvoiceController extends Controller
         if (isset($client->email)) {
             //event(new OrderEvent($client, $invoice, $store));
         }
-        $oldInvoice = Invoice::find($id);
         $oldInvoice->status = 4;
         $oldInvoice->save();
 
@@ -517,7 +520,7 @@ class InvoiceController extends Controller
 
     public function checkStore($id)
     {
-        $store = Store::find($id);
+        $store = $this->findAuthorizedStore($id);
         $hasRA = $store->RA = 1;
 
         return response()->json(['hasRA' => $hasRA]);
@@ -525,6 +528,8 @@ class InvoiceController extends Controller
 
     public function recherche(Request $request)
     {
+        $this->authorizeStoreIdFromRequest($request->recherch_store_id);
+
         $stores_id = [];
         $total = 0;
         foreach (auth()->user()->stores as $store) {

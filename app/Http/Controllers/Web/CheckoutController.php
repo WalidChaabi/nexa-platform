@@ -146,7 +146,14 @@ class CheckoutController extends Controller
             'lang' => app()->getLocale(),
         ];
         $key = 'detail_invoice' . auth()->user()->id;
-        Event::dispatch(new DetailInvoice(session()->get($key), null, null));
+        $invoiceDetail = session()->get($key, []);
+        Event::dispatch(new DetailInvoice($invoiceDetail, null, null));
+        $this->checkoutService->cachePendingPayment(
+            $request->cmd,
+            auth()->user()->id,
+            auth()->user()->stores->pluck('id')->toArray(),
+            $invoiceDetail
+        );
         return $this->checkoutService->process($data);
     }
 
@@ -159,11 +166,12 @@ class CheckoutController extends Controller
         $client = new CmiClient($dataSend);
         $status = $client->hash_eq($request['HASH']);
         if ($status && $request->Response === 'Approved') {
-            $key = 'detail_invoice' . auth()->user()->id;
-            Event::dispatch(new DetailInvoice(session()->get($key), $request->oid, 1));
-            Event::dispatch(new PaiedSms(auth()->user()->stores->pluck('id')->toArray()));
-            Event::dispatch(new PaidEmail(auth()->user()->stores->pluck('id')->toArray()));
-            Event::dispatch(new ActivateAccount(auth()->user()->id, auth()->user()->stores->pluck('id')->toArray()));
+            $context = $this->checkoutService->resolvePaymentContext($request->oid);
+            Event::dispatch(new DetailInvoice($context['invoice_detail'], $request->oid, 1));
+            Event::dispatch(new PaiedSms($context['store_ids']));
+            Event::dispatch(new PaidEmail($context['store_ids']));
+            Event::dispatch(new ActivateAccount($context['owner']->id, $context['store_ids']));
+            $this->checkoutService->clearPendingPayment($request->oid);
             return redirect(route('owner.checkout-process-detail', $request));
         }
     }
@@ -171,11 +179,14 @@ class CheckoutController extends Controller
     public function fail(Request $request)
     {
         Log::info("Now we are in fail function", $request->all());
-        $key = 'detail_invoice' . auth()->user()->id;
+        $context = $this->checkoutService->resolvePaymentContext($request->oid);
         $data['ErrCode'] =  $request->get('ErrCode');
         $data['oid'] =  $request->get('oid');
         $data['amount'] =  $request->get('amount');
-        Event::dispatch(new DetailInvoice(session()->get($key), $request->oid, 2));
+        Event::dispatch(new DetailInvoice($context['invoice_detail'], $request->oid, 2));
+        if ($request->oid) {
+            $this->checkoutService->clearPendingPayment($request->oid);
+        }
         return redirect(route('owner.checkout-process-detail', $data));
     }
 
