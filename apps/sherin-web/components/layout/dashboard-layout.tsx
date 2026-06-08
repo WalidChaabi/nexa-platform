@@ -7,14 +7,12 @@ import { Sparkles } from "lucide-react";
 import { AuthLoading } from "@/components/layout/auth-loading";
 import { DashboardAuthProvider } from "@/components/layout/dashboard-auth";
 import { PreferencesToolbar } from "@/components/layout/preferences-toolbar";
-import { UserMenu } from "@/components/layout/user-menu";
+import { SidebarUserFooter } from "@/components/layout/sidebar-user-footer";
 import { useLocale } from "@/components/providers/locale-provider";
-import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -95,13 +93,7 @@ function AppSidebar({
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>
-        <div className="px-2 py-1">
-          <Badge variant="secondary" className="w-full justify-center">
-            {t(`roles.${user.role}`)}
-          </Badge>
-        </div>
-      </SidebarFooter>
+      <SidebarUserFooter user={user} />
       <SidebarRail />
     </Sidebar>
   );
@@ -161,10 +153,7 @@ export function DashboardLayout({
                   ? t("common.storeNumber", { id: user.store_id })
                   : t("common.platform")}
               </p>
-              <div className="flex items-center gap-2">
-                <PreferencesToolbar />
-                <UserMenu user={user} />
-              </div>
+              <PreferencesToolbar />
             </div>
           </header>
           <main className="flex flex-1 flex-col gap-6 p-6 md:p-8">

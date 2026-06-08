@@ -24,6 +24,19 @@ export const en = {
     dark: "Dark",
     system: "System",
   },
+  dataTable: {
+    noResults: "No results.",
+    rowsSelected: "{selected} of {total} row(s) selected.",
+    rowsPerPage: "Rows per page",
+    page: "Page {current} of {total}",
+    goToFirstPage: "Go to first page",
+    goToPreviousPage: "Go to previous page",
+    goToNextPage: "Go to next page",
+    goToLastPage: "Go to last page",
+    sortAsc: "Asc",
+    sortDesc: "Desc",
+    hideColumn: "Hide",
+  },
   nav: {
     dashboard: "Dashboard",
     newInvoice: "New invoice",
@@ -339,6 +352,7 @@ export const en = {
       listDescription: "Owners, contact details, and status.",
       loadError: "Could not load stores.",
       empty: "No stores yet.",
+      filterPlaceholder: "Filter stores by name...",
       statusActive: "Active",
       statusInactive: "Inactive",
       columns: {
