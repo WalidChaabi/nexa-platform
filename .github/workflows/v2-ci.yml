@@ -8,7 +8,6 @@ on:
       - 'apps/sherin-web/**'
       - '.github/workflows/v2-ci.yml'
   pull_request:
-    branches: [main, v2/main]
     paths:
       - 'apps/sherin-api/**'
       - 'apps/sherin-web/**'

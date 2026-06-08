@@ -3,6 +3,7 @@
 namespace App\Integrations\Payment;
 
 use App\Contracts\Integrations\PaymentGateway;
+use App\Support\Logging\IntegrationLogger;
 
 class CmiPaymentGateway implements PaymentGateway
 {
@@ -35,6 +36,11 @@ class CmiPaymentGateway implements PaymentGateway
         $storeKey = (string) config('integrations.cmi.store_key');
         $fields['hash'] = $this->hashVerifier->calculateHash($fields, $storeKey);
 
+        IntegrationLogger::info('payment.initiated', [
+            'order_id' => $request->orderId,
+            'amount' => $request->amount,
+        ]);
+
         return new PaymentRedirect(
             actionUrl: config('integrations.cmi.gateway_url'),
             fields: array_map(fn ($value) => (string) $value, $fields),
@@ -43,7 +49,13 @@ class CmiPaymentGateway implements PaymentGateway
 
     public function verifyCallback(array $payload): PaymentVerification
     {
+        $orderId = isset($payload['oid']) ? (string) $payload['oid'] : null;
+
         if (! isset($payload['HASH']) && ! isset($payload['hash'])) {
+            IntegrationLogger::warning('payment.callback.incomplete', [
+                'order_id' => $orderId,
+            ]);
+
             return new PaymentVerification(
                 status: PaymentVerificationStatus::Incomplete,
                 hashValid: false,
@@ -55,6 +67,11 @@ class CmiPaymentGateway implements PaymentGateway
         $hashValid = $this->hashVerifier->matches($payload, $storeKey);
 
         if (! $hashValid) {
+            IntegrationLogger::warning('payment.callback.hash_mismatch', [
+                'order_id' => $orderId,
+                'proc_return_code' => $payload['ProcReturnCode'] ?? null,
+            ]);
+
             return new PaymentVerification(
                 status: PaymentVerificationStatus::HashMismatch,
                 hashValid: false,
@@ -66,6 +83,11 @@ class CmiPaymentGateway implements PaymentGateway
         $procReturnCode = isset($payload['ProcReturnCode']) ? (string) $payload['ProcReturnCode'] : null;
 
         if ($procReturnCode === '00') {
+            IntegrationLogger::info('payment.callback.post_auth', [
+                'order_id' => $orderId,
+                'proc_return_code' => $procReturnCode,
+            ]);
+
             return new PaymentVerification(
                 status: PaymentVerificationStatus::PostAuth,
                 hashValid: true,
@@ -73,6 +95,11 @@ class CmiPaymentGateway implements PaymentGateway
                 gatewayResponse: 'ACTION=POSTAUTH',
             );
         }
+
+        IntegrationLogger::info('payment.callback.approved', [
+            'order_id' => $orderId,
+            'proc_return_code' => $procReturnCode,
+        ]);
 
         return new PaymentVerification(
             status: PaymentVerificationStatus::Approved,
