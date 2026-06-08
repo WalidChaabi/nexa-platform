@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Concerns\AuthorizesStoreScopedAccess;
 use App\Models\Customer;
 use App\Models\Rdv;
 use App\Services\CustomerService;
@@ -12,6 +13,8 @@ use Tymon\JWTAuth\Claims\Custom;
 
 class RdvController extends Controller
 {
+    use AuthorizesStoreScopedAccess;
+
     protected $rdvService;
     protected $customerService;
     public function __construct()
@@ -22,7 +25,11 @@ class RdvController extends Controller
 
     public function create(Request $request)
     {
-        $storeId =  $this->customerService->getCustomerById($request->rdv['customerId'])->store_id;
+        $customer = $this->findAuthorizedStoreScopedModel(
+            Customer::class,
+            $request->rdv['customerId']
+        );
+        $storeId = $customer->store_id;
         $rdv = [];
         $rdv['title'] = $request->rdv['title'];
         $rdv['customer_id'] = $request->rdv['customerId'];
@@ -58,27 +65,34 @@ class RdvController extends Controller
 
     public function delete(Request $request)
     {
+        $this->findAuthorizedStoreScopedModel(Rdv::class, $request->eventId);
         $this->rdvService->delete($request->eventId);
+
         return $request->all();
     }
 
     public function deleteRdv($id)
     {
+        $this->findAuthorizedStoreScopedModel(Rdv::class, $id);
         $this->rdvService->delete($id);
+
         return back();
     }
 
     public function detail(Request $request)
     {
-        $rdv_id = $request['id'];
-        $rdv = Rdv::where('id',$rdv_id)->select('customer_id','start','id')->first();
-        $customer = Customer::where('id',$rdv['customer_id'])->select('phone','firstname','lastname')->get();
+        $rdv = $this->findAuthorizedStoreScopedModel(Rdv::class, $request['id']);
+        $customer = Customer::where('id', $rdv->customer_id)
+            ->select('phone', 'firstname', 'lastname')
+            ->get();
 
-        return ['customer'=>$customer,'rdv'=>$rdv];
+        return ['customer' => $customer, 'rdv' => $rdv->only(['customer_id', 'start', 'id'])];
     }
 
     public function update(Request $request)
     {
+        $this->findAuthorizedStoreScopedModel(Rdv::class, $request->eventId);
+
         return $this->rdvService->updateStartDate($request->eventId, $request->start);
     }
 }

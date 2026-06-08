@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Concerns\AuthorizesStoreScopedAccess;
 use App\Models\Store;
 use App\Models\Product;
 use App\Models\ProductQuantite;
@@ -17,6 +18,8 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
 {
+    use AuthorizesStoreScopedAccess;
+
     protected $productService;
 
     public function __construct()
@@ -49,7 +52,7 @@ class ProductController extends Controller
 
     public function getPrice(Request $request)
     {
-        return Product::find($request->productId);
+        return $this->findAuthorizedStoreScopedModel(Product::class, $request->productId);
     }
     
     public function getProductByCatagorei(Request $request, $id)
@@ -76,6 +79,7 @@ class ProductController extends Controller
             'promotion_price' => '',
             'quantite' => '',
         ]);
+        $this->authorizeStoreIdFromRequest($request->store_id);
         $product = Product::create($request->all());
         if ($request->hasFile('image')) {
             $request->validate(['image' => SecureImageUpload::rules()]);
@@ -105,6 +109,7 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        $this->authorizeStoreIdFromRequest($request->store_id);
         $action = 'créer';
         $product = Product::create([
             'store_id' => $request->store_id,
@@ -141,7 +146,8 @@ class ProductController extends Controller
     public function addQuantite(Request $request)
     {
         // dd($request);
-        $product = Product::findOrFail($request->product_id);
+        $product = $this->findAuthorizedStoreScopedModel(Product::class, $request->product_id);
+        $this->authorizeStoreIdFromRequest($request->store_id);
         $quantite = (int) $request->quantite; // Convert to integer
         $sup_Qt = (int) $request->sup_Qt; // Convert to integer
         
@@ -159,8 +165,8 @@ class ProductController extends Controller
     }
     public function changeQuantite(Request $request)
     {
-        $oldProduct = Product::findOrFail($request->productId);
-        $product = Product::findOrFail($request->productId);
+        $oldProduct = $this->findAuthorizedStoreScopedModel(Product::class, $request->productId);
+        $product = $oldProduct;
         $product->update(['quantite' => $request->quantite]);
         $date = Carbon::now()->format('y-m-d H:i:s');
         $userName = (auth()->user()->firstname || auth()->user()->lastname) 
@@ -179,16 +185,17 @@ class ProductController extends Controller
 
     public function edit($id)
     {
-        $product = Product::findOrFail($id);
+        $product = $this->findAuthorizedStoreScopedModel(Product::class, $id);
         $stores = Store::where('status', '=', 1)->get();
+
         return view('admin.products.edit', compact('product', 'stores'));
     }
 
     public function update(Request $request, $id)
     {
         $action = 'changé';
-        $oldProduct = Product::findOrFail($id);
-        $product = Product::findOrFail($id);
+        $oldProduct = $this->findAuthorizedStoreScopedModel(Product::class, $id);
+        $product = $oldProduct;
         $updatedProduct = $request->all();
         $product->update($updatedProduct);
 
@@ -239,6 +246,7 @@ class ProductController extends Controller
             'products' => 'required|file|mimes:xlsx,xls,csv|max:10240',
             'store_id' => 'required|integer',
         ]);
+        $this->authorizeStoreIdFromRequest($request->store_id);
 
         $path1 = $request->file('products')->store('temp');
         $path = storage_path('app') . '/' . $path1;

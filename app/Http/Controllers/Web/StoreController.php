@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Concerns\AuthorizesStoreScopedAccess;
 use App\Models\Activity;
 use App\Models\Campaign;
 use App\Models\Store;
@@ -15,6 +16,8 @@ use Illuminate\Support\Carbon;
 
 class StoreController extends Controller
 {
+    use AuthorizesStoreScopedAccess;
+
     protected $productService;
 
 
@@ -47,50 +50,50 @@ class StoreController extends Controller
 
     public function QG(Request $request)
     {
-        $store = Store::find($request->store_id);
+        $store = $this->findAuthorizedStore($request->store_id);
         $store->update(['QG' => $request->QG]); 
     }
     public function POS(Request $request)
     {
-        $store = Store::find($request->store_id);
+        $store = $this->findAuthorizedStore($request->store_id);
         $store->update(['POS' => $request->POS]);
     }
     public function reste_Payer(Request $request)
     {
-        $store = Store::find($request->store_id);
+        $store = $this->findAuthorizedStore($request->store_id);
         $store->update(['reste' => $request->reste]); 
     }
 
     public function rendez_vous_Payer(Request $request)
     {
-        $store = Store::find($request->store_id);
+        $store = $this->findAuthorizedStore($request->store_id);
         $store->update(['rendez_vous' => $request->rendez_vous]);
     }
 
     public function praticien_1_Payer(Request $request)
     {
-        $store = Store::find($request->store_id);
+        $store = $this->findAuthorizedStore($request->store_id);
         $store->update(['praticien_1' => $request->praticien_1]); 
     }
     public function praticien_2_Payer(Request $request)
     {
-        $store = Store::find($request->store_id);
+        $store = $this->findAuthorizedStore($request->store_id);
         $store->update(['praticien_2' => $request->praticien_2]); 
     }
 
     public function Ra(Request $request)
     {
-        $store = Store::find($request->store_id);
+        $store = $this->findAuthorizedStore($request->store_id);
         $store->update(['RA' => $request->RA]); 
     }
     public function Anniv(Request $request)
     {
-        $store = Store::find($request->store_id);
+        $store = $this->findAuthorizedStore($request->store_id);
         $store->update(['Anniv' => $request->Anniv]); 
     }
     public function Table(Request $request)
     {
-        $store = Store::find($request->store_id);
+        $store = $this->findAuthorizedStore($request->store_id);
         if($store->POS ==1 ){
             $store->update(['Table' => $request->Table]);
         }else{
@@ -165,23 +168,25 @@ class StoreController extends Controller
 
     public function edit($id)
     {
+        $store = $this->findAuthorizedStore($id);
+
         if (auth()->user()->is_admin == 1) {
             $owners = User::where('is_admin', '=', 2)->where('is_active', '=', 1)->get();
             $activities = Activity::all();
-            $store = Store::find($id);
+
             return view('admin.stores.edit', compact('store', 'activities', 'owners'));
-        } else {
-            $activities = Activity::all();
-            $store = Store::find($id);
-            if (auth()->user()->id != $store->user_id)
-                return abort(404);
-            return view('owner.stores.edit', compact('store', 'activities'));
         }
+
+        $activities = Activity::all();
+
+        return view('owner.stores.edit', compact('store', 'activities'));
     }
 
 
     public function update(Request $request, $id)
     {
+        $this->findAuthorizedStore($id);
+
         if (auth()->user()->is_admin == 1) {
             $owner_id = $request->owner_id;
         } elseif (auth()->user()->is_admin == 2) {
@@ -232,10 +237,15 @@ class StoreController extends Controller
 
     public function destroy($id)
     {
-        $store = Store::findOrFail($id);
+        $store = $this->findAuthorizedStore($id);
         $store->status = 0;
         $store->save();
-        return redirect()->route('admin.stores');
+
+        if (auth()->user()->is_admin == 1) {
+            return redirect()->route('admin.stores');
+        }
+
+        return redirect()->route('owner.stores');
     }
     /**
      * Remove the specified resource from storage.
@@ -245,7 +255,7 @@ class StoreController extends Controller
      */
     public function activate($id)
     {
-        $store = Store::findOrFail($id);
+        $store = $this->findAuthorizedStore($id);
         $store->status = 1;
         $store->save();
         if (auth()->user()->is_admin == 1) {
@@ -257,6 +267,7 @@ class StoreController extends Controller
 
     public function getProductsStore(Request $request)
     {
+        $this->authorizeStoreIdFromRequest($request->store_id);
         $products = $this->productService->getProductsForCrossSelling($request->store_id);
         $returnHTML = view('admin.cross-selling.row', compact('products'))->render();
         return response()->json(array('success' => true, 'html' => $returnHTML));

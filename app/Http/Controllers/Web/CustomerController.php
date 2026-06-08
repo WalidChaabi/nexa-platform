@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Concerns\AuthorizesStoreScopedAccess;
 use App\Models\CampaignDetail;
 use App\Models\Customer;
 use App\Services\CustomerService;
@@ -19,8 +20,8 @@ use Illuminate\Support\Facades\DB;
 
 class CustomerController extends Controller
 {
-    
-    
+    use AuthorizesStoreScopedAccess;
+
     protected $campaignService;
     
     public function __construct(CampaignService $campaignService)
@@ -35,6 +36,8 @@ class CustomerController extends Controller
             // 'phone' => 'required|regex:/(212)[0-9]{9}/',
             'sexe'  => 'required|not_in:-1'
         ]);
+
+        $this->authorizeStoreIdFromRequest($request->store_id);
 
         $customer=Customer::create([
             'firstname'=>$request->firstname,
@@ -143,8 +146,8 @@ class CustomerController extends Controller
      */
     public function getCustomerPoints(Request $request)
     {
-        $customer=Customer::find($request->customer_id);
-        $store=Store::find(auth()->user()->store_id);
+        $customer = $this->findAuthorizedStoreScopedModel(Customer::class, $request->customer_id);
+        $store = Store::findOrFail($customer->store_id);
         $facture = Invoice::where('customer_id', $request->customer_id)->get();
         $total = $facture->reduce(function ($carry, $item) {
             return $carry + $item->total;
@@ -168,14 +171,15 @@ class CustomerController extends Controller
   
     public function edit($id)
     {
-        $customer=Customer::find($id);
-        return view('employe.customers.edit',compact('customer'));
+        $customer = $this->findAuthorizedStoreScopedModel(Customer::class, $id);
+
+        return view('employe.customers.edit', compact('customer'));
     }
 
     
     public function update(Request $request, $id)
     {
-        $customer=Customer::findOrFail($id);
+        $customer = $this->findAuthorizedStoreScopedModel(Customer::class, $id);
         $customer->firstname=$request->firstname;
         $customer->lastname=$request->lastname;
         $customer->sexe=$request->sexe;
