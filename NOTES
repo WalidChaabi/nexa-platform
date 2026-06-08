@@ -1,0 +1,34 @@
+//QUERYES
+        // $maxPoints = DB::table('customers')
+        // ->join('stores', 'customers.store_id', '=', 'stores.id')
+        // ->where('customers.store_id', '=', '1')
+        // ->max('customers.points');
+
+        // $ageMin = DB::table('customers')
+        // ->join('stores', 'customers.store_id', '=', 'stores.id')
+        // ->where('customers.store_id', '=', '1')
+        // ->min('customers.birth');
+
+        // $ageMax = DB::table('customers')
+        // ->join('stores', 'customers.store_id', '=', 'stores.id')
+        // ->where('customers.store_id', '=', '1')
+        // ->max('customers.birth');
+        
+        // $last_visit = DB::table('invoices')
+        // ->join('customers', 'invoices.customer_id', '=', 'customers.id')
+        // ->join('stores', 'customers.store_id', '=', 'stores.id')
+        // ->where('customers.store_id', '=', '1')
+        // ->max('invoices.invoice_date');
+
+heure start and end
+        // ->whereBetween('invoices.invoice_date', [
+//     Carbon::parse($filter->heure_start)->format('H:i:s'), 
+//     Carbon::parse($filter->heure_end)->format('H:i:s')
+// ])
+SQL QUERYESSELECT 
+c.*
+FROM sherin_test.customers c
+INNER JOIN sherin_test.campaign_details cd ON cd.customer_id = c.id 
+WHERE c.birth IS NOT NULL
+AND MONTH(c.birth) = MONTH(NOW() + INTERVAL 1 DAY)
+AND DAY(c.birth) = DAY(NOW() + INTERVAL 1 DAY);

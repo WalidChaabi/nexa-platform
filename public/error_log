@@ -1,0 +1,114 @@
+[04-Jun-2021 19:25:56 Africa/Casablanca] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/sherinma/public_html/app/Services/InvoiceService.php on line 3
+[05-Sep-2021 12:55:07 Africa/Casablanca] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 30351424 bytes) in /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php on line 50
+[15-Oct-2021 18:38:44 Africa/Casablanca] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 114367592 bytes) in /home/sherinma/public_html/vendor/dompdf/dompdf/lib/Cpdf.php on line 5609
+[15-Oct-2021 18:39:05 Africa/Casablanca] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 114367592 bytes) in /home/sherinma/public_html/vendor/dompdf/dompdf/lib/Cpdf.php on line 5609
+[15-Oct-2021 18:39:12 Africa/Casablanca] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 114367592 bytes) in /home/sherinma/public_html/vendor/dompdf/dompdf/lib/Cpdf.php on line 5609
+[15-Oct-2021 18:40:23 Africa/Casablanca] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 114367592 bytes) in /home/sherinma/public_html/vendor/dompdf/dompdf/lib/Cpdf.php on line 5609
+[15-Oct-2021 18:50:00 Africa/Casablanca] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 114367592 bytes) in /home/sherinma/public_html/vendor/dompdf/dompdf/lib/Cpdf.php on line 5609
+[15-Oct-2021 18:50:20 Africa/Casablanca] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 114367592 bytes) in /home/sherinma/public_html/vendor/dompdf/dompdf/lib/Cpdf.php on line 5609
+[15-Oct-2021 18:57:22 Africa/Casablanca] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 114367592 bytes) in /home/sherinma/public_html/vendor/dompdf/dompdf/lib/Cpdf.php on line 5609
+[15-Oct-2021 18:58:43 Africa/Casablanca] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 114367592 bytes) in /home/sherinma/public_html/vendor/dompdf/dompdf/lib/Cpdf.php on line 5609
+[16-Oct-2021 23:02:23 Africa/Casablanca] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 114367592 bytes) in /home/sherinma/public_html/vendor/dompdf/dompdf/lib/Cpdf.php on line 5609
+[16-Oct-2021 23:02:50 Africa/Casablanca] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 114367592 bytes) in /home/sherinma/public_html/vendor/dompdf/dompdf/lib/Cpdf.php on line 5609
+[16-Oct-2021 23:06:21 Africa/Casablanca] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 114367592 bytes) in /home/sherinma/public_html/vendor/dompdf/dompdf/lib/Cpdf.php on line 5609
+[16-Oct-2021 23:06:31 Africa/Casablanca] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 114367592 bytes) in /home/sherinma/public_html/vendor/dompdf/dompdf/lib/Cpdf.php on line 5609
+[16-Oct-2021 23:09:41 Africa/Casablanca] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 114367592 bytes) in /home/sherinma/public_html/vendor/dompdf/dompdf/lib/Cpdf.php on line 5609
+[09-Nov-2021 21:11:54 Africa/Casablanca] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 48794344 bytes) in /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/View/Concerns/ManagesLayouts.php on line 94
+[21-Nov-2021 23:33:45 Africa/Casablanca] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 38453904 bytes) in /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php on line 50
+[21-Nov-2021 23:34:04 Africa/Casablanca] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 38453904 bytes) in /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php on line 50
+[21-Nov-2021 23:34:25 Africa/Casablanca] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 38453896 bytes) in /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php on line 50
+[21-Nov-2021 23:34:39 Africa/Casablanca] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 38453896 bytes) in /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php on line 50
+[20-Dec-2021 13:10:57 Africa/Casablanca] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 39862272 bytes) in /home/sherinma/public_html/storage/framework/views/da477516abdae72430c8a2ea7a807123f0647c0f.php on line 187
+[16-Feb-2022 18:17:35 Africa/Casablanca] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 16384 bytes) in /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Database/Connection.php on line 330
+[26-Aug-2022 21:33:11 Africa/Casablanca] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 20480 bytes) in /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1036
+[26-Aug-2022 21:34:02 Africa/Casablanca] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 20480 bytes) in /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1032
+[07-Sep-2022 11:46:16 Africa/Casablanca] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 46040944 bytes) in /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/View/Concerns/ManagesLayouts.php on line 94
+[07-Sep-2022 11:46:31 Africa/Casablanca] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 46040944 bytes) in /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/View/Concerns/ManagesLayouts.php on line 94
+[07-Sep-2022 11:47:07 Africa/Casablanca] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 46040944 bytes) in /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/View/Concerns/ManagesLayouts.php on line 94
+[07-Sep-2022 11:47:40 Africa/Casablanca] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 46040944 bytes) in /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/View/Concerns/ManagesLayouts.php on line 94
+[07-Sep-2022 11:48:07 Africa/Casablanca] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 46040944 bytes) in /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/View/Concerns/ManagesLayouts.php on line 94
+[24-Nov-2022 15:01:01 Africa/Casablanca] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 20480 bytes) in /home/sherinma/public_html/storage/framework/views/da477516abdae72430c8a2ea7a807123f0647c0f.php on line 170
+[30-Nov-2022 14:27:07 UTC] PHP Deprecated:  Method ReflectionParameter::getClass() is deprecated in /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 838
+[30-Nov-2022 14:27:07 UTC] PHP Deprecated:  Method ReflectionParameter::getClass() is deprecated in /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 912
+[30-Nov-2022 14:27:07 UTC] PHP Deprecated:  Method ReflectionParameter::getClass() is deprecated in /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 838
+[30-Nov-2022 14:27:07 UTC] PHP Deprecated:  Method ReflectionParameter::getClass() is deprecated in /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 912
+[30-Nov-2022 15:27:07 Africa/Casablanca] PHP Deprecated:  Required parameter $key follows optional parameter $data in /home/sherinma/public_html/app/Helpers/Helper.php on line 216
+[30-Nov-2022 15:27:07 Africa/Casablanca] PHP Fatal error:  Uncaught ErrorException: Method ReflectionParameter::getClass() is deprecated in /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php:838
+Stack trace:
+#0 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php(838): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError(8192, 'Method Reflecti...', '/home/sherinma/...', 838)
+#1 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php(807): Illuminate\Container\Container->resolveDependencies(Array)
+#2 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php(658): Illuminate\Container\Container->build('App\\Exceptions\\...')
+#3 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php(609): Illuminate\Container\Container->resolve('App\\Exceptions\\...', Array)
+#4 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(759): Illuminate\Container\Container->make('App\\Exceptions\\...', Array)
+#5 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php(264): Illuminate\Foundation\Application->make('App\\Exceptions\\...', Array)
+#6 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php(776): Illuminate\Container\Container->Illuminate\Container\{closure}(Object(Illuminate\Foundation\Application), Array)
+#7 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php(658): Illuminate\Container\Container->build(Object(Closure))
+#8 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php(609): Illuminate\Container\Container->resolve('Illuminate\\Cont...', Array)
+#9 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(759): Illuminate\Container\Container->make('Illuminate\\Cont...', Array)
+#10 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(159): Illuminate\Foundation\Application->make('Illuminate\\Cont...')
+#11 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(112): Illuminate\Foundation\Bootstrap\HandleExceptions->getExceptionHandler()
+#12 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(89): Illuminate\Foundation\Bootstrap\HandleExceptions->renderHttpResponse(Object(ErrorException))
+#13 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->handleException(Object(ErrorException))
+#14 {main}
+  thrown in /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 838
+[30-Nov-2022 15:27:07 Africa/Casablanca] PHP Fatal error:  Uncaught ErrorException: Method ReflectionParameter::getClass() is deprecated in /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php:838
+Stack trace:
+#0 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php(838): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError(8192, 'Method Reflecti...', '/home/sherinma/...', 838)
+#1 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php(807): Illuminate\Container\Container->resolveDependencies(Array)
+#2 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php(658): Illuminate\Container\Container->build('App\\Exceptions\\...')
+#3 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php(609): Illuminate\Container\Container->resolve('App\\Exceptions\\...', Array)
+#4 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(759): Illuminate\Container\Container->make('App\\Exceptions\\...', Array)
+#5 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php(264): Illuminate\Foundation\Application->make('App\\Exceptions\\...', Array)
+#6 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php(776): Illuminate\Container\Container->Illuminate\Container\{closure}(Object(Illuminate\Foundation\Application), Array)
+#7 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php(658): Illuminate\Container\Container->build(Object(Closure))
+#8 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php(609): Illuminate\Container\Container->resolve('Illuminate\\Cont...', Array)
+#9 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(759): Illuminate\Container\Container->make('Illuminate\\Cont...', Array)
+#10 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(159): Illuminate\Foundation\Application->make('Illuminate\\Cont...')
+#11 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(112): Illuminate\Foundation\Bootstrap\HandleExceptions->getExceptionHandler()
+#12 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(89): Illuminate\Foundation\Bootstrap\HandleExceptions->renderHttpResponse(Object(ErrorException))
+#13 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(123): Illuminate\Foundation\Bootstrap\HandleExceptions->handleException(Object(ErrorException))
+#14 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->handleShutdown()
+#15 {main}
+  thrown in /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 838
+[30-Nov-2022 14:27:10 UTC] PHP Deprecated:  Method ReflectionParameter::getClass() is deprecated in /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 838
+[30-Nov-2022 14:27:10 UTC] PHP Deprecated:  Method ReflectionParameter::getClass() is deprecated in /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 912
+[30-Nov-2022 14:27:10 UTC] PHP Deprecated:  Method ReflectionParameter::getClass() is deprecated in /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 838
+[30-Nov-2022 14:27:10 UTC] PHP Deprecated:  Method ReflectionParameter::getClass() is deprecated in /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 912
+[30-Nov-2022 15:27:11 Africa/Casablanca] PHP Deprecated:  Required parameter $key follows optional parameter $data in /home/sherinma/public_html/app/Helpers/Helper.php on line 216
+[30-Nov-2022 15:27:11 Africa/Casablanca] PHP Fatal error:  Uncaught ErrorException: Method ReflectionParameter::getClass() is deprecated in /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php:838
+Stack trace:
+#0 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php(838): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError(8192, 'Method Reflecti...', '/home/sherinma/...', 838)
+#1 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php(807): Illuminate\Container\Container->resolveDependencies(Array)
+#2 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php(658): Illuminate\Container\Container->build('App\\Exceptions\\...')
+#3 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php(609): Illuminate\Container\Container->resolve('App\\Exceptions\\...', Array)
+#4 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(759): Illuminate\Container\Container->make('App\\Exceptions\\...', Array)
+#5 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php(264): Illuminate\Foundation\Application->make('App\\Exceptions\\...', Array)
+#6 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php(776): Illuminate\Container\Container->Illuminate\Container\{closure}(Object(Illuminate\Foundation\Application), Array)
+#7 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php(658): Illuminate\Container\Container->build(Object(Closure))
+#8 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php(609): Illuminate\Container\Container->resolve('Illuminate\\Cont...', Array)
+#9 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(759): Illuminate\Container\Container->make('Illuminate\\Cont...', Array)
+#10 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(159): Illuminate\Foundation\Application->make('Illuminate\\Cont...')
+#11 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(112): Illuminate\Foundation\Bootstrap\HandleExceptions->getExceptionHandler()
+#12 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(89): Illuminate\Foundation\Bootstrap\HandleExceptions->renderHttpResponse(Object(ErrorException))
+#13 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->handleException(Object(ErrorException))
+#14 {main}
+  thrown in /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 838
+[30-Nov-2022 15:27:11 Africa/Casablanca] PHP Fatal error:  Uncaught ErrorException: Method ReflectionParameter::getClass() is deprecated in /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php:838
+Stack trace:
+#0 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php(838): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError(8192, 'Method Reflecti...', '/home/sherinma/...', 838)
+#1 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php(807): Illuminate\Container\Container->resolveDependencies(Array)
+#2 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php(658): Illuminate\Container\Container->build('App\\Exceptions\\...')
+#3 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php(609): Illuminate\Container\Container->resolve('App\\Exceptions\\...', Array)
+#4 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(759): Illuminate\Container\Container->make('App\\Exceptions\\...', Array)
+#5 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php(264): Illuminate\Foundation\Application->make('App\\Exceptions\\...', Array)
+#6 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php(776): Illuminate\Container\Container->Illuminate\Container\{closure}(Object(Illuminate\Foundation\Application), Array)
+#7 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php(658): Illuminate\Container\Container->build(Object(Closure))
+#8 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php(609): Illuminate\Container\Container->resolve('Illuminate\\Cont...', Array)
+#9 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(759): Illuminate\Container\Container->make('Illuminate\\Cont...', Array)
+#10 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(159): Illuminate\Foundation\Application->make('Illuminate\\Cont...')
+#11 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(112): Illuminate\Foundation\Bootstrap\HandleExceptions->getExceptionHandler()
+#12 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(89): Illuminate\Foundation\Bootstrap\HandleExceptions->renderHttpResponse(Object(ErrorException))
+#13 /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(123): Illuminate\Foundation\Bootstrap\HandleExceptions->handleException(Object(ErrorException))
+#14 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->handleShutdown()
+#15 {main}
+  thrown in /home/sherinma/public_html/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 838
