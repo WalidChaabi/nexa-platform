@@ -26,5 +26,7 @@ class DatabaseSeeder extends Seeder
             'lastname' => 'Employer',
             'email' => 'employer@sherin.test',
         ]);
+
+        $this->call(SherinDemoSeeder::class);
     }
 }
