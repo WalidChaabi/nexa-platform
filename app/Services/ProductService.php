@@ -93,18 +93,24 @@ class ProductService
     {
         return Product::where('store_id', $store_id)->get();
     }
-    public function Message($action,$dataProduct,$changes){
-        if($action == 'créer'){
-            $textStore = 'l\'utilisateur <span style="color: blue;">[userName]</span> a <span style="color: green;">[action]</span> the product [productName] in [date]';
-            $text = str_replace(['[userName]','[action]','[productName]','[date]'] ,
-                [$dataProduct['userName'],$action,$dataProduct['productName'],$dataProduct['date']], $textStore);
+    public function Message($action, $dataProduct, $changes)
+    {
+        $userName = e($dataProduct['userName']);
+        $productName = e($dataProduct['productName']);
+        $actionLabel = e($action);
+
+        if ($action === 'créer') {
+            $date = e($dataProduct['date']);
+
+            return "l'utilisateur <span style=\"color: blue;\">{$userName}</span> a <span style=\"color: green;\">{$actionLabel}</span> the product {$productName} in {$date}";
         }
-        else {
-            $textUpdate = 'the user [userName] had [action] the product [productName]';
-            $text = str_replace(['[userName]','[action]','[productName]'] ,
-                [$dataProduct['userName'],$action,$dataProduct['productName']], $textUpdate);
-            $text = $text . implode(", ", $changes);
+
+        $text = "the user {$userName} had {$actionLabel} the product {$productName}";
+
+        if (!empty($changes)) {
+            $text .= implode(', ', $changes);
         }
+
         return $text;
     }
 }

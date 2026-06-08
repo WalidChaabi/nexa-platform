@@ -249,6 +249,18 @@
 
         const employeRdvDeleteUrl = @json(url('/employe/rdv'));
 
+        function escapeHtml(text) {
+            if (text === null || text === undefined) {
+                return '';
+            }
+            return String(text)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
         function deleteRdvById(id, token, onSuccess) {
             if (!confirm('Vous voulez vraiment supprimer ce rendez-vous ?')) {
                 return;
@@ -336,9 +348,9 @@
                                     var customerInfo = response.customer[0];
                                     var rdvInfo = response.rdv;
 
-                                    var content = '<p>Client : ' + customerInfo.firstname + ' ' + customerInfo.lastname +'</p>';
-                                    content += '<p>Télephone : ' + customerInfo.phone +'</p>';
-                                    content += '<p>Date du rendez-vous : ' + rdvInfo.start +'</p>';
+                                    var content = '<p>Client : ' + escapeHtml(customerInfo.firstname) + ' ' + escapeHtml(customerInfo.lastname) + '</p>';
+                                    content += '<p>Télephone : ' + escapeHtml(customerInfo.phone) + '</p>';
+                                    content += '<p>Date du rendez-vous : ' + escapeHtml(rdvInfo.start) + '</p>';
 
 									var buttons ='<button class="btn btn-primary" type="button" data-dismiss="modal">Fermer</button>'
 									buttons +='<button type="button" class="btn btn-danger" id="rdv-delete-btn" data-rdv-id="'+rdvInfo.id+'">Supprimer</button>';
