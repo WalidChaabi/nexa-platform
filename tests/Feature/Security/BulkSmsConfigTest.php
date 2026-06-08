@@ -8,12 +8,13 @@ class BulkSmsConfigTest extends TestCase
 {
     public function test_bulksms_token_is_not_hardcoded_in_services()
     {
+        $root = dirname(__DIR__, 3);
         $paths = [
-            base_path('app/Services/CampaignService.php'),
-            base_path('app/Services/UniqueService.php'),
-            base_path('app/Services/RendezVousService.php'),
-            base_path('app/Services/SmsService.php'),
-            base_path('app/Services/BulkSmsClient.php'),
+            $root . '/app/Services/CampaignService.php',
+            $root . '/app/Services/UniqueService.php',
+            $root . '/app/Services/RendezVousService.php',
+            $root . '/app/Services/SmsService.php',
+            $root . '/app/Services/BulkSmsClient.php',
         ];
 
         foreach ($paths as $path) {
@@ -25,7 +26,7 @@ class BulkSmsConfigTest extends TestCase
 
     public function test_services_config_defines_bulksms_block()
     {
-        $contents = file_get_contents(base_path('config/services.php'));
+        $contents = file_get_contents(dirname(__DIR__, 3) . '/config/services.php');
 
         $this->assertContains("'bulksms'", $contents);
         $this->assertContains('BULKSMS_TOKEN', $contents);

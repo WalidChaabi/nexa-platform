@@ -9,7 +9,7 @@ class CampaignDetailSqlInjectionTest extends TestCase
     public function test_campaign_detail_controller_does_not_concatenate_store_id_into_raw_sql()
     {
         $contents = file_get_contents(
-            base_path('app/Http/Controllers/Web/CampaignDetailController.php')
+            dirname(__DIR__, 3) . '/app/Http/Controllers/Web/CampaignDetailController.php'
         );
 
         $this->assertNotRegExp(
