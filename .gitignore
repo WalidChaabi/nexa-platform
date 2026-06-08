@@ -1,14 +1,35 @@
-/node_modules
-/public/hot
-/public/storage
-/storage/*.key
-/vendor
+# OS / IDE
 /.idea
 /.vscode
-/.vagrant
-Homestead.json
-Homestead.yaml
-npm-debug.log
-yarn-error.log
+.DS_Store
+Thumbs.db
+
+# Env secrets (all apps)
 .env
-.phpunit.result.cache
+.env.local
+.env.*.local
+!.env.example
+
+# Legacy V1
+legacy/v1/vendor
+legacy/v1/node_modules
+legacy/v1/public/hot
+legacy/v1/public/storage
+legacy/v1/storage/*.key
+legacy/v1/.phpunit.result.cache
+
+# V2 API
+apps/sherin-api/vendor
+apps/sherin-api/.env
+apps/sherin-api/storage/*.key
+apps/sherin-api/.phpunit.result.cache
+apps/sherin-api/database/*.sqlite
+
+# V2 Web
+apps/sherin-web/node_modules
+apps/sherin-web/.next
+apps/sherin-web/out
+
+# Logs
+npm-debug.log*
+yarn-error.log*

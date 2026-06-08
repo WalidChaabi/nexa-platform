@@ -27,9 +27,9 @@ This folder is the single source of truth for how we evolve Sherin from a legacy
 ┌─────────────────────────────────────────────────────────────────┐
 │  V1 (main branch)          │  V2 (v2/* branches → v2/main)    │
 │  ─────────────────         │  ────────────────────────────    │
-│  Security triage           │  Laravel 11 + PHP 8.3              │
+│  Security triage           │  Laravel 11 API + Next.js 16 web   │
 │  Critical bug fixes only   │  Port domain services + schema     │
-│  No new features           │  Policies, queues, new UI          │
+│  No new features           │  Policies, queues, shadcn UI       │
 │  ~2–4 weeks active work    │  ~4–6 months to cutover            │
 └─────────────────────────────────────────────────────────────────┘
                               │
@@ -85,3 +85,4 @@ See [Git, PR & Release Workflow](./git-pr-and-release-workflow.md) for full conv
 | 2026-06-08 | Initial improvement program documentation created |
 | 2026-06-08 | **V1 Phase 0 started** — security fixes implemented (see commits on `main`) |
 | 2026-06-08 | **V1 code-complete** — stacked PRs #1–#7; ops merge + rotation pending |
+| 2026-06-08 | **V2 UI locked:** Next.js + Laravel API ([ADR-002](../adr/002-nextjs-api-first-ui.md)); mobile after cutover |

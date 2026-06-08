@@ -24,6 +24,6 @@ Document maintained during V1 maintenance freeze. Items here are **accepted** un
 - [ ] Production secrets rotated (`docs/runbooks/secret-rotation.md`)
 - [ ] POS tokens migrated (`docs/runbooks/pos-token-migration.md`)
 - [ ] Server cron for `schedule:run` enabled
-- [ ] V2 bootstrap started
+- [x] V2 bootstrap started (`legacy/v1`, `apps/sherin-api`, `apps/sherin-web`)
 
 Update this file when closing a limitation in V2.

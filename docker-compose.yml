@@ -1,7 +1,7 @@
 version: "3.8"
 
+# Shared MySQL for legacy/v1 and apps/sherin-api local development.
 services:
-  # Database Server
   database:
     image: mysql:8.0
     ports:
