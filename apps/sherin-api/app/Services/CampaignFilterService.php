@@ -54,6 +54,33 @@ class CampaignFilterService
     }
 
     /**
+     * Customers whose birthday matches the V1 scheduler window for a campaign message.
+     *
+     * @return Builder<Customer>
+     */
+    public function birthdayAudienceQuery(
+        Filter $filter,
+        int $storeId,
+        Carbon $reference,
+        int $dateStartOffset,
+    ): Builder {
+        $query = Customer::query()
+            ->where('store_id', $storeId)
+            ->where('points', '<=', $filter->points)
+            ->whereNotNull('birth');
+
+        $this->applySexeFilter($query, (string) $filter->sexe);
+        $this->applyAgeFilter($query, (int) $filter->age_min, (int) $filter->age_max);
+
+        $targetMonth = $reference->copy()->addDay()->month;
+        $targetDay = $reference->copy()->addDay($dateStartOffset)->day;
+
+        return $query
+            ->whereMonth('birth', $targetMonth)
+            ->whereDay('birth', $targetDay);
+    }
+
+    /**
      * @return Builder<Customer>
      */
     public function audienceQuery(Filter $filter, int $storeId): Builder

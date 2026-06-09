@@ -161,9 +161,9 @@ class PaymentCheckoutService
                 ->whereIn('store_id', $storeIds)
                 ->where('status', 0)
                 ->count(),
-            'sms_normal' => (int) DB::table('campaign_historiques')
+            'sms_normal' => (int) DB::table('messages_customers')
                 ->whereIn('store_id', $storeIds)
-                ->where('is_payed', 0)
+                ->where('payed', 0)
                 ->count(),
             'sms_cross_selling' => (int) DB::table('sms_cross_selling')
                 ->whereIn('store_id', $storeIds)
