@@ -114,6 +114,41 @@ export async function apiPut<T>(
   return payload as T;
 }
 
+export async function apiPostForm<T>(
+  path: string,
+  formData: FormData,
+  init?: RequestInit,
+): Promise<T> {
+  const xsrfToken = readXsrfToken();
+
+  const response = await fetch(`${API_BASE}${path}`, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      Accept: "application/json",
+      ...(xsrfToken ? { "X-XSRF-TOKEN": xsrfToken } : {}),
+      ...(init?.headers ?? {}),
+    },
+    body: formData,
+    ...init,
+  });
+
+  const payload = await response.json().catch(() => ({}));
+
+  if (!response.ok) {
+    const message =
+      typeof payload === "object" &&
+      payload !== null &&
+      "message" in payload &&
+      typeof payload.message === "string"
+        ? payload.message
+        : `API ${response.status}: ${path}`;
+    throw new Error(message);
+  }
+
+  return payload as T;
+}
+
 export async function apiDelete(
   path: string,
   init?: RequestInit,
