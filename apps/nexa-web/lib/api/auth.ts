@@ -1,22 +1,8 @@
-import {
-  apiGet,
-  apiPost,
-  ensureCsrfCookie,
-  getServerApiBaseUrl,
-} from "@/lib/api/client";
+import { apiGet, apiPost, ensureCsrfCookie } from "@/lib/api/client";
+import type { AuthUser } from "@/lib/auth/types";
 
-export type AuthUser = {
-  id: number;
-  email: string;
-  firstname: string;
-  lastname: string;
-  full_name: string;
-  phone: string | null;
-  store_id: number | null;
-  role: "admin" | "owner" | "employer";
-  is_active: boolean;
-  dashboard_path: string;
-};
+export type { AuthUser } from "@/lib/auth/types";
+export { fetchCurrentUserOnServer } from "@/lib/auth/server";
 
 type AuthResponse = {
   user: AuthUser;
@@ -43,27 +29,4 @@ export async function fetchCurrentUser(): Promise<AuthUser | null> {
   } catch {
     return null;
   }
-}
-
-export async function fetchCurrentUserOnServer(
-  cookieHeader: string | null,
-): Promise<AuthUser | null> {
-  if (!cookieHeader) {
-    return null;
-  }
-
-  const response = await fetch(`${getServerApiBaseUrl()}/api/v1/auth/me`, {
-    headers: {
-      Accept: "application/json",
-      Cookie: cookieHeader,
-    },
-    cache: "no-store",
-  });
-
-  if (!response.ok) {
-    return null;
-  }
-
-  const payload = (await response.json()) as AuthResponse;
-  return payload.user;
 }
