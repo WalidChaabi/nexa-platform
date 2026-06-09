@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Eye, List, Receipt, Store as StoreIcon } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { List, Receipt, Store as StoreIcon } from "lucide-react";
 
+import { DataTable } from "@/components/data-table/data-table";
+import { createOwnerInvoiceColumns } from "@/components/invoices/owner-invoices-columns";
 import { PageHeader } from "@/components/layout/page-header";
 import { useLocale } from "@/components/providers/locale-provider";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
@@ -14,7 +15,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { NavLink } from "@/components/ui/nav-link";
 import {
   Select,
   SelectContent,
@@ -23,14 +23,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { fetchInvoices, type InvoiceSummary } from "@/lib/api/invoices";
 import { fetchStores, type StoreSummary } from "@/lib/api/stores";
 
@@ -68,7 +60,7 @@ export default function OwnerInvoicesPage() {
   }, []);
 
   useEffect(() => {
-    const active = true;
+    let active = true;
 
     async function loadInvoices() {
       setFetching(true);
@@ -96,17 +88,15 @@ export default function OwnerInvoicesPage() {
     void loadInvoices();
   }, [storeFilter]);
 
-  function customerName(invoice: InvoiceSummary): string {
-    const customer = invoice.customer;
-    if (!customer) {
-      return t("owner.invoices.customerFallback", { id: invoice.customer_id });
-    }
-
-    const name = [customer.firstname, customer.lastname]
-      .filter(Boolean)
-      .join(" ");
-    return name || customer.phone;
-  }
+  const columns = useMemo(
+    () =>
+      createOwnerInvoiceColumns({
+        t,
+        formatCurrency,
+        formatDateTime,
+      }),
+    [t, formatCurrency, formatDateTime],
+  );
 
   return (
     <div className="space-y-6">
@@ -163,64 +153,18 @@ export default function OwnerInvoicesPage() {
         </CardHeader>
         <CardContent>
           {fetching ? (
-            <div className="space-y-2">
-              <Skeleton className="h-10 w-full" />
-              <Skeleton className="h-10 w-full" />
+            <div className="space-y-3">
+              <Skeleton className="h-9 w-full max-w-sm" />
+              <Skeleton className="h-64 w-full" />
             </div>
-          ) : invoices.length === 0 ? (
-            <p className="text-sm text-muted-foreground">
-              {t("owner.invoices.empty")}
-            </p>
           ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>{t("owner.invoices.columns.id")}</TableHead>
-                  <TableHead>{t("owner.invoices.columns.date")}</TableHead>
-                  <TableHead>{t("owner.invoices.columns.store")}</TableHead>
-                  <TableHead>{t("owner.invoices.columns.customer")}</TableHead>
-                  <TableHead>{t("owner.invoices.columns.total")}</TableHead>
-                  <TableHead>{t("owner.invoices.columns.status")}</TableHead>
-                  <TableHead className="text-end">
-                    {t("owner.invoices.columns.actions")}
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {invoices.map((invoice) => (
-                  <TableRow key={invoice.id}>
-                    <TableCell className="font-medium">{invoice.id}</TableCell>
-                    <TableCell>{formatDateTime(invoice.invoice_date)}</TableCell>
-                    <TableCell>
-                      {invoice.store?.name ?? `#${invoice.store_id}`}
-                    </TableCell>
-                    <TableCell>{customerName(invoice)}</TableCell>
-                    <TableCell>{formatCurrency(invoice.total)}</TableCell>
-                    <TableCell>
-                      <Badge
-                        variant={
-                          invoice.status_label === "pending"
-                            ? "default"
-                            : "secondary"
-                        }
-                      >
-                        {invoice.status_label}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="text-end">
-                      <NavLink
-                        href={`/owner/invoices/${invoice.id}`}
-                        variant="outline"
-                        size="sm"
-                      >
-                        <Eye />
-                        {t("common.view")}
-                      </NavLink>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <DataTable
+              columns={columns}
+              data={invoices}
+              filterColumn="customer_name"
+              filterPlaceholder={t("owner.invoices.filterPlaceholder")}
+              emptyMessage={t("owner.invoices.empty")}
+            />
           )}
         </CardContent>
       </Card>
