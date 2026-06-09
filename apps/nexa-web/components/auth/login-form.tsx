@@ -11,13 +11,15 @@ import { Label } from "@/components/ui/label";
 import { login } from "@/lib/api/auth";
 import { cn } from "@/lib/utils";
 
+const isDev = process.env.NODE_ENV === "development";
+
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"form">) {
   const { t } = useLocale();
-  const [email, setEmail] = useState("employer@nexa.test");
-  const [password, setPassword] = useState("password");
+  const [email, setEmail] = useState(isDev ? "employer@nexa.test" : "");
+  const [password, setPassword] = useState(isDev ? "password" : "");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -89,9 +91,11 @@ export function LoginForm({
           {loading ? t("auth.signingIn") : t("auth.signIn")}
         </Button>
 
-        <p className="text-center text-xs text-balance text-muted-foreground">
-          {t("auth.devSeed")}
-        </p>
+        {isDev ? (
+          <p className="text-center text-xs text-balance text-muted-foreground">
+            {t("auth.devSeed")}
+          </p>
+        ) : null}
       </div>
     </form>
   );
