@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Products\ImportProductsRequest;
 use App\Http\Requests\Products\StoreProductRequest;
 use App\Http\Requests\Products\UpdateProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
+use App\Services\ProductImportService;
 use App\Support\Authorization\StoreAccess;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -46,6 +48,22 @@ class ProductController extends Controller
         $products = $query->paginate($request->integer('per_page', 15));
 
         return ProductResource::collection($products);
+    }
+
+    public function import(
+        ImportProductsRequest $request,
+        ProductImportService $importService,
+    ): JsonResponse {
+        $file = $request->file('file');
+        $path = $file?->getRealPath();
+
+        if ($path === false || $path === null) {
+            abort(422, 'Could not read the uploaded file.');
+        }
+
+        $result = $importService->import((int) $request->input('store_id'), $path);
+
+        return response()->json($result);
     }
 
     public function store(StoreProductRequest $request): JsonResponse
