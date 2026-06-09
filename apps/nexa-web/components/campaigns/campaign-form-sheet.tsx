@@ -63,18 +63,19 @@ export function CampaignFormSheet({
   const [errorKey, setErrorKey] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!open || !detailId) {
+    if (!open || detailId == null) {
       return;
     }
 
-    const active = true;
+    const campaignDetailId = detailId;
+    let active = true;
 
     async function load() {
       setLoading(true);
       setErrorKey(null);
 
       try {
-        const data = await fetchCampaignDetail(detailId);
+        const data = await fetchCampaignDetail(campaignDetailId);
         if (!active) {
           return;
         }

@@ -116,7 +116,7 @@ export default function OwnerCampaignsPage() {
   }, []);
 
   const historyColumns = useMemo(
-    () => createCampaignHistoriqueColumns({ t }),
+    () => createCampaignHistoriqueColumns({ t, namespace: "owner.campaigns" }),
     [t],
   );
 

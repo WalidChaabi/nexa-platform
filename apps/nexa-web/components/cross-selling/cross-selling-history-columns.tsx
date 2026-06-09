@@ -7,12 +7,14 @@ import type { SmsCrossSellingRecord } from "@/lib/api/cross-selling";
 
 export type CrossSellingHistoryTableActions = {
   t: (key: string) => string;
+  namespace: "owner.crossSelling" | "admin.crossSelling";
 };
 
 export function createCrossSellingHistoryColumns(
   actions: CrossSellingHistoryTableActions,
 ): ColumnDef<SmsCrossSellingRecord>[] {
-  const { t } = actions;
+  const { t, namespace } = actions;
+  const col = (key: string) => t(`${namespace}.columns.${key}`);
 
   return [
     {
@@ -36,23 +38,20 @@ export function createCrossSellingHistoryColumns(
     {
       id: "store",
       accessorFn: (row) => row.store?.name ?? String(row.store_id),
-      header: t("owner.crossSelling.columns.store"),
+      header: col("store"),
       enableSorting: false,
     },
     {
       id: "product",
       accessorFn: (row) => row.product?.label ?? String(row.cross_product_id),
       header: ({ column }) => (
-        <DataTableColumnHeader
-          column={column}
-          title={t("owner.crossSelling.columns.product")}
-        />
+        <DataTableColumnHeader column={column} title={col("product")} />
       ),
     },
     {
       id: "sentDate",
       accessorFn: (row) => row.sent_date ?? "",
-      header: t("owner.crossSelling.columns.sentDate"),
+      header: col("sentDate"),
       cell: ({ row }) =>
         row.original.sent_date
           ? new Date(row.original.sent_date).toLocaleDateString()
@@ -61,7 +60,7 @@ export function createCrossSellingHistoryColumns(
     },
     {
       accessorKey: "credit",
-      header: t("owner.crossSelling.columns.credit"),
+      header: col("credit"),
       enableSorting: false,
     },
   ];

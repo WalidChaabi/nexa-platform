@@ -95,7 +95,7 @@ export default function OwnerCrossSellingPage() {
   }, []);
 
   const historyColumns = useMemo(
-    () => createCrossSellingHistoryColumns({ t }),
+    () => createCrossSellingHistoryColumns({ t, namespace: "owner.crossSelling" }),
     [t],
   );
 

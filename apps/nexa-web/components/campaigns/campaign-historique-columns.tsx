@@ -7,12 +7,14 @@ import type { CampaignHistoriqueSummary } from "@/lib/api/campaigns";
 
 export type CampaignHistoriqueTableActions = {
   t: (key: string) => string;
+  namespace: "owner.campaigns" | "admin.campaigns";
 };
 
 export function createCampaignHistoriqueColumns(
   actions: CampaignHistoriqueTableActions,
 ): ColumnDef<CampaignHistoriqueSummary>[] {
-  const { t } = actions;
+  const { t, namespace } = actions;
+  const col = (key: string) => t(`${namespace}.columns.${key}`);
 
   return [
     {
@@ -37,26 +39,23 @@ export function createCampaignHistoriqueColumns(
       id: "customer",
       accessorFn: (row) => row.customer?.display_name ?? String(row.customer_id),
       header: ({ column }) => (
-        <DataTableColumnHeader
-          column={column}
-          title={t("owner.campaigns.columns.customer")}
-        />
+        <DataTableColumnHeader column={column} title={col("customer")} />
       ),
     },
     {
       accessorKey: "phone",
-      header: t("owner.campaigns.columns.phone"),
+      header: col("phone"),
       enableSorting: false,
     },
     {
       accessorKey: "code_red",
-      header: t("owner.campaigns.columns.code"),
+      header: col("code"),
       enableSorting: false,
     },
     {
       id: "date",
       accessorFn: (row) => row.start_date ?? "",
-      header: t("owner.campaigns.columns.date"),
+      header: col("date"),
       cell: ({ row }) =>
         row.original.start_date
           ? new Date(row.original.start_date).toLocaleDateString()

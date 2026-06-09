@@ -1,12 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { List, Megaphone } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { History, Megaphone } from "lucide-react";
 
+import { createAdminCampaignDetailColumns } from "@/components/campaigns/admin-campaign-detail-columns";
+import { createCampaignHistoriqueColumns } from "@/components/campaigns/campaign-historique-columns";
+import { DataTable } from "@/components/data-table/data-table";
 import { PageHeader } from "@/components/layout/page-header";
 import { useLocale } from "@/components/providers/locale-provider";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
@@ -16,35 +18,36 @@ import {
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
   fetchCampaignDetails,
+  fetchCampaignHistoriques,
   type CampaignDetailSummary,
+  type CampaignHistoriqueSummary,
 } from "@/lib/api/campaigns";
 
 export default function AdminCampaignsPage() {
   const { t } = useLocale();
   const [details, setDetails] = useState<CampaignDetailSummary[]>([]);
+  const [historiques, setHistoriques] = useState<CampaignHistoriqueSummary[]>(
+    [],
+  );
   const [fetching, setFetching] = useState(true);
   const [errorKey, setErrorKey] = useState<string | null>(null);
 
   useEffect(() => {
-    const active = true;
+    let active = true;
 
     async function load() {
       setFetching(true);
       setErrorKey(null);
 
       try {
-        const data = await fetchCampaignDetails();
+        const [detailData, historyData] = await Promise.all([
+          fetchCampaignDetails(),
+          fetchCampaignHistoriques(),
+        ]);
         if (active) {
-          setDetails(data);
+          setDetails(detailData);
+          setHistoriques(historyData);
         }
       } catch {
         if (active) {
@@ -58,7 +61,21 @@ export default function AdminCampaignsPage() {
     }
 
     void load();
+
+    return () => {
+      active = false;
+    };
   }, []);
+
+  const columns = useMemo(
+    () => createAdminCampaignDetailColumns({ t }),
+    [t],
+  );
+
+  const historyColumns = useMemo(
+    () => createCampaignHistoriqueColumns({ t, namespace: "admin.campaigns" }),
+    [t],
+  );
 
   return (
     <div className="space-y-6">
@@ -77,44 +94,48 @@ export default function AdminCampaignsPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <List className="size-4 text-primary" />
-            {t("admin.campaigns.listTitle")}
-          </CardTitle>
+          <CardTitle>{t("admin.campaigns.listTitle")}</CardTitle>
           <CardDescription>{t("admin.campaigns.listDescription")}</CardDescription>
         </CardHeader>
         <CardContent>
           {fetching ? (
-            <Skeleton className="h-32 w-full" />
-          ) : details.length === 0 ? (
-            <p className="text-sm text-muted-foreground">{t("admin.campaigns.empty")}</p>
+            <div className="space-y-3">
+              <Skeleton className="h-9 w-full max-w-sm" />
+              <Skeleton className="h-64 w-full" />
+            </div>
           ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>{t("admin.campaigns.columns.store")}</TableHead>
-                  <TableHead>{t("admin.campaigns.columns.type")}</TableHead>
-                  <TableHead>{t("admin.campaigns.columns.reduction")}</TableHead>
-                  <TableHead>{t("admin.campaigns.columns.status")}</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {details.map((detail) => (
-                  <TableRow key={detail.id}>
-                    <TableCell>{detail.store?.name ?? detail.store_id}</TableCell>
-                    <TableCell>{detail.campaign?.name ?? detail.campaign_id}</TableCell>
-                    <TableCell>{detail.reduction}%</TableCell>
-                    <TableCell>
-                      <Badge variant={detail.active === 1 ? "default" : "secondary"}>
-                        {detail.active === 1
-                          ? t("admin.campaigns.statusActive")
-                          : t("admin.campaigns.statusInactive")}
-                      </Badge>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <DataTable
+              columns={columns}
+              data={details}
+              filterColumn="search"
+              filterPlaceholder={t("admin.campaigns.filterPlaceholder")}
+              emptyMessage={t("admin.campaigns.empty")}
+              initialColumnVisibility={{ search: false }}
+            />
+          )}
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <History className="size-4 text-primary" />
+            {t("admin.campaigns.historyTitle")}
+          </CardTitle>
+          <CardDescription>{t("admin.campaigns.historyDescription")}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          {fetching ? (
+            <Skeleton className="h-24 w-full" />
+          ) : (
+            <DataTable
+              columns={historyColumns}
+              data={historiques}
+              filterColumn="search"
+              filterPlaceholder={t("admin.campaigns.historyFilterPlaceholder")}
+              emptyMessage={t("admin.campaigns.historyEmpty")}
+              initialColumnVisibility={{ search: false }}
+            />
           )}
         </CardContent>
       </Card>

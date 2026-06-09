@@ -1,8 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { List, RefreshCw } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { History, RefreshCw } from "lucide-react";
 
+import { createAdminCrossSellingColumns } from "@/components/cross-selling/admin-cross-selling-columns";
+import { createCrossSellingHistoryColumns } from "@/components/cross-selling/cross-selling-history-columns";
+import { DataTable } from "@/components/data-table/data-table";
 import { PageHeader } from "@/components/layout/page-header";
 import { useLocale } from "@/components/providers/locale-provider";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -15,35 +18,34 @@ import {
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
   fetchCrossProducts,
+  fetchSmsCrossSelling,
   type CrossProductRule,
+  type SmsCrossSellingRecord,
 } from "@/lib/api/cross-selling";
 
 export default function AdminCrossSellingPage() {
   const { t } = useLocale();
   const [rules, setRules] = useState<CrossProductRule[]>([]);
+  const [smsHistory, setSmsHistory] = useState<SmsCrossSellingRecord[]>([]);
   const [fetching, setFetching] = useState(true);
   const [errorKey, setErrorKey] = useState<string | null>(null);
 
   useEffect(() => {
-    const active = true;
+    let active = true;
 
     async function load() {
       setFetching(true);
       setErrorKey(null);
 
       try {
-        const data = await fetchCrossProducts();
+        const [ruleData, historyData] = await Promise.all([
+          fetchCrossProducts(),
+          fetchSmsCrossSelling(),
+        ]);
         if (active) {
-          setRules(data);
+          setRules(ruleData);
+          setSmsHistory(historyData);
         }
       } catch {
         if (active) {
@@ -57,7 +59,21 @@ export default function AdminCrossSellingPage() {
     }
 
     void load();
+
+    return () => {
+      active = false;
+    };
   }, []);
+
+  const columns = useMemo(
+    () => createAdminCrossSellingColumns({ t }),
+    [t],
+  );
+
+  const historyColumns = useMemo(
+    () => createCrossSellingHistoryColumns({ t, namespace: "admin.crossSelling" }),
+    [t],
+  );
 
   return (
     <div className="space-y-6">
@@ -76,38 +92,50 @@ export default function AdminCrossSellingPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <List className="size-4 text-primary" />
-            {t("admin.crossSelling.listTitle")}
-          </CardTitle>
+          <CardTitle>{t("admin.crossSelling.listTitle")}</CardTitle>
           <CardDescription>{t("admin.crossSelling.listDescription")}</CardDescription>
         </CardHeader>
         <CardContent>
           {fetching ? (
-            <Skeleton className="h-32 w-full" />
-          ) : rules.length === 0 ? (
-            <p className="text-sm text-muted-foreground">{t("admin.crossSelling.empty")}</p>
+            <div className="space-y-3">
+              <Skeleton className="h-9 w-full max-w-sm" />
+              <Skeleton className="h-64 w-full" />
+            </div>
           ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>{t("admin.crossSelling.columns.store")}</TableHead>
-                  <TableHead>{t("admin.crossSelling.columns.product")}</TableHead>
-                  <TableHead>{t("admin.crossSelling.columns.days")}</TableHead>
-                  <TableHead>{t("admin.crossSelling.columns.message")}</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {rules.map((rule) => (
-                  <TableRow key={rule.id}>
-                    <TableCell>{rule.product?.store?.name ?? "—"}</TableCell>
-                    <TableCell>{rule.product?.label ?? rule.product_id}</TableCell>
-                    <TableCell>{rule.days}</TableCell>
-                    <TableCell className="max-w-md truncate">{rule.message}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <DataTable
+              columns={columns}
+              data={rules}
+              filterColumn="search"
+              filterPlaceholder={t("admin.crossSelling.filterPlaceholder")}
+              emptyMessage={t("admin.crossSelling.empty")}
+              initialColumnVisibility={{ search: false }}
+            />
+          )}
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <History className="size-4 text-primary" />
+            {t("admin.crossSelling.historyTitle")}
+          </CardTitle>
+          <CardDescription>
+            {t("admin.crossSelling.historyDescription")}
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          {fetching ? (
+            <Skeleton className="h-24 w-full" />
+          ) : (
+            <DataTable
+              columns={historyColumns}
+              data={smsHistory}
+              filterColumn="search"
+              filterPlaceholder={t("admin.crossSelling.historyFilterPlaceholder")}
+              emptyMessage={t("admin.crossSelling.historyEmpty")}
+              initialColumnVisibility={{ search: false }}
+            />
           )}
         </CardContent>
       </Card>
