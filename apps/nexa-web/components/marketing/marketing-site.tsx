@@ -1,44 +1,34 @@
 "use client";
 
-import Link from "next/link";
 import {
   ArrowRight,
   BarChart3,
   Building2,
   CreditCard,
   Megaphone,
-  Menu,
   Receipt,
   Shield,
+  Sparkles,
   Store,
   TrendingUp,
   UserCheck,
   Users,
+  Zap,
 } from "lucide-react";
-import { useState } from "react";
 
-import { BrandLogo } from "@/components/brand/brand-logo";
-import { PreferencesToolbar } from "@/components/layout/preferences-toolbar";
+import { MarketingShell } from "@/components/marketing/marketing-shell";
+import { TestimonialsSection } from "@/components/marketing/marketing-pages";
+import {
+  MarketingFeatureCard,
+  MarketingGridBg,
+  MarketingSectionHeader,
+  marketingAccentButtonClass,
+  marketingHeroOutlineClass,
+} from "@/components/marketing/marketing-ui";
 import { useLocale } from "@/components/providers/locale-provider";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { NavLink } from "@/components/ui/nav-link";
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import { brand } from "@/lib/brand";
 import { cn } from "@/lib/utils";
 
 const featureIcons = {
@@ -56,117 +46,6 @@ const roleIcons = {
   employer: UserCheck,
 } as const;
 
-function MarketingHeader() {
-  const { t } = useLocale();
-  const [open, setOpen] = useState(false);
-
-  const navLinks = [
-    { href: "#features", label: t("marketing.nav.features") },
-    { href: "#roles", label: t("marketing.nav.roles") },
-  ];
-
-  return (
-    <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-6">
-        <Link
-          href="/"
-          className="flex items-center gap-2.5 font-semibold tracking-tight"
-        >
-          <div className="flex size-9 items-center justify-center rounded-lg bg-primary p-2">
-            <BrandLogo variant="on-primary" />
-          </div>
-          {brand.name}
-        </Link>
-
-        <nav className="hidden items-center gap-8 md:flex">
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-            >
-              {link.label}
-            </a>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-2">
-          <div className="hidden sm:flex">
-            <PreferencesToolbar />
-          </div>
-          <NavLink
-            href="/login"
-            variant="outline"
-            size="sm"
-            className="hidden sm:inline-flex"
-          >
-            {t("marketing.nav.signIn")}
-          </NavLink>
-          <NavLink href="/login" size="sm" className="hidden md:inline-flex">
-            {t("marketing.nav.getStarted")}
-            <ArrowRight />
-          </NavLink>
-
-          <Sheet open={open} onOpenChange={setOpen}>
-            <SheetTrigger
-              render={
-                <Button
-                  variant="outline"
-                  size="icon-sm"
-                  className="md:hidden"
-                  aria-label={t("marketing.nav.openMenu")}
-                />
-              }
-            >
-              <Menu />
-            </SheetTrigger>
-            <SheetContent side="right" className="w-72">
-              <SheetHeader>
-                <SheetTitle className="flex items-center gap-2">
-                  <div className="flex size-8 items-center justify-center rounded-md bg-primary p-1.5">
-                    <BrandLogo variant="on-primary" />
-                  </div>
-                  {brand.name}
-                </SheetTitle>
-              </SheetHeader>
-              <nav className="mt-6 flex flex-col gap-1">
-                {navLinks.map((link) => (
-                  <SheetClose
-                    key={link.href}
-                    render={
-                      <a
-                        href={link.href}
-                        className="rounded-lg px-3 py-2 text-sm font-medium hover:bg-muted"
-                      />
-                    }
-                  >
-                    {link.label}
-                  </SheetClose>
-                ))}
-              </nav>
-              <div className="mt-6 flex flex-col gap-2 border-t pt-6">
-                <PreferencesToolbar />
-                <SheetClose
-                  render={
-                    <NavLink href="/login" variant="outline" className="w-full" />
-                  }
-                >
-                  {t("marketing.nav.signIn")}
-                </SheetClose>
-                <SheetClose
-                  render={<NavLink href="/login" className="w-full" />}
-                >
-                  {t("marketing.nav.getStarted")}
-                </SheetClose>
-              </div>
-            </SheetContent>
-          </Sheet>
-        </div>
-      </div>
-    </header>
-  );
-}
-
 function HeroPreview() {
   const { t } = useLocale();
 
@@ -178,29 +57,30 @@ function HeroPreview() {
 
   return (
     <div className="relative mx-auto w-full max-w-lg lg:max-w-none">
-      <div className="absolute -inset-4 rounded-3xl bg-brand-accent/20 blur-3xl" />
-      <Card className="relative overflow-hidden border-white/10 bg-card/95 shadow-2xl ring-1 ring-foreground/10 backdrop-blur">
-        <div className="border-b bg-muted/40 px-4 py-3">
+      <div className="absolute -inset-6 rounded-[2rem] bg-brand-accent/15 blur-3xl" />
+      <Card className="relative overflow-hidden border-white/10 bg-card/95 shadow-2xl ring-1 ring-white/10 backdrop-blur-sm">
+        <div className="flex items-center justify-between border-b border-border/60 bg-muted/50 px-4 py-3">
           <div className="flex items-center gap-2">
             <div className="size-2.5 rounded-full bg-brand-accent" />
             <div className="size-2.5 rounded-full bg-brand-warning/80" />
             <div className="size-2.5 rounded-full bg-muted-foreground/30" />
-            <span className="ms-2 text-xs text-muted-foreground">
-              {t("marketing.hero.preview.workspace")}
-            </span>
           </div>
+          <span className="text-xs font-medium text-muted-foreground">
+            {t("marketing.hero.preview.workspace")}
+          </span>
+          <Badge variant="secondary" className="text-[10px]">
+            {t("marketing.hero.preview.live")}
+          </Badge>
         </div>
         <CardContent className="space-y-4 p-5">
           <div className="grid gap-3 sm:grid-cols-3">
             {kpis.map((kpi) => (
               <div
                 key={kpi.label}
-                className="rounded-xl border bg-background/80 p-3"
+                className="rounded-xl border border-border/60 bg-background/90 p-3"
               >
-                <p className="text-xs text-muted-foreground">{kpi.label}</p>
-                <p className="mt-1 text-lg font-semibold tabular-nums">
-                  {kpi.value}
-                </p>
+                <p className="text-[11px] text-muted-foreground">{kpi.label}</p>
+                <p className="mt-1 text-lg font-semibold tabular-nums">{kpi.value}</p>
                 <p className="mt-0.5 flex items-center gap-1 text-xs font-medium text-brand-accent">
                   <TrendingUp className="size-3" />
                   {kpi.trend}
@@ -208,20 +88,20 @@ function HeroPreview() {
               </div>
             ))}
           </div>
-          <div className="rounded-xl border bg-background/80 p-4">
+          <div className="rounded-xl border border-border/60 bg-background/90 p-4">
             <div className="mb-3 flex items-center justify-between">
               <p className="text-sm font-medium">
                 {t("marketing.hero.preview.chartTitle")}
               </p>
-              <Badge variant="secondary">
+              <Badge variant="outline" className="text-[10px]">
                 {t("marketing.hero.preview.chartBadge")}
               </Badge>
             </div>
-            <div className="flex h-24 items-end gap-2">
-              {[40, 65, 45, 80, 55, 90, 70].map((height, index) => (
+            <div className="flex h-28 items-end gap-1.5">
+              {[40, 65, 45, 80, 55, 90, 70, 85, 60].map((height, index) => (
                 <div
                   key={index}
-                  className="flex-1 rounded-t-md bg-brand-accent/80"
+                  className="flex-1 rounded-t-sm bg-linear-to-t from-brand-accent/50 to-brand-accent"
                   style={{ height: `${height}%` }}
                 />
               ))}
@@ -235,14 +115,17 @@ function HeroPreview() {
 
 function MarketingHero() {
   const { t } = useLocale();
+  const pillars = [1, 2, 3] as const;
 
   return (
     <section className="relative overflow-hidden bg-primary text-primary-foreground">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,#00C38933,transparent_55%)]" />
       <div className="absolute inset-0 bg-[linear-gradient(160deg,transparent_40%,#00C38922_100%)]" />
+      <MarketingGridBg className="opacity-15 mask-none" />
       <div className="relative mx-auto grid max-w-6xl gap-12 px-6 py-20 lg:grid-cols-2 lg:items-center lg:py-28">
         <div className="space-y-8">
-          <Badge className="border-white/15 bg-white/10 text-primary-foreground hover:bg-white/10">
+          <Badge className="gap-1.5 border-white/15 bg-white/10 text-primary-foreground hover:bg-white/10">
+            <Sparkles className="size-3" />
             {t("marketing.hero.badge")}
           </Badge>
           <div className="space-y-4">
@@ -253,20 +136,30 @@ function MarketingHero() {
               {t("marketing.hero.description")}
             </p>
           </div>
+          <div className="flex flex-wrap gap-2">
+            {pillars.map((pillar) => (
+              <span
+                key={pillar}
+                className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-medium text-primary-foreground/90"
+              >
+                {t(`marketing.hero.pillars.${pillar}`)}
+              </span>
+            ))}
+          </div>
           <div className="flex flex-col gap-3 sm:flex-row">
             <NavLink
               href="/login"
               size="lg"
-              className="h-10 bg-brand-accent px-5 text-primary hover:bg-brand-accent/90"
+              className={cn("h-11 px-6", marketingAccentButtonClass)}
             >
               {t("marketing.hero.ctaPrimary")}
               <ArrowRight />
             </NavLink>
             <NavLink
-              href="#features"
+              href="/pricing"
               variant="outline"
               size="lg"
-              className="h-10 border-white/20 bg-white/5 text-primary-foreground hover:bg-white/10 hover:text-primary-foreground"
+              className={cn("h-11 px-6", marketingHeroOutlineClass)}
             >
               {t("marketing.hero.ctaSecondary")}
             </NavLink>
@@ -285,20 +178,66 @@ function TrustStrip() {
   const { t } = useLocale();
 
   const stats = [
-    { value: t("marketing.trust.multiStore"), label: t("marketing.trust.multiStoreLabel") },
-    { value: t("marketing.trust.realTime"), label: t("marketing.trust.realTimeLabel") },
-    { value: t("marketing.trust.roles"), label: t("marketing.trust.rolesLabel") },
+    { value: t("marketing.trust.multiStore"), label: t("marketing.trust.multiStoreLabel"), icon: Store },
+    { value: t("marketing.trust.realTime"), label: t("marketing.trust.realTimeLabel"), icon: Zap },
+    { value: t("marketing.trust.roles"), label: t("marketing.trust.rolesLabel"), icon: Users },
   ];
 
   return (
     <section className="border-b bg-muted/30">
-      <div className="mx-auto grid max-w-6xl gap-8 px-6 py-12 sm:grid-cols-3">
-        {stats.map((stat) => (
-          <div key={stat.label} className="text-center sm:text-start">
-            <p className="text-2xl font-semibold tracking-tight">{stat.value}</p>
-            <p className="mt-1 text-sm text-muted-foreground">{stat.label}</p>
-          </div>
-        ))}
+      <div className="mx-auto grid max-w-6xl gap-6 px-6 py-12 sm:grid-cols-3">
+        {stats.map((stat) => {
+          const Icon = stat.icon;
+          return (
+            <div
+              key={stat.label}
+              className="flex gap-4 rounded-2xl border bg-card/60 p-5 sm:flex-col sm:items-start sm:text-start"
+            >
+              <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-accent">
+                <Icon className="size-5 text-brand-accent" />
+              </div>
+              <div>
+                <p className="text-xl font-semibold tracking-tight">{stat.value}</p>
+                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                  {stat.label}
+                </p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+function HowItWorks() {
+  const { t } = useLocale();
+  const steps = [1, 2, 3] as const;
+
+  return (
+    <section className="border-b bg-background py-20 md:py-24">
+      <div className="mx-auto max-w-6xl px-6">
+        <MarketingSectionHeader
+          badge={t("marketing.howItWorks.badge")}
+          title={t("marketing.howItWorks.title")}
+          description={t("marketing.howItWorks.subtitle")}
+        />
+        <div className="relative mt-14 grid gap-8 md:grid-cols-3">
+          <div className="absolute top-8 right-[16%] left-[16%] hidden h-px bg-border md:block" />
+          {steps.map((step) => (
+            <div key={step} className="relative text-center">
+              <div className="mx-auto flex size-12 items-center justify-center rounded-full border-2 border-brand-accent bg-background text-sm font-bold text-brand-accent">
+                {step}
+              </div>
+              <h3 className="mt-5 text-lg font-semibold">
+                {t(`marketing.howItWorks.steps.${step}.title`)}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                {t(`marketing.howItWorks.steps.${step}.description`)}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -317,37 +256,25 @@ function MarketingFeatures() {
   ];
 
   return (
-    <section id="features" className="scroll-mt-20 py-20 md:py-28">
-      <div className="mx-auto max-w-6xl px-6">
-        <div className="mx-auto max-w-2xl text-center">
-          <Badge variant="secondary" className="mb-4">
-            {t("marketing.features.badge")}
-          </Badge>
-          <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-            {t("marketing.features.title")}
-          </h2>
-          <p className="mt-4 text-muted-foreground">
-            {t("marketing.features.subtitle")}
-          </p>
-        </div>
-        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {features.map((feature) => {
+    <section id="features" className="relative scroll-mt-20 py-20 md:py-28">
+      <MarketingGridBg />
+      <div className="relative mx-auto max-w-6xl px-6">
+        <MarketingSectionHeader
+          badge={t("marketing.features.badge")}
+          title={t("marketing.features.title")}
+          description={t("marketing.features.subtitle")}
+        />
+        <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {features.map((feature, index) => {
             const Icon = featureIcons[feature.key];
             return (
-              <Card
+              <MarketingFeatureCard
                 key={feature.key}
-                className="transition-shadow hover:shadow-md"
-              >
-                <CardHeader>
-                  <div className="mb-2 flex size-10 items-center justify-center rounded-lg bg-accent">
-                    <Icon className="size-5 text-brand-accent" />
-                  </div>
-                  <CardTitle className="text-lg">{t(feature.titleKey)}</CardTitle>
-                  <CardDescription className="leading-relaxed">
-                    {t(feature.descKey)}
-                  </CardDescription>
-                </CardHeader>
-              </Card>
+                icon={Icon}
+                title={t(feature.titleKey)}
+                description={t(feature.descKey)}
+                index={index + 1}
+              />
             );
           })}
         </div>
@@ -366,37 +293,32 @@ function MarketingRoles() {
   ];
 
   return (
-    <section
-      id="roles"
-      className="scroll-mt-20 border-y bg-muted/30 py-20 md:py-28"
-    >
+    <section id="roles" className="scroll-mt-20 bg-muted/30 py-20 md:py-28">
       <div className="mx-auto max-w-6xl px-6">
-        <div className="mx-auto max-w-2xl text-center">
-          <Badge variant="secondary" className="mb-4">
-            {t("marketing.roles.badge")}
-          </Badge>
-          <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-            {t("marketing.roles.title")}
-          </h2>
-          <p className="mt-4 text-muted-foreground">
-            {t("marketing.roles.subtitle")}
-          </p>
-        </div>
+        <MarketingSectionHeader
+          badge={t("marketing.roles.badge")}
+          title={t("marketing.roles.title")}
+          description={t("marketing.roles.subtitle")}
+        />
         <div className="mt-14 grid gap-6 lg:grid-cols-3">
-          {roles.map((role) => {
+          {roles.map((role, index) => {
             const Icon = roleIcons[role.key];
             return (
-              <Card key={role.key} className="border-border/80 bg-card">
-                <CardHeader>
-                  <div className="mb-2 flex size-10 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                    <Icon className="size-5" />
-                  </div>
-                  <CardTitle className="text-lg">{t(role.titleKey)}</CardTitle>
-                  <CardDescription className="leading-relaxed">
-                    {t(role.descKey)}
-                  </CardDescription>
-                </CardHeader>
-              </Card>
+              <div
+                key={role.key}
+                className="relative overflow-hidden rounded-2xl border bg-card p-6 transition-shadow hover:shadow-md"
+              >
+                <div className="absolute top-4 end-4 text-4xl font-bold text-muted/40">
+                  {index + 1}
+                </div>
+                <div className="flex size-11 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+                  <Icon className="size-5" />
+                </div>
+                <h3 className="mt-5 text-lg font-semibold">{t(role.titleKey)}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  {t(role.descKey)}
+                </p>
+              </div>
             );
           })}
         </div>
@@ -411,72 +333,50 @@ function MarketingCta() {
   return (
     <section className="py-20 md:py-28">
       <div className="mx-auto max-w-6xl px-6">
-        <Card className="overflow-hidden border-0 bg-primary text-primary-foreground ring-0">
-          <CardContent className="relative px-8 py-12 md:px-12 md:py-16">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,#00C38933,transparent_60%)]" />
-            <div className="relative mx-auto max-w-2xl text-center">
-              <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-                {t("marketing.cta.title")}
-              </h2>
-              <p className="mt-4 text-primary-foreground/85">
-                {t("marketing.cta.description")}
-              </p>
+        <div className="relative overflow-hidden rounded-3xl border-0 bg-primary text-primary-foreground">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,#00C38933,transparent_60%)]" />
+          <div className="relative px-8 py-14 text-center md:px-12 md:py-16">
+            <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
+              {t("marketing.cta.title")}
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-primary-foreground/85">
+              {t("marketing.cta.description")}
+            </p>
+            <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
               <NavLink
                 href="/login"
                 size="lg"
-                className={cn(
-                  "mt-8 h-10 bg-brand-accent px-6 text-primary hover:bg-brand-accent/90",
-                )}
+                className={cn("h-11 px-6", marketingAccentButtonClass)}
               >
                 {t("marketing.cta.button")}
                 <ArrowRight />
               </NavLink>
+              <NavLink
+                href="/pricing"
+                variant="outline"
+                size="lg"
+                className={cn("h-11 px-6", marketingHeroOutlineClass)}
+              >
+                {t("marketing.cta.pricing")}
+              </NavLink>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     </section>
   );
 }
 
-function MarketingFooter() {
-  const { t } = useLocale();
-  const year = new Date().getFullYear();
-
-  return (
-    <footer className="border-t py-10">
-      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 sm:flex-row">
-        <div className="flex items-center gap-2.5">
-          <div className="flex size-8 items-center justify-center rounded-md bg-primary p-1.5">
-            <BrandLogo variant="on-primary" />
-          </div>
-          <div>
-            <p className="font-medium">{brand.name}</p>
-            <p className="text-xs text-muted-foreground">
-              {t("marketing.footer.tagline")}
-            </p>
-          </div>
-        </div>
-        <p className="text-sm text-muted-foreground">
-          {t("marketing.footer.copyright", { year })}
-        </p>
-      </div>
-    </footer>
-  );
-}
-
 export function MarketingSite() {
   return (
-    <div className="flex min-h-svh flex-col">
-      <MarketingHeader />
-      <main className="flex-1">
-        <MarketingHero />
-        <TrustStrip />
-        <MarketingFeatures />
-        <MarketingRoles />
-        <MarketingCta />
-      </main>
-      <MarketingFooter />
-    </div>
+    <MarketingShell>
+      <MarketingHero />
+      <TrustStrip />
+      <HowItWorks />
+      <MarketingFeatures />
+      <MarketingRoles />
+      <TestimonialsSection />
+      <MarketingCta />
+    </MarketingShell>
   );
 }
