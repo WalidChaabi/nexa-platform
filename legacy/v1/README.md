@@ -16,7 +16,7 @@ php artisan serve
 
 PHPUnit targets PHP **7.4** in CI. Local PHP 8.x may fail on legacy tests.
 
-Use a separate database name or port if running V1 alongside the V2 API (`apps/sherin-api`).
+Use a separate database name or port if running V1 alongside the V2 API (`apps/nexa-api`).
 
 ## Deploy
 
@@ -26,7 +26,7 @@ This path is the current production line until V2 replaces it. See [docs/runbook
 
 Active development lives in:
 
-- `apps/sherin-api` — Laravel API
-- `apps/sherin-web` — Next.js web UI
+- `apps/nexa-api` — Laravel API
+- `apps/nexa-web` — Next.js web UI
 
 See [docs/v2-local-setup.md](../../docs/v2-local-setup.md) and [docs/improvement/README.md](../../docs/improvement/README.md).

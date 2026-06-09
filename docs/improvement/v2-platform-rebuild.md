@@ -13,7 +13,7 @@
 
 | Decision | Choice | Notes |
 |----------|--------|-------|
-| Repo layout | Monorepo: `legacy/v1/` + `apps/sherin-api/` + `apps/sherin-web/` | See [ADR-002](../adr/002-nextjs-api-first-ui.md) |
+| Repo layout | Monorepo: `legacy/v1/` + `apps/nexa-api/` + `apps/nexa-web/` | See [ADR-002](../adr/002-nextjs-api-first-ui.md) |
 | Database | **Shared DB** initially (same MySQL schema, evolved via V2 migrations) | V1 + V2 API share schema until cutover |
 | **Web UI** | **Next.js 16 App Router + shadcn/ui** | No Blade/Livewire in V2 |
 | **API** | **Laravel API-first** (`/api/v1/*`) | Web + future mobile use same endpoints |
@@ -29,7 +29,7 @@ Document choices in `docs/adr/` (Architecture Decision Records).
 ```
 legacy/v1/                         # Laravel 5.7 — maintenance until cutover
 apps/
-├── sherin-api/                    # Laravel 11+ — API only
+├── nexa-api/                    # Laravel 11+ — API only
 │   ├── app/
 │   │   ├── Domain/
 │   │   ├── Http/
@@ -48,7 +48,7 @@ apps/
 │   ├── database/
 │   └── tests/
 │
-└── sherin-web/                    # Next.js 16 — web UI
+└── nexa-web/                    # Next.js 16 — web UI
     ├── app/                       # App Router (role-based route groups)
     │   ├── (auth)/
     │   ├── (admin)/
@@ -56,7 +56,7 @@ apps/
     │   └── (employer)/
     ├── components/                # shadcn/ui + domain components
     ├── lib/
-    │   └── api/                   # Typed fetch client → sherin-api
+    │   └── api/                   # Typed fetch client → nexa-api
     └── tests/                     # Vitest + Playwright (critical flows)
 ```
 
@@ -69,7 +69,7 @@ apps/
 **Branch:** `v2/chore/bootstrap-laravel11-api`
 
 **Tasks:**
-- `composer create-project laravel/laravel apps/sherin-api`
+- `composer create-project laravel/laravel apps/nexa-api`
 - PHP 8.3, Laravel 11 — **API-only** (remove default web views or keep minimal `/up` health)
 - `routes/api.php` prefix `v1`
 - Configure `.env` for shared dev database
@@ -90,7 +90,7 @@ docs(v2): add local development setup guide
 **Branch:** `v2/chore/bootstrap-nextjs-web`
 
 **Tasks:**
-- `npx create-next-app@latest apps/sherin-web` (TypeScript, Tailwind, App Router)
+- `npx create-next-app@latest apps/nexa-web` (TypeScript, Tailwind, App Router)
 - Install shadcn/ui; set design tokens aligned with Nexa brand
 - `lib/api/client.ts` — base URL from `NEXT_PUBLIC_API_URL`
 - Role-based layout shells: `(admin)`, `(owner)`, `(employer)`
@@ -100,7 +100,7 @@ docs(v2): add local development setup guide
 ```
 chore(v2): scaffold Next.js 16 web application
 chore(v2): add shadcn/ui and app shell layouts
-chore(v2): add typed API client for sherin-api
+chore(v2): add typed API client for nexa-api
 docs(v2): document local dev (API :8000, web :3000)
 ```
 
@@ -119,12 +119,12 @@ docs(v2): document local dev (API :8000, web :3000)
 **GitHub Actions** (`.github/workflows/v2-ci.yml`):
 
 ```yaml
-# Triggers on PRs touching apps/sherin-api/** or apps/sherin-web/**
+# Triggers on PRs touching apps/nexa-api/** or apps/nexa-web/**
 # API job:
-- composer install (apps/sherin-api)
+- composer install (apps/nexa-api)
 - pint, phpstan, php artisan test
 # Web job:
-- npm ci (apps/sherin-web)
+- npm ci (apps/nexa-web)
 - npm run lint && npm run build
 ```
 
@@ -196,14 +196,14 @@ db(v2): fix migration timestamp ordering collisions
 
 **Branch:** `v2/feat/auth-roles`
 
-**API (`apps/sherin-api`):**
+**API (`apps/nexa-api`):**
 - Laravel Sanctum — SPA cookie auth for Next.js (`SANCTUM_STATEFUL_DOMAINS`, CORS)
 - `POST /api/v1/auth/login`, `POST /api/v1/auth/logout`, `GET /api/v1/auth/me`
 - Enum: `App\Enums\UserRole` (`Admin`, `Owner`, `Employer`)
 - Middleware: `EnsureUserIsActive`; role middleware on route groups
 - Login throttle on API login route
 
-**Web (`apps/sherin-web`):**
+**Web (`apps/nexa-web`):**
 - Login page → calls API; stores session via Sanctum cookie
 - Middleware / layout guards redirect by role (`admin` → `/admin`, etc.)
 - Locale switcher (fr/en) — `next-intl` or similar
@@ -412,7 +412,7 @@ test(invoice): API feature tests for CRUD and IDOR denial
 
 ### V2-PR-21: i18n completion
 
-- Port `resources/lang/en`, `resources/lang/fr` → `apps/sherin-web/messages/{fr,en}.json`
+- Port `resources/lang/en`, `resources/lang/fr` → `apps/nexa-web/messages/{fr,en}.json`
 - API error messages remain Laravel `lang/` for validation; web maps codes to UI copy
 - Locale cookie / `next-intl` routing (`/fr/...`, `/en/...` or cookie-based)
 
@@ -455,7 +455,7 @@ Deploy **two apps** (or reverse proxy): `app.nexa.app` → Next.js, `api.nexa.ap
 
 ### Remaining work board (ordered to cutover)
 
-Work in **waves**. Finish each wave’s *verified* column before cutover. Roles: **BE** = `apps/sherin-api`, **FE** = `apps/sherin-web`, **Ops** = infra/runbooks, **QA** = parity sign-off.
+Work in **waves**. Finish each wave’s *verified* column before cutover. Roles: **BE** = `apps/nexa-api`, **FE** = `apps/nexa-web`, **Ops** = infra/runbooks, **QA** = parity sign-off.
 
 #### Wave 0 — Stabilize current branch (now)
 
@@ -583,7 +583,7 @@ W5 Excel import (can slip after cutover if owners accept manual import temporari
 
 ## Phase 5 — Mobile app (post-cutover)
 
-> **Not in V2 cutover scope.** Web ships first; mobile reuses `apps/sherin-api`.
+> **Not in V2 cutover scope.** Web ships first; mobile reuses `apps/nexa-api`.
 
 | Task | Detail |
 |------|--------|

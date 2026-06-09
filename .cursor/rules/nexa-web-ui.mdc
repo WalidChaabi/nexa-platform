@@ -1,6 +1,6 @@
 ---
 description: Nexa web UI — lucide-react icons and shadcn/ui only
-globs: apps/sherin-web/**/*
+globs: apps/nexa-web/**/*
 alwaysApply: false
 ---
 
@@ -23,6 +23,18 @@ Use **lucide-react** for all icons and **shadcn/ui** (`@/components/ui/*`) for i
 - Do not use raw `<button>`, `<table>`, or unstyled `<input>` in app pages (print-only views may use minimal markup).
 - Add missing shadcn components via the project CLI before building custom widgets.
 - Match patterns from `employer/page.tsx` and `admin/page.tsx`.
+
+## Data table row actions (Base UI)
+
+TanStack `DataTable` action menus **must not** inline `DropdownMenu` in `columns.tsx`. That pattern crashes the page (“This page couldn’t load”).
+
+Always extract a `*-row-actions.tsx` component and wrap with `DataTableRowActionsMenu` from `@/components/data-table/data-table-row-actions-menu`:
+
+- Trigger: `Button` with `type="button"` and `onClick={(e) => e.stopPropagation()}`
+- Content: `DropdownMenuGroup` containing `DropdownMenuLabel` + `DropdownMenuItem`
+- Navigation: `router.push()` in `onClick` — never `<Link render={...} />` on menu items
+
+Reference: `invoice-row-actions.tsx`, `owner-row-actions.tsx`.
 
 ## Branding
 

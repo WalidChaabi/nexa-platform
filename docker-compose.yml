@@ -34,15 +34,15 @@ services:
   api:
     container_name: nexa_api
     build:
-      context: ./apps/sherin-api
+      context: ./apps/nexa-api
       dockerfile: Dockerfile
     ports:
       - 8000:8000
     develop:
       watch:
-        - path: ./apps/sherin-api/composer.json
+        - path: ./apps/nexa-api/composer.json
           action: rebuild
-        - path: ./apps/sherin-api/composer.lock
+        - path: ./apps/nexa-api/composer.lock
           action: rebuild
     environment:
       APP_NAME: Nexa
@@ -62,7 +62,7 @@ services:
       QUEUE_CONNECTION: database
       CACHE_STORE: database
     volumes:
-      - ./apps/sherin-api:/var/www/html
+      - ./apps/nexa-api:/var/www/html
       - api-vendor:/var/www/html/vendor
     depends_on:
       database:
@@ -71,15 +71,15 @@ services:
   web:
     container_name: nexa_web
     build:
-      context: ./apps/sherin-web
+      context: ./apps/nexa-web
       dockerfile: Dockerfile
     ports:
       - 3000:3000
     develop:
       watch:
-        - path: ./apps/sherin-web/package.json
+        - path: ./apps/nexa-web/package.json
           action: rebuild
-        - path: ./apps/sherin-web/package-lock.json
+        - path: ./apps/nexa-web/package-lock.json
           action: rebuild
     environment:
       NEXT_PUBLIC_API_URL: http://localhost:8000
@@ -90,7 +90,7 @@ services:
       CHOKIDAR_INTERVAL: "1000"
       NEXT_TELEMETRY_DISABLED: "1"
     volumes:
-      - ./apps/sherin-web:/app
+      - ./apps/nexa-web:/app
       - web-node-modules:/app/node_modules
       - web-next:/app/.next
     depends_on:

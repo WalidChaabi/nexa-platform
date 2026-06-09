@@ -282,7 +282,7 @@ Execute in order; dependencies noted.
 
 | PR # | Branch | Title | Status (2026-06-08) |
 |------|--------|-------|---------------------|
-| V2-PR-01 | `v2/chore/monorepo-layout` | `chore(v2): monorepo layout — legacy/v1, sherin-api, sherin-web` | PR **#8** open |
+| V2-PR-01 | `v2/chore/monorepo-layout` | `chore(v2): monorepo layout — legacy/v1, nexa-api, nexa-web` | PR **#8** open |
 | V2-PR-01b | `v2/chore/docker-dev` | `chore(docker): MySQL + API + web compose stack` | Local only |
 | V2-PR-02 | `v2/chore/ci` | `chore(ci): wire v2-ci to API tests and web build` | Not started |
 | V2-PR-03 | `v2/docs/adr` | `docs(adr): architecture decision records for V2 stack` | Partial |

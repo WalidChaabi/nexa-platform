@@ -4,10 +4,8 @@ Monorepo for **Nexa** — a multi-store retail and POS platform with campaigns, 
 
 | Track | Path | Stack | Status |
 |-------|------|-------|--------|
-| **V2** (current build) | `apps/Nexa-api`, `apps/Nexa-web` | Laravel 12 API + Next.js 16 web | Active development |
+| **V2** (current build) | `apps/nexa-api`, `apps/nexa-web` | Laravel 12 API + Next.js 16 web | Active development |
 | **V1** (legacy) | `legacy/v1` | Laravel 5.7 monolith | Maintenance-only until V2 cutover |
-
-> Folder names `Nexa-api` and `Nexa-web` are historical; the product brand is **Nexa**.
 
 ## Quick start (V2)
 
@@ -32,8 +30,8 @@ Full setup (migrations, seeding, local PHP/Node without Docker): [docs/v2-local-
 ```
 nexa-platform/
 ├── apps/
-│   ├── Nexa-api/     # Nexa API (Laravel)
-│   └── Nexa-web/     # Nexa Web (Next.js)
+│   ├── nexa-api/     # Nexa API (Laravel)
+│   └── nexa-web/     # Nexa Web (Next.js)
 ├── legacy/v1/          # Legacy production app (Laravel 5.7)
 ├── docs/               # Setup guides, ADRs, runbooks, improvement program
 └── docker-compose.yml  # Local V2 stack (MySQL + API + web)
@@ -50,6 +48,6 @@ nexa-platform/
 
 ## Per-app READMEs
 
-- [Nexa API](apps/Nexa-api/README.md)
-- [Nexa Web](apps/Nexa-web/README.md)
+- [Nexa API](apps/nexa-api/README.md)
+- [Nexa Web](apps/nexa-web/README.md)
 - [Nexa V1 (legacy)](legacy/v1/README.md)

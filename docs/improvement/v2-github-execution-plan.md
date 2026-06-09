@@ -29,7 +29,7 @@ Everything below lives on branch `v2/chore/monorepo-layout` as unstaged/untracke
 - Full V1 schema port (migrations `2026_06_09_*`)
 - Invoices API (controller, service, resources, tests)
 - Employer invoices UI (list, detail, cancel)
-- shadcn/ui setup on `sherin-web`
+- shadcn/ui setup on `nexa-web`
 
 **Risk:** one laptop failure or accidental `git restore` loses all of this until it is committed and pushed.
 
@@ -58,7 +58,7 @@ Execute in order. Status reflects **2026-06-08** workspace.
 
 | ID | Branch | PR title | Depends on | Status | Notes |
 |----|--------|----------|------------|--------|-------|
-| V2-PR-01 | `v2/chore/monorepo-layout` | `chore(v2): monorepo layout — legacy/v1, sherin-api, sherin-web` | — | **PR #8 open** | Pushed; merge first |
+| V2-PR-01 | `v2/chore/monorepo-layout` | `chore(v2): monorepo layout — legacy/v1, nexa-api, nexa-web` | — | **PR #8 open** | Pushed; merge first |
 | V2-PR-01b | `v2/chore/docker-dev` | `chore(docker): add MySQL + API + web compose stack for local dev` | V2-PR-01 | **Local only** | Split from current uncommitted work |
 | V2-PR-02 | `v2/chore/ci` | `chore(ci): wire v2-ci to API tests and web lint/build` | V2-PR-01 | Not started | `v2-ci.yml` exists but not wired to real checks |
 | V2-PR-03 | `v2/docs/adr` | `docs(adr): confirm ADR-002 and local setup docs` | V2-PR-01 | Partial | ADR exists; no dedicated PR |
@@ -156,7 +156,7 @@ Do these in order to align V2 with the V1 GitHub discipline:
 - [ ] **4. Open PRs** — titles follow conventional commits; use `.github/pull_request_template.md`
 - [ ] **5. Create milestones + labels** on GitHub (UI or `gh api`)
 - [ ] **6. Open tracking issues** for V2-PR-04 through V2-PR-13c
-- [ ] **7. Wire `v2-ci.yml`** — run `php artisan test` in `apps/sherin-api` on every V2 PR
+- [ ] **7. Wire `v2-ci.yml`** — run `php artisan test` in `apps/nexa-api` on every V2 PR
 
 ### Commands (after splitting locally)
 
@@ -174,7 +174,7 @@ gh pr create --base v2/main --title "db(v2): port V1 schema with FKs and indexes
 - [x] V2 (rebuild)
 
 ## Test plan
-- [x] `cd apps/sherin-api && php artisan test`
+- [x] `cd apps/nexa-api && php artisan test`
 EOF
 )"
 ```

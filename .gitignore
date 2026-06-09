@@ -19,16 +19,16 @@ legacy/v1/storage/*.key
 legacy/v1/.phpunit.result.cache
 
 # V2 API
-apps/sherin-api/vendor
-apps/sherin-api/.env
-apps/sherin-api/storage/*.key
-apps/sherin-api/.phpunit.result.cache
-apps/sherin-api/database/*.sqlite
+apps/nexa-api/vendor
+apps/nexa-api/.env
+apps/nexa-api/storage/*.key
+apps/nexa-api/.phpunit.result.cache
+apps/nexa-api/database/*.sqlite
 
 # V2 Web
-apps/sherin-web/node_modules
-apps/sherin-web/.next
-apps/sherin-web/out
+apps/nexa-web/node_modules
+apps/nexa-web/.next
+apps/nexa-web/out
 
 # Logs
 npm-debug.log*

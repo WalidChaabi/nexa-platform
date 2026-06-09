@@ -11,8 +11,8 @@
 
 ```
 legacy/v1/          # Laravel 5.7 (maintenance)
-apps/sherin-api/    # Laravel API (Nexa)
-apps/sherin-web/    # Next.js (Nexa)
+apps/nexa-api/    # Laravel API (Nexa)
+apps/nexa-web/    # Next.js (Nexa)
 ```
 
 ## Full stack in Docker (recommended)
@@ -35,8 +35,8 @@ docker compose watch
 
 Source is **bind-mounted** into the `api` and `web` containers. After the stack is up once:
 
-- **Web (Next.js):** save a file under `apps/sherin-web/` → dev server recompiles → refresh the browser.
-- **API (Laravel):** save a file under `apps/sherin-api/` → next request uses the new code.
+- **Web (Next.js):** save a file under `apps/nexa-web/` → dev server recompiles → refresh the browser.
+- **API (Laravel):** save a file under `apps/nexa-api/` → next request uses the new code.
 
 You only need to **rebuild images** when Dockerfiles or lockfiles change:
 
@@ -87,10 +87,10 @@ docker compose up -d database
 
 Default: database `nexa_test`, user `me` / password `ok`, port `3306`.
 
-## API (`apps/sherin-api`)
+## API (`apps/nexa-api`)
 
 ```bash
-cd apps/sherin-api
+cd apps/nexa-api
 composer install
 cp .env.example .env
 ```
@@ -115,10 +115,10 @@ php artisan serve
 
 Verify: http://localhost:8000/api/v1/health
 
-## Web (`apps/sherin-web`)
+## Web (`apps/nexa-web`)
 
 ```bash
-cd apps/sherin-web
+cd apps/nexa-web
 npm install
 cp .env.example .env.local
 npm run dev

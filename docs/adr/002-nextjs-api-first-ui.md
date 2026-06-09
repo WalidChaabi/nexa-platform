@@ -20,8 +20,8 @@ Adopt a **decoupled monorepo**:
 
 | App | Path | Role |
 |-----|------|------|
-| **API** | `apps/sherin-api/` | Laravel 11, PHP 8.3 — **API-only** (no Blade UI) |
-| **Web** | `apps/sherin-web/` | Next.js 16+ App Router, TypeScript, Tailwind, **shadcn/ui** |
+| **API** | `apps/nexa-api/` | Laravel 11, PHP 8.3 — **API-only** (no Blade UI) |
+| **Web** | `apps/nexa-web/` | Next.js 16+ App Router, TypeScript, Tailwind, **shadcn/ui** |
 
 **Integration rules:**
 
@@ -48,8 +48,8 @@ Adopt a **decoupled monorepo**:
 
 ### Follow-up
 
-- [ ] V2-PR-01: Scaffold `apps/sherin-api`
-- [ ] V2-PR-01b: Scaffold `apps/sherin-web`
+- [ ] V2-PR-01: Scaffold `apps/nexa-api`
+- [ ] V2-PR-01b: Scaffold `apps/nexa-web`
 - [ ] V2-PR-05: Sanctum SPA auth + login API for Next.js
 - [ ] Document local dev: API on `:8000`, web on `:3000`, env `NEXT_PUBLIC_API_URL`
 - [ ] Phase 5 (post-cutover): mobile app + token auth endpoints

@@ -1,6 +1,6 @@
 # Runbook: V2 Incident Response
 
-Operational playbook for production issues on the Nexa V2 stack (`apps/sherin-api` + `apps/sherin-web`).
+Operational playbook for production issues on the Nexa V2 stack (`apps/nexa-api` + `apps/nexa-web`).
 
 ---
 

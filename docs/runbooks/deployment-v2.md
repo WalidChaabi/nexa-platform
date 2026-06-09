@@ -2,8 +2,8 @@
 
 Production and staging deployments for the Nexa V2 stack (`v2/main` branch):
 
-- `apps/sherin-api` — Laravel 11 API
-- `apps/sherin-web` — Next.js 16 web UI
+- `apps/nexa-api` — Laravel 11 API
+- `apps/nexa-web` — Next.js 16 web UI
 
 ---
 
@@ -20,8 +20,8 @@ Production and staging deployments for the Nexa V2 stack (`v2/main` branch):
 ## Pre-deploy checklist
 
 - [ ] PR merged and `v2-ci` workflow green
-- [ ] `apps/sherin-api/.env.example` reviewed for new variables
-- [ ] Migrations reviewed (`apps/sherin-api/database/migrations/`)
+- [ ] `apps/nexa-api/.env.example` reviewed for new variables
+- [ ] Migrations reviewed (`apps/nexa-api/database/migrations/`)
 - [ ] Scheduler + queue worker plan confirmed (see below)
 - [ ] Rollback tag noted
 
@@ -30,7 +30,7 @@ Production and staging deployments for the Nexa V2 stack (`v2/main` branch):
 ## API deploy steps
 
 ```bash
-cd apps/sherin-api
+cd apps/nexa-api
 git pull origin v2/main
 composer install --no-dev --optimize-autoloader
 php artisan migrate --force
@@ -45,7 +45,7 @@ Restart PHP-FPM (or reload the API container) after deploy.
 ## Web deploy steps
 
 ```bash
-cd apps/sherin-web
+cd apps/nexa-web
 git pull origin v2/main
 npm ci
 npm run build
@@ -57,7 +57,7 @@ Restart the Next.js process (or redeploy the web container). Set `NEXT_PUBLIC_AP
 
 ## Scheduler (required for campaigns)
 
-V2 registers three Nexa commands in `apps/sherin-api/routes/console.php`:
+V2 registers three Nexa commands in `apps/nexa-api/routes/console.php`:
 
 | Command | Schedule | Purpose |
 |---------|----------|---------|
@@ -70,7 +70,7 @@ All schedules use timezone **`Africa/Casablanca`**.
 **Cron on the API host** (one entry — Laravel dispatches due tasks):
 
 ```cron
-* * * * * cd /path/to/nexa-platform/apps/sherin-api && php artisan schedule:run >> /var/log/nexa-schedule.log 2>&1
+* * * * * cd /path/to/nexa-platform/apps/nexa-api && php artisan schedule:run >> /var/log/nexa-schedule.log 2>&1
 ```
 
 Verify after deploy:
@@ -102,7 +102,7 @@ REDIS_PORT=6379
 ```ini
 [program:nexa-queue]
 process_name=%(program_name)s_%(process_num)02d
-command=php /path/to/nexa-platform/apps/sherin-api/artisan queue:work redis --sleep=3 --tries=3 --max-time=3600
+command=php /path/to/nexa-platform/apps/nexa-api/artisan queue:work redis --sleep=3 --tries=3 --max-time=3600
 autostart=true
 autorestart=true
 stopasgroup=true
