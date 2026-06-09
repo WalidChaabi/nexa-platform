@@ -41,11 +41,11 @@ Route::prefix('auth')->group(function () {
     });
 });
 
-Route::middleware(['auth:sanctum', 'active', 'role:admin'])->get('/admin/ping', function () {
+Route::middleware(['auth:sanctum', 'active', 'role:admin', 'throttle:api'])->get('/admin/ping', function () {
     return response()->json(['status' => 'ok', 'area' => 'admin']);
 });
 
-Route::middleware(['auth:sanctum', 'active'])->group(function () {
+Route::middleware(['auth:sanctum', 'active', 'throttle:api'])->group(function () {
     Route::get('/stores', [StoreController::class, 'index']);
     Route::post('/stores', [StoreController::class, 'store']);
     Route::get('/stores/{store}', [StoreController::class, 'show']);
