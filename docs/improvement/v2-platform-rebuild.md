@@ -443,7 +443,7 @@ Deploy **two apps** (or reverse proxy): `app.nexa.app` → Next.js, `api.nexa.ap
 | CMI checkout | `checkout` | [x] | [ ] | Backend + Frontend |
 | CMI callback | `success` / `callBack` | [x] | [ ] | Backend |
 | Create campaign | owner campaigns | [x] | [ ] | Frontend + Backend |
-| Send birthday SMS | scheduler | [ ] | [ ] | Backend |
+| Send birthday SMS | scheduler | [x] | [ ] | Backend |
 | Cross-selling cron | command | [x] | [ ] | Backend |
 | RDV calendar + reminders | owner calendar | [x] | [ ] | Frontend + Backend |
 | Admin owner CRUD | admin owners | [x] | [ ] | Frontend + Backend |
@@ -461,7 +461,7 @@ Work in **waves**. Finish each wave’s *verified* column before cutover. Roles:
 
 | ID | Task | Role | Priority | Depends on | Status |
 |----|------|------|----------|------------|--------|
-| W0-1 | Commit + push uncommitted UI (login-02, form patterns, invoices DataTable, Docker naming) | FE + Ops | P0 | — | [ ] |
+| W0-1 | Commit + push uncommitted UI (login-02, form patterns, invoices DataTable, Docker naming) | FE + Ops | P0 | — | [x] |
 | W0-2 | Smoke-test employer invoices list actions + create flow | QA | P0 | W0-1 | [ ] |
 | W0-3 | Confirm demo seed + `nexa_platform` Docker stack on fresh clone | Ops | P1 | — | [ ] |
 
@@ -488,7 +488,7 @@ Work in **waves**. Finish each wave’s *verified* column before cutover. Roles:
 
 | ID | Task | Role | Priority | Depends on | Status |
 |----|------|------|----------|------------|--------|
-| W3-1 | **Wire birthday command** — `nexa:birthday-campaign` is currently a tick stub; port V1 `CampaignService` birthday logic + `SendCampaignSmsJob` | BE | P0 | — | [ ] |
+| W3-1 | **Wire birthday command** — `nexa:birthday-campaign` creates unpaid `messages_customers` rows (V1 parity) | BE | P0 | — | [x] |
 | W3-2 | Parity: owner create/edit campaign + filters | QA | P1 | W2-1 | [ ] |
 | W3-3 | Verify `nexa:cross-selling` against V1 sample data (queued SMS count) | BE + QA | P1 | — | [ ] |
 | W3-4 | Verify `nexa:rendez-vous` reminders (30-min window) | BE + QA | P1 | — | [ ] |
@@ -553,7 +553,7 @@ W5 Excel import (can slip after cutover if owners accept manual import temporari
 
 **Critical path:** W0-1 → W1 (payments) → W2 (invoice/print) → **W3-1 (birthday stub)** → W7 (staging) → W8.
 
-**Known gap:** `BirthdayCampaignCommand` logs a tick only — must be implemented before claiming campaign parity.
+**Note:** Birthday scheduler creates billing rows (`messages_customers`); owners still pay via CMI before SMS sends. Parity **verification** (W3-2+) remains open.
 
 ---
 
