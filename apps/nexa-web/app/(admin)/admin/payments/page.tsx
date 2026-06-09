@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { CreditCard, List } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { CreditCard } from "lucide-react";
 
+import { DataTable } from "@/components/data-table/data-table";
 import { PageHeader } from "@/components/layout/page-header";
+import { createAdminPaymentsColumns } from "@/components/payments/admin-payments-columns";
 import { useLocale } from "@/components/providers/locale-provider";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
@@ -15,14 +16,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { fetchPayments, type PaymentSummary } from "@/lib/api/payments";
 
 export default function AdminPaymentsPage() {
@@ -32,7 +25,7 @@ export default function AdminPaymentsPage() {
   const [errorKey, setErrorKey] = useState<string | null>(null);
 
   useEffect(() => {
-    const active = true;
+    let active = true;
 
     async function loadPayments() {
       setFetching(true);
@@ -55,7 +48,21 @@ export default function AdminPaymentsPage() {
     }
 
     void loadPayments();
+
+    return () => {
+      active = false;
+    };
   }, []);
+
+  const columns = useMemo(
+    () =>
+      createAdminPaymentsColumns({
+        t,
+        formatCurrency,
+        formatDateTime,
+      }),
+    [t, formatCurrency, formatDateTime],
+  );
 
   return (
     <div className="space-y-6">
@@ -74,55 +81,24 @@ export default function AdminPaymentsPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <List className="size-4 text-primary" />
-            {t("admin.payments.listTitle")}
-          </CardTitle>
+          <CardTitle>{t("admin.payments.listTitle")}</CardTitle>
           <CardDescription>{t("admin.payments.listDescription")}</CardDescription>
         </CardHeader>
         <CardContent>
           {fetching ? (
-            <div className="space-y-2">
-              <Skeleton className="h-10 w-full" />
-              <Skeleton className="h-10 w-full" />
+            <div className="space-y-3">
+              <Skeleton className="h-9 w-full max-w-sm" />
+              <Skeleton className="h-64 w-full" />
             </div>
-          ) : payments.length === 0 ? (
-            <p className="text-sm text-muted-foreground">
-              {t("admin.payments.empty")}
-            </p>
           ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>{t("admin.payments.columns.invoice")}</TableHead>
-                  <TableHead>{t("admin.payments.columns.owner")}</TableHead>
-                  <TableHead>{t("admin.payments.columns.totalTtc")}</TableHead>
-                  <TableHead>{t("admin.payments.columns.date")}</TableHead>
-                  <TableHead>{t("admin.payments.columns.status")}</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {payments.map((payment) => (
-                  <TableRow key={payment.id}>
-                    <TableCell className="font-medium">{payment.cmd}</TableCell>
-                    <TableCell>
-                      {payment.owner?.full_name ?? `#${payment.owner_id}`}
-                    </TableCell>
-                    <TableCell>{formatCurrency(payment.total_ttc)}</TableCell>
-                    <TableCell>{formatDateTime(payment.created_at)}</TableCell>
-                    <TableCell>
-                      <Badge
-                        variant={
-                          payment.status_label === "paid" ? "default" : "secondary"
-                        }
-                      >
-                        {payment.status_label}
-                      </Badge>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <DataTable
+              columns={columns}
+              data={payments}
+              filterColumn="search"
+              filterPlaceholder={t("admin.payments.filterPlaceholder")}
+              emptyMessage={t("admin.payments.empty")}
+              initialColumnVisibility={{ search: false }}
+            />
           )}
         </CardContent>
       </Card>

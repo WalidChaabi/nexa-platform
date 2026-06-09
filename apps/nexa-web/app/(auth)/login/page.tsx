@@ -3,7 +3,16 @@ import { LoginForm } from "@/components/auth/login-form";
 import { BrandLogo } from "@/components/brand/brand-logo";
 import { brand } from "@/lib/brand";
 
-export default function LoginPage() {
+type LoginPageProps = {
+  searchParams: Promise<{ next?: string | string[] }>;
+};
+
+export default async function LoginPage({ searchParams }: LoginPageProps) {
+  const params = await searchParams;
+  const nextParam = params.next;
+  const redirectTo =
+    typeof nextParam === "string" ? nextParam : undefined;
+
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       <div className="flex flex-col gap-4 p-6 md:p-10">
@@ -17,7 +26,7 @@ export default function LoginPage() {
         </div>
         <div className="flex flex-1 items-center justify-center">
           <div className="w-full max-w-xs">
-            <LoginForm />
+            <LoginForm redirectTo={redirectTo} />
           </div>
         </div>
       </div>

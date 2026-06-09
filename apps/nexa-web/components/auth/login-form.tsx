@@ -9,14 +9,18 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { login } from "@/lib/api/auth";
+import { isSafeDashboardPath } from "@/lib/auth/paths";
 import { cn } from "@/lib/utils";
 
 const isDev = process.env.NODE_ENV === "development";
 
 export function LoginForm({
   className,
+  redirectTo,
   ...props
-}: React.ComponentProps<"form">) {
+}: React.ComponentProps<"form"> & {
+  redirectTo?: string;
+}) {
   const { t } = useLocale();
   const [email, setEmail] = useState(isDev ? "employer@nexa.test" : "");
   const [password, setPassword] = useState(isDev ? "password" : "");
@@ -30,7 +34,11 @@ export function LoginForm({
 
     try {
       const user = await login(email, password);
-      window.location.assign(user.dashboard_path);
+      const destination =
+        redirectTo && isSafeDashboardPath(redirectTo)
+          ? redirectTo
+          : user.dashboard_path;
+      window.location.assign(destination);
     } catch (err) {
       setError(
         err instanceof Error ? err.message : t("auth.loginFailed"),

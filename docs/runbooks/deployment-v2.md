@@ -53,6 +53,29 @@ npm run build
 
 Restart the Next.js process (or redeploy the web container). Set `NEXT_PUBLIC_API_URL` to the public API origin.
 
+### Web Docker image (production)
+
+`apps/nexa-web/Dockerfile` is a multi-stage build (`next build` + standalone `node server.js`). Local dev still uses `Dockerfile.dev` via root `docker-compose.yml`.
+
+```bash
+# From repo root — production-like stack (no bind mounts)
+export NEXT_PUBLIC_API_URL=https://api.example.com
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+
+# Or build/push only the web image
+docker build \
+  --build-arg NEXT_PUBLIC_API_URL=https://api.example.com \
+  -t nexa-web:latest \
+  ./apps/nexa-web
+```
+
+Runtime env for the web container:
+
+| Variable | Purpose |
+|----------|---------|
+| `NEXT_PUBLIC_API_URL` | Browser-facing API origin (baked at build time for client bundles; set again at runtime for server fetches if needed) |
+| `API_INTERNAL_URL` | Server-side API origin inside Docker network (e.g. `http://api:8000` for middleware / RSC) |
+
 ---
 
 ## Scheduler (required for campaigns)

@@ -148,16 +148,22 @@ function MarketingHeader() {
                 <PreferencesToolbar />
                 <SheetClose
                   render={
-                    <NavLink href="/login" variant="outline" className="w-full" />
+                    <NavLink
+                      href="/login"
+                      variant="outline"
+                      className="w-full"
+                    >
+                      {t("marketing.nav.signIn")}
+                    </NavLink>
                   }
-                >
-                  {t("marketing.nav.signIn")}
-                </SheetClose>
+                />
                 <SheetClose
-                  render={<NavLink href="/login" className="w-full" />}
-                >
-                  {t("marketing.nav.getStarted")}
-                </SheetClose>
+                  render={
+                    <NavLink href="/login" className="w-full">
+                      {t("marketing.nav.getStarted")}
+                    </NavLink>
+                  }
+                />
               </div>
             </SheetContent>
           </Sheet>

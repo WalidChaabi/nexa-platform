@@ -1,28 +1,20 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { List, Search, Users } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { Users } from "lucide-react";
 
+import { createOwnerCustomersColumns } from "@/components/customers/owner-customers-columns";
+import { DataTable } from "@/components/data-table/data-table";
 import { PageHeader } from "@/components/layout/page-header";
 import { useLocale } from "@/components/providers/locale-provider";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { fetchCustomers, type CustomerSummary } from "@/lib/api/customers";
 
 export default function OwnerCustomersPage() {
@@ -30,19 +22,16 @@ export default function OwnerCustomersPage() {
   const [customers, setCustomers] = useState<CustomerSummary[]>([]);
   const [fetching, setFetching] = useState(true);
   const [errorKey, setErrorKey] = useState<string | null>(null);
-  const [search, setSearch] = useState("");
 
   useEffect(() => {
-    const active = true;
+    let active = true;
 
     async function loadCustomers() {
       setFetching(true);
       setErrorKey(null);
 
       try {
-        const data = await fetchCustomers({
-          q: search.trim() || undefined,
-        });
+        const data = await fetchCustomers();
         if (active) {
           setCustomers(data);
         }
@@ -58,7 +47,19 @@ export default function OwnerCustomersPage() {
     }
 
     void loadCustomers();
-  }, [search]);
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const columns = useMemo(
+    () =>
+      createOwnerCustomersColumns({
+        t,
+      }),
+    [t],
+  );
 
   return (
     <div className="space-y-6">
@@ -77,63 +78,23 @@ export default function OwnerCustomersPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Search className="size-4 text-primary" />
-            {t("owner.customers.searchTitle")}
-          </CardTitle>
-          <CardDescription>{t("owner.customers.searchDescription")}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Input
-            placeholder={t("owner.customers.searchPlaceholder")}
-            value={search}
-            onChange={(event) => setSearch(event.target.value)}
-          />
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <List className="size-4 text-primary" />
-            {t("owner.customers.listTitle")}
-          </CardTitle>
+          <CardTitle>{t("owner.customers.listTitle")}</CardTitle>
         </CardHeader>
         <CardContent>
           {fetching ? (
-            <div className="space-y-2">
-              <Skeleton className="h-10 w-full" />
-              <Skeleton className="h-10 w-full" />
+            <div className="space-y-3">
+              <Skeleton className="h-9 w-full max-w-sm" />
+              <Skeleton className="h-64 w-full" />
             </div>
-          ) : customers.length === 0 ? (
-            <p className="text-sm text-muted-foreground">
-              {t("owner.customers.empty")}
-            </p>
           ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>{t("owner.customers.columns.name")}</TableHead>
-                  <TableHead>{t("owner.customers.columns.phone")}</TableHead>
-                  <TableHead>{t("owner.customers.columns.store")}</TableHead>
-                  <TableHead>{t("owner.customers.columns.points")}</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {customers.map((customer) => (
-                  <TableRow key={customer.id}>
-                    <TableCell className="font-medium">
-                      {customer.display_name}
-                    </TableCell>
-                    <TableCell>{customer.phone}</TableCell>
-                    <TableCell>
-                      {customer.store?.name ?? `#${customer.store_id}`}
-                    </TableCell>
-                    <TableCell>{customer.points ?? "0"}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <DataTable
+              columns={columns}
+              data={customers}
+              filterColumn="search"
+              filterPlaceholder={t("owner.customers.searchPlaceholder")}
+              emptyMessage={t("owner.customers.empty")}
+              initialColumnVisibility={{ search: false }}
+            />
           )}
         </CardContent>
       </Card>

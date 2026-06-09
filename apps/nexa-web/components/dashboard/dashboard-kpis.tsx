@@ -332,7 +332,10 @@ export function DashboardKpisPanel({
 
         <div className="flex flex-wrap items-center gap-2">
           {storeFilterEnabled && stores.length > 1 ? (
-            <Select value={storeFilter} onValueChange={setStoreFilter}>
+            <Select
+              value={storeFilter}
+              onValueChange={(value) => setStoreFilter(value ?? ALL_STORES)}
+            >
               <SelectTrigger className="w-full min-w-[12rem] sm:w-56">
                 <SelectValue placeholder={t("dashboard.kpis.allStores")} />
               </SelectTrigger>

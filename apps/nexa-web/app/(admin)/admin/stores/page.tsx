@@ -26,7 +26,7 @@ export default function AdminStoresPage() {
   const columns = useMemo(() => createStoreColumns(t), [t]);
 
   useEffect(() => {
-    const active = true;
+    let active = true;
 
     async function loadStores() {
       setFetching(true);
@@ -49,6 +49,10 @@ export default function AdminStoresPage() {
     }
 
     void loadStores();
+
+    return () => {
+      active = false;
+    };
   }, []);
 
   return (

@@ -106,7 +106,7 @@ function ChartShell({
 }: {
   title: string;
   description: string;
-  children: React.ReactNode;
+  children: React.ReactElement;
   className?: string;
 }) {
   return (
