@@ -9,6 +9,9 @@
 # Rebuild images only when Dockerfiles or base dependencies change:
 #   docker compose build api web
 #
+# Production-like stack (no bind mounts, Next.js `next start` via standalone image):
+#   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+#
 name: nexa_platform
 
 services:
@@ -72,7 +75,7 @@ services:
     container_name: nexa_web
     build:
       context: ./apps/nexa-web
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     ports:
       - 3000:3000
     develop:

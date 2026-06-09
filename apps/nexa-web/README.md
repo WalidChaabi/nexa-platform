@@ -16,6 +16,15 @@ docker compose up -d
 
 Web UI: http://localhost:3000
 
+Uses `Dockerfile.dev` (hot reload). For a production-like image (`next build` + standalone server):
+
+```bash
+# From repo root
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+```
+
+See [deployment-v2.md](../../docs/runbooks/deployment-v2.md) for build args and env vars.
+
 ### Without Docker
 
 ```bash
