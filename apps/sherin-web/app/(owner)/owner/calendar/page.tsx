@@ -15,7 +15,7 @@ export default function OwnerCalendarPage() {
   const [storeId, setStoreId] = useState("");
 
   useEffect(() => {
-    let active = true;
+    const active = true;
 
     async function loadStores() {
       try {

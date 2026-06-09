@@ -57,7 +57,7 @@ export default function OwnerCrossSellingPage() {
   const [days, setDays] = useState("20");
 
   useEffect(() => {
-    let active = true;
+    const active = true;
 
     async function load() {
       setFetching(true);

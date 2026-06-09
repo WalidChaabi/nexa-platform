@@ -59,7 +59,7 @@ export default function AdminOwnersPage() {
   const [allowShare, setAllowShare] = useState("0");
 
   useEffect(() => {
-    let active = true;
+    const active = true;
 
     async function load() {
       setFetching(true);

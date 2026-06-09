@@ -76,7 +76,7 @@ export default function OwnerCampaignsPage() {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    let active = true;
+    const active = true;
 
     async function load() {
       setFetching(true);
@@ -119,7 +119,7 @@ export default function OwnerCampaignsPage() {
       return;
     }
 
-    let active = true;
+    const active = true;
 
     async function loadDefaults() {
       try {

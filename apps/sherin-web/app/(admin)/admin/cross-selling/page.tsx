@@ -34,7 +34,7 @@ export default function AdminCrossSellingPage() {
   const [errorKey, setErrorKey] = useState<string | null>(null);
 
   useEffect(() => {
-    let active = true;
+    const active = true;
 
     async function load() {
       setFetching(true);

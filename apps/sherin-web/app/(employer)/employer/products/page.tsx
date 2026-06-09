@@ -97,7 +97,7 @@ export default function EmployerProductsPage() {
     }
 
     const activeStoreId = storeId;
-    let active = true;
+    const active = true;
 
     async function loadCatalog() {
       setFetching(true);

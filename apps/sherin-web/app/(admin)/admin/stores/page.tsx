@@ -26,7 +26,7 @@ export default function AdminStoresPage() {
   const columns = useMemo(() => createStoreColumns(t), [t]);
 
   useEffect(() => {
-    let active = true;
+    const active = true;
 
     async function loadStores() {
       setFetching(true);
