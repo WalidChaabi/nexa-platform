@@ -1,7 +1,7 @@
 <?php 
 
 return [
-    'recherche SHERIN'                  => 'recherche SHERIN',
+    'recherche NEXA'                  => 'recherche NEXA',
     'Chargement'                        => 'Loading',
     'Clients'                           => 'Customers',
     'Liste'                             => 'list',

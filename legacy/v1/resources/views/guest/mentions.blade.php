@@ -11,13 +11,13 @@
                             <div class="single-feature mt-4 mb-3">
                                 <p class="info">Raison sociale: PALM D’OR MULTI-SERVICES SARL </p>
                                 <p class="info">– Téléphone: +212 (06) 63 42 37 33  </p>
-                                <p class="info">– Email: contact@sherin.ma</p>
-                                <p class="info">– Site internet: www.sherin.ma </p>
+                                <p class="info">– Email: contact@nexa.app</p>
+                                <p class="info">– Site internet: www.nexa.app </p>
                                 <p class="info">– Adresse du siège: Hay Inara Bloc 19 N° 762 MARRAKECH 40000, Maroc. </p>
                             </div>
                             <div class="single-feature mb-3">
-                                <p class="info">Directeur de la publication: M. LAHBIRI Othmane – lahbiri.othmane@sherin.ma</p>
-                                <p class="info">Web Design & Développement: PALM D’OR MULTI-SERVICES SARL– http://www.sherin.ma </p>
+                                <p class="info">Directeur de la publication: M. LAHBIRI Othmane – lahbiri.othmane@nexa.app</p>
+                                <p class="info">Web Design & Développement: PALM D’OR MULTI-SERVICES SARL– http://www.nexa.app </p>
                                 <p class="info">L’hébergement du site est assuré par la société ADK MEDIA</p>
                             </div>
 
@@ -38,8 +38,8 @@
                             {{-- <div class="icon-box-wrap d-flex align-items-center mb-2"> --}}
                                 <p class="mb-0" style="text-align: justify">Raison sociale: PALM D’OR MULTI-SERVICES SARL</p>
                                 <p class="mb-0" style="text-align: justify">– Téléphone: +212 (06) 63 42 37 33</p>
-                                <p class="mb-0" style="text-align: justify">– Email: contact@sherin.ma</p>
-                                <p class="mb-0" style="text-align: justify">– Site internet: www.sherin.ma</p>
+                                <p class="mb-0" style="text-align: justify">– Email: contact@nexa.app</p>
+                                <p class="mb-0" style="text-align: justify">– Site internet: www.nexa.app</p>
                                 <p class="mb-0" style="text-align: justify">– Adresse du siège: Hay Inara Bloc 19 N° 762 MARRAKECH 40000, Maroc.</p>
                             {{-- </div> --}}
                         </div>
@@ -47,7 +47,7 @@
 
                         <div class="single-feature mb-4 mt-4">
                             <div class="icon-box-wrap d-flex align-items-center mb-2">
-                                <p class="mb-0" style="text-align: justify">Les prix mentionnés sur le site www.sherin.ma sont des prix publics conseillés. Le prix applicable correspond au 
+                                <p class="mb-0" style="text-align: justify">Les prix mentionnés sur le site www.nexa.app sont des prix publics conseillés. Le prix applicable correspond au 
                                     prix affiché sur le site au jour de la commande. Les prix sont exprimés en MAD (HT) 
                                     (taux de TVA est de 20%). Règlement Règlement par carte bancaire, ce service est assuré par le centre monétaire intérbancaire.
                                 </p>
@@ -83,7 +83,7 @@
                             <div class="icon-box-wrap d-flex align-items-center mb-3">
                                 <p class="mb-0" style="text-align: justify">Conformément à la Loi Informatique Loi 09-08 relative à la protection des personnes physiques à l’égard du traitement des 
                                     données à caractère personnel, les personnes concernées bénéficient d’un droit d’accès, de rectification ou d’opposition sur les données
-                                     nominatives collectées les concernant. Ces droits peuvent être exercés en nous contactant à l’adresse électronique : support@sherin.m
+                                     nominatives collectées les concernant. Ces droits peuvent être exercés en nous contactant à l’adresse électronique : support@nexa.app
                                      a ou à l’adresse suivante :
                                 </p>
                             </div>
@@ -105,12 +105,12 @@
                         
                         <div class="single-feature mb-4 mt-4">
                             <div class="icon-box-wrap d-flex align-items-center mb-3">
-                                <p class="mb-0" style="text-align: justify">L’utilisation du site Sherin.ma implique l’acceptation pleine et entière des conditions générales d’utilisation ci-après décrites.
+                                <p class="mb-0" style="text-align: justify">L’utilisation du site Nexa implique l’acceptation pleine et entière des conditions générales d’utilisation ci-après décrites.
                                 </p>
                             </div>
                             <div class="icon-box-wrap d-flex align-items-center mb-3">
                                 <p class="mb-0" style="text-align: justify">Ces conditions d’utilisation sont susceptibles d’être modifiées ou complétées à 
-                                    tout moment, les utilisateurs du site Sherin.ma sont donc invités à les consulter de manière régulière.
+                                    tout moment, les utilisateurs du site Nexa sont donc invités à les consulter de manière régulière.
                                 </p>
                             </div>
                             <div class="icon-box-wrap d-flex align-items-center mb-3">
@@ -120,7 +120,7 @@
                                 </p>
                             </div>
                             <div class="icon-box-wrap d-flex align-items-center mb-3">
-                                <p class="mb-0" style="text-align: justify">Le site Sherin.ma est mis à jour régulièrement par PALM D’OR MULTI-SERVICES SARL.</p>
+                                <p class="mb-0" style="text-align: justify">Le site Nexa est mis à jour régulièrement par PALM D’OR MULTI-SERVICES SARL.</p>
                             </div>
                             <div class="icon-box-wrap d-flex align-items-center mb-3">
                                 <p class="mb-0" style="text-align: justify">De la même façon, les mentions légales peuvent être modifiées à tout moment : elles s’imposent néanmoins 
@@ -154,13 +154,13 @@
                         <div class="single-feature mb-4 mt-4">
                             <div class="icon-box-wrap d-flex align-items-center mb-3">
                                 <p class="mb-0" style="text-align: justify">PALM D’OR MULTI-SERVICES SARL ne pourra être tenue responsable
-                                     des dommages directs et indirects causés au matériel de l’utilisateur, lors de l’accès au site Sherin.ma,
+                                     des dommages directs et indirects causés au matériel de l’utilisateur, lors de l’accès au site Nexa,
                                       et résultant soit de l’utilisation d’un matériel ne répondant pas aux spécifications indiquées au point 2, 
                                       soit de l’apparition d’un bug ou d’une incompatibilité.</p>
                             </div>
                             <div class="icon-box-wrap d-flex align-items-center mb-3">
                                 <p class="mb-0" style="text-align: justify">PALM D’OR MULTI-SERVICES SARL ne pourra également être tenue responsable 
-                                    des dommages indirects (tels par exemple qu’une perte de marché ou perte d’une chance) consécutifs à l’utilisation du site Sherin.ma.
+                                    des dommages indirects (tels par exemple qu’une perte de marché ou perte d’une chance) consécutifs à l’utilisation du site Nexa.
                                 </p>
                             </div>
                             <div class="icon-box-wrap d-flex align-items-center mb-3">
@@ -180,13 +180,13 @@
 
                         <div class="single-feature mb-4 mt-4">
                             <div class="icon-box-wrap d-flex align-items-center mb-3">
-                                <p class="mb-0" style="text-align: justify">Le site Sherin.ma contient un certain nombre de liens hypertextes vers d’autres sites, 
+                                <p class="mb-0" style="text-align: justify">Le site Nexa contient un certain nombre de liens hypertextes vers d’autres sites, 
                                     mis en place avec l’autorisation de PALM D’OR MULTI-SERVICES SARL.
                                 </p>
                             </div>
                             <div class="icon-box-wrap d-flex align-items-center mb-3">
                                 <p class="mb-0" style="text-align: justify">Cependant, PALM D’OR MULTI-SERVICES SARL n’a pas la possibilité de vérifier le contenu des 
-                                    sites ainsi visités, et n’assumera en conséquence aucune responsabilité de ce fait. La navigation sur le site Sherin.ma est susceptible 
+                                    sites ainsi visités, et n’assumera en conséquence aucune responsabilité de ce fait. La navigation sur le site Nexa est susceptible 
                                     de provoquer l’installation de cookie(s) sur l’ordinateur de l’utilisateur. Un cookie est un fichier de petite taille, qui ne permet 
                                     pas l’identification de l’utilisateur, mais qui enregistre des informations relatives à la navigation d’un ordinateur sur un site. 
                                     Les données ainsi obtenues visent à faciliter la navigation ultérieure sur le site, et ont également vocation à permettre diverses 

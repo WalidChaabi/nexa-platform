@@ -29,7 +29,7 @@ class OwnerListener
     {
         Mail::send('emails.owner', ["owner"=>$event->owner,'password'=>$event->password], function ($message) use($event) {
             $message->to($event->owner->email);
-            $message->subject('Sherin:Configuration du Compte.');
+            $message->subject('Nexa:Configuration du Compte.');
         });
     }
 }

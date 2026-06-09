@@ -5,7 +5,7 @@
         <div class="Typeahead Typeahead--twitterUsers">
           <div class="u-posRelative">
     
-            <input class="demo-input Typeahead-input form-control-plaintext w-100" type="text" placeholder="{{trans('communs.Rechercher SHERIN')}} .." name="q" title="" autofocus />
+            <input class="demo-input Typeahead-input form-control-plaintext w-100" type="text" placeholder="{{trans('communs.Rechercher NEXA')}} .." name="q" title="" autofocus />
             <div class="spinner-border Typeahead-spinner" role="status"><span class="sr-only">{{trans('communs.Loading')}}...</span></div>
             <i class="close-search" data-feather="x"></i>
           </div>

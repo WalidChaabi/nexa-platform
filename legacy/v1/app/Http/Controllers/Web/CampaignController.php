@@ -342,11 +342,11 @@ class CampaignController extends Controller
             'sms_advanced_price' => config('constant.sms_cross_selling')
         ]);
         $total_ht = $countSmsCrossSelling * config('constant.sms_cross_selling') + $countSms * $smsNormalPrice;
-        $total_ttc = $total_ht * (1 + config('constant.sherin_tva'));
+        $total_ttc = $total_ht * (1 + config('constant.nexa_tva'));
         $historiqueInvoice = [
             'services' => $services,
             'cmd' => $cmd,
-            'tva' => config('constant.sherin_tva'),
+            'tva' => config('constant.nexa_tva'),
             'owner_id' =>  $ownerId,
             'total_ht' => $total_ht,
             'total_ttc' =>  $total_ttc,
@@ -375,11 +375,11 @@ class CampaignController extends Controller
             'sms_advanced_price' => config('constant.sms_cross_selling')
         ]);
         $total_ht = ($type === 'cross-selling') ? $countSmsCrossSelling * config('constant.sms_cross_selling') : $countSms * $smsNormalPrice;
-        $total_ttc = $total_ht * (1 + config('constant.sherin_tva'));
+        $total_ttc = $total_ht * (1 + config('constant.nexa_tva'));
         $historiqueInvoice = [
             'services' => $services,
             'cmd' => $cmd,
-            'tva' => config('constant.sherin_tva'),
+            'tva' => config('constant.nexa_tva'),
             'owner_id' =>  $ownerId,
             'total_ht' => $total_ht,
             'total_ttc' =>  $total_ttc,
@@ -399,11 +399,11 @@ class CampaignController extends Controller
     //         'sms_advanced_price' => config('constant.sms_cross_selling')
     //     ]);
     //     $total_ht = $emails * config('constant.email_price') + $countSmsBirthdayAndWelcome *  $smsNormalPrice + $countSmsCrossSelling * config('constant.sms_cross_selling');
-    //     $total_ttc = $total_ht * (1 + config('constant.sherin_tva'));
+    //     $total_ttc = $total_ht * (1 + config('constant.nexa_tva'));
     //     $historiqueInvoice = [
     //         'services' => $services,
     //         'cmd' => $cmd,
-    //         'tva' => config('constant.sherin_tva'),
+    //         'tva' => config('constant.nexa_tva'),
     //         'owner_id' =>  auth()->user()->id,
     //         'total_ht' => $total_ht,
     //         'total_ttc' =>  $total_ttc,

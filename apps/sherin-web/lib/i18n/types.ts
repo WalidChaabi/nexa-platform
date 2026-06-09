@@ -14,4 +14,4 @@ export const localeDirections: Record<Locale, "ltr" | "rtl"> = {
   ar: "rtl",
 };
 
-export const LOCALE_COOKIE = "sherin-locale";
+export const LOCALE_COOKIE = "nexa-locale";

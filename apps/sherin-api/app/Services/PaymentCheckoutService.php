@@ -38,7 +38,7 @@ class PaymentCheckoutService
         $pricing = $this->pricing();
         $lines = $this->buildLines($counts, $pricing);
         $totalHt = $this->discountedTotalHt($lines);
-        $tvaRate = (float) config('sherin.tva_rate');
+        $tvaRate = (float) config('nexa.tva_rate');
         $totalTtc = round($totalHt * (1 + $tvaRate), 2);
 
         return [
@@ -63,11 +63,11 @@ class PaymentCheckoutService
 
         $services = [
             'emails' => $this->lineQuantity($preview['lines'], 'emails'),
-            'email_price' => (float) config('sherin.email_price'),
+            'email_price' => (float) config('nexa.email_price'),
             'sms_normal' => $this->lineQuantity($preview['lines'], 'sms_normal'),
-            'sms_normale_price' => (float) config('sherin.sms_price'),
+            'sms_normale_price' => (float) config('nexa.sms_price'),
             'sms_advanced' => $this->lineQuantity($preview['lines'], 'sms_cross_selling'),
-            'sms_advanced_price' => (float) config('sherin.sms_cross_selling_price'),
+            'sms_advanced_price' => (float) config('nexa.sms_cross_selling_price'),
         ];
 
         $payment = PaymentHistory::query()->updateOrCreate(
@@ -95,7 +95,7 @@ class PaymentCheckoutService
             amount: (float) $payment->total_ttc,
             email: (string) $user->email,
             customerName: trim("{$user->firstname} {$user->lastname}"),
-            companyName: (string) config('app.name', 'Sherin'),
+            companyName: (string) config('app.name', 'Nexa'),
             phone: (string) ($user->phone ?? ''),
             address: (string) ($user->address ?? ''),
             language: app()->getLocale(),
@@ -178,10 +178,10 @@ class PaymentCheckoutService
     private function pricing(): array
     {
         return [
-            'sms_price' => (float) config('sherin.sms_price'),
-            'sms_cross_selling_price' => (float) config('sherin.sms_cross_selling_price'),
-            'email_price' => (float) config('sherin.email_price'),
-            'exceptional_discount' => (float) config('sherin.exceptional_discount'),
+            'sms_price' => (float) config('nexa.sms_price'),
+            'sms_cross_selling_price' => (float) config('nexa.sms_cross_selling_price'),
+            'email_price' => (float) config('nexa.email_price'),
+            'exceptional_discount' => (float) config('nexa.exceptional_discount'),
         ];
     }
 
@@ -223,7 +223,7 @@ class PaymentCheckoutService
     private function discountedTotalHt(array $lines): float
     {
         $subtotal = array_sum(array_column($lines, 'line_total'));
-        $discount = (float) config('sherin.exceptional_discount');
+        $discount = (float) config('nexa.exceptional_discount');
 
         return round(max(0, $subtotal - ($subtotal * $discount)), 2);
     }

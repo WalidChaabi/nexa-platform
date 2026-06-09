@@ -10,25 +10,25 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         User::factory()->admin()->create([
-            'firstname' => 'Sherin',
+            'firstname' => 'Nexa',
             'lastname' => 'Admin',
-            'email' => 'admin@sherin.test',
+            'email' => 'admin@nexa.test',
         ]);
 
         User::factory()->owner()->create([
             'firstname' => 'Store',
             'lastname' => 'Owner',
-            'email' => 'owner@sherin.test',
+            'email' => 'owner@nexa.test',
         ]);
 
         User::factory()->employer()->create([
             'firstname' => 'POS',
             'lastname' => 'Employer',
-            'email' => 'employer@sherin.test',
+            'email' => 'employer@nexa.test',
         ]);
 
         $this->call(ActivityReferenceSeeder::class);
         $this->call(CampaignReferenceSeeder::class);
-        $this->call(SherinDemoSeeder::class);
+        $this->call(NexaDemoSeeder::class);
     }
 }

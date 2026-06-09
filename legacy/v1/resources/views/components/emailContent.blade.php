@@ -32,7 +32,7 @@
                         </p>
 ​
                         <p style="color:#434343; margin:0px 0 0;">
-                            Cordialement, L’équipe SHERIN.
+                            Cordialement, L’équipe NEXA.
                         </p>
                     </td>
                 </tr>

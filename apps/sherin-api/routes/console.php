@@ -8,14 +8,14 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
 
-Schedule::command('sherin:birthday-campaign')
+Schedule::command('nexa:birthday-campaign')
     ->dailyAt('12:00')
     ->timezone('Africa/Casablanca');
 
-Schedule::command('sherin:cross-selling')
+Schedule::command('nexa:cross-selling')
     ->dailyAt('09:00')
     ->timezone('Africa/Casablanca');
 
-Schedule::command('sherin:rendez-vous')
+Schedule::command('nexa:rendez-vous')
     ->hourly()
     ->timezone('Africa/Casablanca');

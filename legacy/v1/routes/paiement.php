@@ -19,7 +19,7 @@ header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Ac
 header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
 ini_set('allow_url_fopen', 'On');
 
-Route::group(['domain' => 'app.sherin.ma'], function () {
+Route::group(['domain' => 'app.nexa.app'], function () {
 
     Route::get('index',function(){
         return view('cmi.paymentRequest');

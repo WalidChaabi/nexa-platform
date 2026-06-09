@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 
 import { AppProviders } from "@/components/providers/app-providers";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { brand } from "@/lib/brand";
 
 import "./globals.css";
 
@@ -17,8 +18,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Sherin",
-  description: "Sherin.ma platform — V2 web UI",
+  title: brand.name,
+  description: `${brand.headline} — ${brand.tagline}`,
 };
 
 export default function RootLayout({

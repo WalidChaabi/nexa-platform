@@ -35,7 +35,7 @@ class EmployListener
 
             ], function ($message) use($event) {
             $message->to($event->employ->email);
-            $message->subject('Sherin:Configuration du Compte Employé.');
+            $message->subject('Nexa:Configuration du Compte Employé.');
         });
     }
 }

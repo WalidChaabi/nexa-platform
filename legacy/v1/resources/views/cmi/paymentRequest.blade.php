@@ -22,15 +22,15 @@
 <body>
 
 	<?php
-	// https://sherin-old.herokuapp.com/index
+		$baseUrl = rtrim(config('app.url'), '/');
 		$orgClientId  =   config('app.CMI_CLIENT_ID');
   		$orgAmount = "577.25";
-  		$orgOkUrl =  "https://sherin-old.herokuapp.com/Ok-Fail";
-  		$orgFailUrl = "https://sherin-old.herokuapp.com/Ok-Fail";
-  		$shopurl = "https://sherin-old.herokuapp.com";
+  		$orgOkUrl =  "{$baseUrl}/Ok-Fail";
+  		$orgFailUrl = "{$baseUrl}/Ok-Fail";
+  		$shopurl = $baseUrl;
   		$orgTransactionType = "PreAuth";
   		$orgRnd =  microtime();
-  		$orgCallbackUrl = "https://sherin-old.herokuapp.com/callback";
+  		$orgCallbackUrl = "{$baseUrl}/callback";
   		$orgCurrency = "504";
 		
 	?>
@@ -38,7 +38,7 @@
 
 	<center>
 
-		<form method="post" action="https://sherin-old.herokuapp.com/process">
+		<form method="post" action="{{ rtrim(config('app.url'), '/') }}/process">
 			<table>
 				<tr>
 

@@ -7,17 +7,17 @@
             <div class="row justify-content-between">
                 <div class="col-md-12 col-lg-4 mb-4 mb-md-4 mb-sm-4 mb-lg-0">
                     <div class="footer-nav-wrap text-white">
-                        <img src="{{asset('new/images/sherin_blanc.png')}}" href="{{url('/')}}" width="120" class="img-fluid mb-3">
+                        <img src="{{asset('new/images/logo-nexa.webp')}}" href="{{url('/')}}" width="120" class="img-fluid mb-3" alt="Nexa">
                         {{-- <p>Holisticly empower premium architectures without value-added ideas. Seamlessly evolve
                             cross-platform experiences.</p> --}}
 
                         <div class="social-list-wrap">
                             <ul class="social-list list-inline list-unstyled">
-                                <li class="list-inline-item"><a href="https://www.facebook.com/app.sherin.ma" target="_blank"
+                                <li class="list-inline-item"><a href="https://www.facebook.com/app.nexa.app" target="_blank"
                                         title="Facebook"><span class="ti-facebook"></span></a></li>
                                 <li class="list-inline-item"><a href="#" target="_blank" title="Twitter"><span
                                             class="ti-twitter"></span></a></li>
-                                <li class="list-inline-item"><a href="https://www.instagram.com/sherin.app/?hl=frj" target="_blank"
+                                <li class="list-inline-item"><a href="https://www.instagram.com/nexa.app" target="_blank"
                                         title="Instagram"><span class="ti-instagram"></span></a></li>
                                 <li class="list-inline-item"><a href="#" target="_blank"
                                         title="printerst"><span class="ti-pinterest"></span></a></li>

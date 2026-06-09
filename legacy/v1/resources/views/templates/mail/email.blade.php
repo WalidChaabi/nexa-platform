@@ -234,7 +234,7 @@ xmlns:v="urn:schemas-microsoft-com:vml">
                                                 <a
                                                     href="https://moustatmir.ma/" style="outline:none" tabindex="-1"
                                                     target="_blank"> <img alt="Moustatmir LOGO" border="0"
-                                                                            class="left fixedwidth" src="http://178.62.248.156/images/logo-sherin.png"
+                                                                            class="left fixedwidth" src="http://178.62.248.156/images/logo-nexa.png"
                                                                             style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; width: 100%; max-width: 180px; display: block;"
                                                                             width="180" /></a>
                                                 <!--[if mso]></td></tr></table><![endif]-->

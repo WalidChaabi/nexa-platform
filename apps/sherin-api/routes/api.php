@@ -25,7 +25,7 @@ Route::post('/payments/cmi/callback', [PaymentController::class, 'cmiCallback'])
 Route::get('/health', function () {
     return response()->json([
         'status' => 'ok',
-        'service' => 'sherin-api',
+        'service' => 'nexa-api',
         'version' => 'v1',
     ]);
 });

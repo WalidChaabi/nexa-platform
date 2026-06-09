@@ -1,6 +1,6 @@
 @extends('layouts.simple.master')
 @section('title', 'Default')
-<title>Sherin:Historique des Paiements</title>
+<title>Nexa:Historique des Paiements</title>
 @section('css')
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/animate.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/chartist.css') }}">

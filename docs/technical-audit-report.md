@@ -1,8 +1,8 @@
-# Technical Audit Report — Sherin Laravel Application
+# Technical Audit Report — Nexa Laravel Application
 
-**Codebase:** `sherin-laravel-app-main`  
+**Codebase:** `nexa-platform`  
 **Stack:** Laravel **5.7**, PHP **7.4**, Blade + jQuery/Vue 2, Laravel Mix 4, MySQL  
-**Domain:** Multi-store retail/POS platform (Sherin.ma) — invoices, customers, SMS/email campaigns, CMI payments, calendar/RDV, cross-selling  
+**Domain:** Multi-store retail/POS platform (Nexa) — invoices, customers, SMS/email campaigns, CMI payments, calendar/RDV, cross-selling  
 **Audit date:** June 8, 2026
 
 This is a **legacy monolith with real business complexity**, but it carries **critical security debt**, **near-zero test coverage**, and **outdated dependencies**. The audit below is based on direct inspection of routes, controllers, services, models, migrations, views, tests, and config.
@@ -370,7 +370,7 @@ Laravel Mix 4, Vue 2.5, Bootstrap 4, jQuery 3 — all dated. Built assets commit
 
 - `docker-compose.yml`: MySQL 8 only — no app container.
 - No Makefile, no Sail, no dev scripts beyond default Mix.
-- `.env.example` is generic Laravel — missing Sherin-specific vars (CMI, SMS, etc.).
+- `.env.example` is generic Laravel — missing Nexa-specific vars (CMI, SMS, etc.).
 
 ---
 
@@ -444,4 +444,4 @@ Laravel Mix 4, Vue 2.5, Bootstrap 4, jQuery 3 — all dated. Built assets commit
 
 ## Bottom line
 
-Sherin is a **feature-rich POS/campaign platform** with evidence of real-world use, but it is operating at **significant security and maintainability risk** on an **unsupported framework stack**. The highest ROI path is a **security remediation sprint**, then **framework upgrade with tests**, then **performance hardening** (indexes, queues, caching).
+Nexa is a **feature-rich POS/campaign platform** with evidence of real-world use, but it is operating at **significant security and maintainability risk** on an **unsupported framework stack**. The highest ROI path is a **security remediation sprint**, then **framework upgrade with tests**, then **performance hardening** (indexes, queues, caching).

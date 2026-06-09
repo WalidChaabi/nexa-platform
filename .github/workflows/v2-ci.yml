@@ -15,7 +15,7 @@ on:
 
 jobs:
   api:
-    name: Sherin API
+    name: Nexa API
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -43,7 +43,7 @@ jobs:
         run: php artisan test
 
   web:
-    name: Sherin Web
+    name: Nexa Web
     runs-on: ubuntu-latest
     defaults:
       run:

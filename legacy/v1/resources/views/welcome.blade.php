@@ -7,7 +7,7 @@
    <meta name="author" content="pixelstrap">
    <link rel="icon" href="../assets/images/favicon.png" type="image/x-icon">
    <link rel="shortcut icon" href="../assets/images/favicon.png" type="image/x-icon">
-   <title>SHERIN</title>
+   <title>NEXA</title>
    <!-- Google font-->
    <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,500i,700,700i&amp;display=swap" rel="stylesheet">
    <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900&amp;display=swap" rel="stylesheet">
@@ -56,7 +56,7 @@
    <button class="navbar-toggler navabr_btn-set custom_nav" type="button" data-bs-toggle="collapse" data-bs-target="#navbarDefault" aria-controls="navbarDefault" aria-expanded="true" aria-label="Toggle navigation" data-bs-original-title="" title=""><span></span><span></span><span></span></button>
    <div class="navbar-collapse justify-content-end hidenav collapse show" id="navbarDefault" style="">
    <ul class="navbar-nav navbar_nav_modify" id="scroll-spy">
-   <li class="nav-item"><a class="nav-link" href="https://app.sherin.ma" data-bs-original-title="" title="">Espace client</a></li>
+   <li class="nav-item"><a class="nav-link" href="https://app.nexa.app" data-bs-original-title="" title="">Espace client</a></li>
    <li class="nav-item"><a class="nav-link" href="#frameworks" data-bs-original-title="" title="">Application</a></li>
    <li class="nav-item"><a class="nav-link" href="#prix" data-bs-original-title="" title="">Tarifs</a></li>
    <li class="nav-item"><a class="nav-link" href="#contact-us" data-bs-original-title="" title="">Contactez-nous</a><li class="nav-item"><a class="nav-link" href="{{route('cgv')}}" data-bs-original-title="" title="">Mentions légales</a></li></li>
@@ -93,10 +93,10 @@
    <div class="col-sm-12 wow pulse" style="visibility: visible; animation-name: pulse;">
    <div class="cuba-demo-content mt50">
    <div class="couting">
-   <h2>Sherin et applications</h2>
+   <h2>Nexa et applications</h2>
    </div>
    <center>
-   <p class="mb-0">Sherin peut s'integrer à plusieurs applications et frameworks.</p>
+   <p class="mb-0">Nexa peut s'integrer à plusieurs applications et frameworks.</p>
    <center>
    </div>
    </div>
@@ -452,7 +452,7 @@
               <div class="cuba-demo-content email-txt text-start">
                 <div class="couting">
                   <h2> Email, SMS et Intelligence artificielle</h2>
-                  <p> Sherin propose aux commerçants et aux entreprises:</p>
+                  <p> Nexa propose aux commerçants et aux entreprises:</p>
                   <ul class="landing-ul">
                     <li>La création de programme de fidélité personnalisé.</li>
                     <li>l’intelligence artificiel pour animer la base clients.</li>
@@ -481,7 +481,7 @@
                     <div class="col-lg-3 col-md-6">
                       <div class="pricingtable">
                         <div class="pricingtable-header">
-                          <h3 class="title">Sherin Quartier Général</h3>
+                          <h3 class="title">Nexa Quartier Général</h3>
 <strike>
 <P><FONT face="Verdana" color="#F73164" size="4"> 2500 MAD</FONT>
 </strike>
@@ -555,8 +555,8 @@
    <div class="landing-center ptb50">
    <div class="title"><img class="img-fluid" src="{{asset('assets/images/logo/logo.png')}}" alt=""></div>
    <div class="footer-content">
-   <h1>Sherin dispose de logiciel de caisse et d’ecommerce. Pour en savoir plus, n’hésitez pas à nous consulter pour un test gratuit.</h1>
-   <p>sherin est une marque déposer auprès de l'office marocain de la propriété industrielle et commerciale.</p><a class="btn mrl5 btn-lg btn-primary default-view" target="_blank" href="index.html" data-bs-original-title="" title="">Contacts</a><a class="btn mrl5 btn-lg btn-secondary btn-md-res" href="#prix" data-bs-original-title="" title="">Tarifs </a>
+   <h1>Nexa dispose de logiciel de caisse et d’ecommerce. Pour en savoir plus, n’hésitez pas à nous consulter pour un test gratuit.</h1>
+   <p>Nexa est une marque déposée auprès de l'office marocain de la propriété industrielle et commerciale.</p><a class="btn mrl5 btn-lg btn-primary default-view" target="_blank" href="index.html" data-bs-original-title="" title="">Contacts</a><a class="btn mrl5 btn-lg btn-secondary btn-md-res" href="#prix" data-bs-original-title="" title="">Tarifs </a>
    </div>
    </div>
    </div>
@@ -593,7 +593,7 @@
                          <strong>Contactez-nous sur : </strong>
                           <div class="form-group ">
                               <label class="col-form-label">{{trans('Email')}}</label>
-                            <p>contact@sherin.ma </p>
+                            <p>contact@nexa.app </p>
                          </div>
                          <strong>Vous pouvez aussi nous appeler au</strong>
                          <div class="form-group ">

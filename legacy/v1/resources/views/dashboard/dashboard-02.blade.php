@@ -30,7 +30,7 @@
                                     <p>Ramadan Kareem</p>
                                     <h4 class="f-w-600">Assalamu Alaikum {{auth()->user()->firstname}}</h4>
                                     <p>En ce mois béni de Ramadan,</p>
-                                    <p>L'équipe de Sherin vous souhaite un mois rempli de bénédictions, de paix et de spiritualité.</p>
+                                    <p>L'équipe de Nexa vous souhaite un mois rempli de bénédictions, de paix et de spiritualité.</p>
                                     <p>Que ce mois sacré vous apporte la santé, le bonheur et la prospérité.</p>
                                  </div>
                               </div>
@@ -93,7 +93,7 @@
         <div class="left-content" style="padding: 35px;color:white;">
             <h4 class="text-ramadan f-w-700" style="color:#dede6b;">Ramadan Kareem</h4>
             <h4 class="f-w-400">Assalamu Alaikum {{ auth()->user()->firstname }}</h4>
-            <p>Au nom de l'équipe Sherin,</p>
+            <p>Au nom de l'équipe Nexa,</p>
             <p>Nous vous souhaitons un Ramadan moubarak !</p>
             <p>Que ce mois béni vous apporte la paix, la sérénité et la bénédiction divine.</p>
         </div>
@@ -391,7 +391,7 @@
                                         <div class="card-body">
                                             <div class="alert alert-secondary dark" role="alert">
                                                 <p> Bonjour, </p>
-                                                <p>Pour éviter toute suspension de votre plate-forme sherin.ma.
+                                                <p>Pour éviter toute suspension de votre plate-forme nexa.app.
                                                     Veuillez payer votre dette d'un montant de
                                                     {{ $seconde_total + $first_total }} Dhs avant le {{ $dateToPay }} .
                                                 </p>
@@ -399,7 +399,7 @@
                                                 <ul>
                                                     <li>06 63 42 37 33 </li>
                                                     <li>06 63 34 62 16 </li>
-                                                    <li>L’équipe Sherin.</li>
+                                                    <li>L’équipe Nexa.</li>
                                                 </ul>
                                                 </p>
                                             </div>

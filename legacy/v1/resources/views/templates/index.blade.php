@@ -22,7 +22,7 @@
     <meta property="og:type" content="article" />
 
     <!--title-->
-    <title>SHERIN.MA | ACCUEIL</title>
+    <title>NEXA | ACCUEIL</title>
 
     <!--favicon icon-->
     <link rel="icon" href="../../../../favicon.ico" type="image/png" sizes="16x16">

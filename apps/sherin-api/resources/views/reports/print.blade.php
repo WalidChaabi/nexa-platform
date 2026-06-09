@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Sherin report — {{ $type }}</title>
+    <title>Nexa report — {{ $type }}</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 24px; color: #111; }
         h1 { font-size: 20px; margin-bottom: 4px; }
@@ -14,7 +14,7 @@
     </style>
 </head>
 <body>
-    <h1>Sherin — {{ ucfirst($type) }} report</h1>
+    <h1>Nexa — {{ ucfirst($type) }} report</h1>
     <p class="meta">
         Store: {{ $report['store']['name'] }} (#{{ $report['store']['id'] }})<br>
         Period: {{ $report['period']['from'] }} → {{ $report['period']['to'] }}<br>

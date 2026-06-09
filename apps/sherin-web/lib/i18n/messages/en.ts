@@ -1,6 +1,6 @@
 export const en = {
   common: {
-    appName: "Sherin",
+    appName: "Nexa",
     navigation: "Navigation",
     error: "Error",
     loading: "Loading...",
@@ -15,7 +15,7 @@ export const en = {
     signingOut: "Signing out...",
     account: "{role} account",
     storeNumber: "Store #{id}",
-    platform: "Sherin platform",
+    platform: "Nexa platform",
     noStore: "No store assigned to this account",
     openUserMenu: "Open user menu",
     theme: "Theme",
@@ -64,21 +64,21 @@ export const en = {
     employer: "Employer",
   },
   auth: {
-    tagline: "Retail & loyalty platform",
-    headline: "Run your store from one place.",
+    tagline: "Sell. Retain. Grow.",
+    headline: "The operating system for modern retail",
     description:
-      "Invoices, customers, campaigns, and payments — built for Moroccan retailers with a modern POS experience.",
-    footer: "Sherin V2 · Development environment",
+      "POS, CRM, campaigns, and payments — unified for retailers who want to sell smarter and grow faster.",
+    footer: "Nexa · Development environment",
     signInToContinue: "Sign in to continue",
     welcomeBack: "Welcome back",
-    signInDescription: "Sign in with your Sherin account credentials.",
+    signInDescription: "Sign in with your Nexa account credentials.",
     email: "Email",
     password: "Password",
     signIn: "Sign in",
     signingIn: "Signing in...",
     signInFailed: "Sign in failed",
     loginFailed: "Login failed.",
-    devSeed: "Dev seed: employer@sherin.test / password",
+    devSeed: "Dev seed: employer@nexa.test / password",
   },
   employer: {
     dashboard: {
@@ -491,7 +491,7 @@ export const en = {
     },
     payments: {
       title: "Platform payments",
-      description: "Owner billing history across Sherin services.",
+      description: "Owner billing history across Nexa services.",
       listTitle: "Payment history",
       listDescription: "CMI invoices for campaign and messaging usage.",
       loadError: "Could not load payment history.",
@@ -712,7 +712,7 @@ export const en = {
     },
     payments: {
       title: "Payments",
-      description: "Pay for Sherin messaging and campaign services.",
+      description: "Pay for Nexa messaging and campaign services.",
       payNow: "Pay now",
       listTitle: "Payment history",
       listDescription: "Past CMI settlements for your account.",

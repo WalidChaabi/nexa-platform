@@ -34,7 +34,7 @@ class HomeController extends Controller
              , function($message) use ($request)
               {
                   $message->from($request->email);
-                  $message->to('othmane.lahbiri@sherin.ma');
+                  $message->to('othmane.lahbiri@nexa.app');
               }
                
             );

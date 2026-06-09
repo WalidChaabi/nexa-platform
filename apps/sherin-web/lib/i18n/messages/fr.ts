@@ -1,6 +1,6 @@
 export const fr = {
   common: {
-    appName: "Sherin",
+    appName: "Nexa",
     navigation: "Navigation",
     error: "Erreur",
     loading: "Chargement...",
@@ -15,7 +15,7 @@ export const fr = {
     signingOut: "Déconnexion...",
     account: "Compte {role}",
     storeNumber: "Magasin n°{id}",
-    platform: "Plateforme Sherin",
+    platform: "Plateforme Nexa",
     noStore: "Aucun magasin assigné à ce compte",
     openUserMenu: "Ouvrir le menu utilisateur",
     theme: "Thème",
@@ -64,21 +64,21 @@ export const fr = {
     employer: "Employé",
   },
   auth: {
-    tagline: "Plateforme retail & fidélité",
-    headline: "Gérez votre magasin depuis un seul endroit.",
+    tagline: "Vendez. Fidélisez. Grandissez.",
+    headline: "Le système d'exploitation du commerce moderne",
     description:
-      "Factures, clients, campagnes et paiements — conçu pour les commerçants marocains avec une expérience PDV moderne.",
-    footer: "Sherin V2 · Environnement de développement",
+      "PDV, CRM, campagnes et paiements — unifiés pour les commerçants qui veulent vendre mieux et grandir plus vite.",
+    footer: "Nexa · Environnement de développement",
     signInToContinue: "Connectez-vous pour continuer",
     welcomeBack: "Bon retour",
-    signInDescription: "Connectez-vous avec vos identifiants Sherin.",
+    signInDescription: "Connectez-vous avec vos identifiants Nexa.",
     email: "E-mail",
     password: "Mot de passe",
     signIn: "Se connecter",
     signingIn: "Connexion...",
     signInFailed: "Échec de connexion",
     loginFailed: "Échec de la connexion.",
-    devSeed: "Dev seed : employer@sherin.test / password",
+    devSeed: "Dev seed : employer@nexa.test / password",
   },
   employer: {
     dashboard: {
@@ -714,7 +714,7 @@ export const fr = {
     },
     payments: {
       title: "Paiements",
-      description: "Payez les services de messagerie et campagnes Sherin.",
+      description: "Payez les services de messagerie et campagnes Nexa.",
       payNow: "Payer maintenant",
       listTitle: "Historique des paiements",
       listDescription: "Règlements CMI passés pour votre compte.",

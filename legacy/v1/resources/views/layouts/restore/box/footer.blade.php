@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12 footer-copyright text-center">
-              <p class="mb-0">Copyright {{date('Y')}} © SHERIN theme by pixelstrap  </p>
+              <p class="mb-0">Copyright {{date('Y')}} © NEXA theme by pixelstrap  </p>
             </div>
         </div>
     </div>

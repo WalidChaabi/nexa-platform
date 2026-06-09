@@ -15,7 +15,7 @@ class OwnerApiTest extends TestCase
     public function test_admin_can_list_owners(): void
     {
         $admin = User::factory()->admin()->create();
-        $owner = User::factory()->owner()->create(['email' => 'listed@sherin.test']);
+        $owner = User::factory()->owner()->create(['email' => 'listed@nexa.test']);
         User::factory()->employer()->create();
 
         $this->actingAs($admin)
@@ -23,7 +23,7 @@ class OwnerApiTest extends TestCase
             ->assertOk()
             ->assertJsonCount(1, 'data')
             ->assertJsonPath('data.0.id', $owner->id)
-            ->assertJsonPath('data.0.email', 'listed@sherin.test');
+            ->assertJsonPath('data.0.email', 'listed@nexa.test');
     }
 
     public function test_owner_cannot_access_owner_admin_endpoints(): void
@@ -43,7 +43,7 @@ class OwnerApiTest extends TestCase
             ->postJson('/api/v1/owners', [
                 'firstname' => 'Karim',
                 'lastname' => 'Retail',
-                'email' => 'karim@sherin.test',
+                'email' => 'karim@nexa.test',
                 'phone' => '0611223344',
                 'password' => 'password123',
                 'allow_share' => true,
@@ -54,7 +54,7 @@ class OwnerApiTest extends TestCase
             ->assertJsonPath('data.is_active', 1);
 
         $this->assertDatabaseHas('users', [
-            'email' => 'karim@sherin.test',
+            'email' => 'karim@nexa.test',
             'is_admin' => UserRole::Owner->value,
         ]);
     }

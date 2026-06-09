@@ -781,7 +781,7 @@
                 type: 'POST',
                 success: function(data) {
                     if (data.success == true) {
-                        return window.location.href('https://app.sherin.ma/employe/table');
+                        return window.location.href('https://app.nexa.app/employe/table');
                     }
                 }
             })

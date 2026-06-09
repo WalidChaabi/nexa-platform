@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Sherin'),
+    'name' => env('APP_NAME', 'Nexa'),
 
     /*
     |--------------------------------------------------------------------------
@@ -52,8 +52,8 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://sherin.ma'),
-    'sub_url' => env('APP_SUB_URL', 'http://app.sherin.ma'),
+    'url' => env('APP_URL', 'http://nexa.app'),
+    'sub_url' => env('APP_SUB_URL', 'http://app.nexa.app'),
     'CMI_STORE_KEY' => env('CMI_STORE_KEY'),
     'CMI_CLIENT_ID' => env('CMI_CLIENT_ID'),
 

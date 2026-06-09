@@ -1,14 +1,14 @@
-# Sherin Improvement Program
+# Nexa Improvement Program
 
-**Repository:** `sherin-laravel-app-main`  
+**Repository:** `nexa-platform`  
 **Strategy:** Parallel tracks — **V1** (production risk containment) and **V2** (platform rebuild)  
-**Last updated:** 2026-06-08
+**Last updated:** 2026-06-09
 
 ---
 
 ## Purpose
 
-This folder is the single source of truth for how we evolve Sherin from a legacy Laravel 5.7 monolith into a maintainable, secure, testable platform — without throwing away working domain logic.
+This folder is the single source of truth for how we evolve Nexa from a legacy Laravel 5.7 monolith into a maintainable, secure, testable platform — without throwing away working domain logic.
 
 | Document | Audience | Use when |
 |----------|----------|----------|
@@ -86,3 +86,4 @@ See [Git, PR & Release Workflow](./git-pr-and-release-workflow.md) for full conv
 | 2026-06-08 | **V1 Phase 0 started** — security fixes implemented (see commits on `main`) |
 | 2026-06-08 | **V1 code-complete** — stacked PRs #1–#7; ops merge + rotation pending |
 | 2026-06-08 | **V2 UI locked:** Next.js + Laravel API ([ADR-002](../adr/002-nextjs-api-first-ui.md)); mobile after cutover |
+| 2026-06-09 | **Nexa rebrand** — product naming, config (`nexa.php`), demo seeder, and READMEs aligned to Nexa |

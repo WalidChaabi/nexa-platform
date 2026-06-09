@@ -12,8 +12,8 @@ POS owner password checks used a plaintext `users.token` column. V1 stores a bcr
    ```
 2. Hash existing plaintext tokens (production):
    ```bash
-   php artisan sherin:migrate-pos-tokens --dry-run
-   php artisan sherin:migrate-pos-tokens
+   php artisan nexa:migrate-pos-tokens --dry-run
+   php artisan nexa:migrate-pos-tokens
    ```
 3. When setting a new POS token for an owner, use `PosTokenService::setToken($user, $plainToken)` — never persist plaintext.
 

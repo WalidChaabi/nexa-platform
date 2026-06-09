@@ -22,7 +22,7 @@
     <meta property="og:type" content="article" />
 
     <!--title-->
-    <title>SHERIN.MA | LOGIN</title>
+    <title>NEXA | LOGIN</title>
     <style>
         .form-group{
             display: block !important;
