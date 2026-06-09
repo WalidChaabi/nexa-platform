@@ -39,6 +39,9 @@ jobs:
           cp .env.example .env
           php artisan key:generate
 
+      - name: Pint (code style)
+        run: vendor/bin/pint --test
+
       - name: Run tests
         run: php artisan test
 
@@ -66,3 +69,65 @@ jobs:
           npm run build
         env:
           NEXT_PUBLIC_API_URL: http://localhost:8000
+
+  e2e:
+    name: Nexa E2E
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, pdo_sqlite
+          coverage: none
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: apps/sherin-web/package-lock.json
+
+      - name: Boot API (sqlite + seed)
+        working-directory: apps/sherin-api
+        run: |
+          composer install --prefer-dist --no-progress
+          cp .env.example .env
+          php artisan key:generate
+          sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/' .env
+          echo "DB_DATABASE=$(pwd)/database/e2e.sqlite" >> .env
+          sed -i 's/SESSION_DRIVER=database/SESSION_DRIVER=file/' .env
+          sed -i 's/CACHE_STORE=database/CACHE_STORE=file/' .env
+          sed -i 's/QUEUE_CONNECTION=database/QUEUE_CONNECTION=sync/' .env
+          touch database/e2e.sqlite
+          php artisan migrate --seed --force
+          php artisan serve --host=127.0.0.1 --port=8000 > /tmp/nexa-api.log 2>&1 &
+          for i in $(seq 1 30); do
+            curl -sf http://127.0.0.1:8000/api/v1/health && break
+            sleep 2
+          done
+
+      - name: Build and start web
+        working-directory: apps/sherin-web
+        run: |
+          npm ci
+          npm run build
+          npx next start -p 3000 -H 127.0.0.1 > /tmp/nexa-web.log 2>&1 &
+          for i in $(seq 1 30); do
+            curl -sf http://127.0.0.1:3000/login && break
+            sleep 2
+          done
+        env:
+          NEXT_PUBLIC_API_URL: http://127.0.0.1:8000
+
+      - name: Install Playwright and run E2E
+        working-directory: apps/sherin-web
+        run: |
+          npx playwright install --with-deps chromium
+          npm run test:e2e
+        env:
+          CI: true
+          PLAYWRIGHT_BASE_URL: http://127.0.0.1:3000

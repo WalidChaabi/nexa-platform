@@ -2,10 +2,11 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Rdv;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/** @mixin \App\Models\Rdv */
+/** @mixin Rdv */
 class RdvResource extends JsonResource
 {
     /**

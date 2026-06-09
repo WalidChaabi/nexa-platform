@@ -10,6 +10,7 @@ use App\Models\Message;
 use App\Models\MessageCampaign;
 use App\Models\MessageCustomer;
 use App\Models\Store;
+use App\Models\User;
 use App\Services\BirthdayCampaignAutomationService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
@@ -113,7 +114,7 @@ class BirthdayCampaignAutomationTest extends TestCase
 
     public function test_payment_preview_counts_unpaid_birthday_messages(): void
     {
-        $owner = \App\Models\User::factory()->owner()->create();
+        $owner = User::factory()->owner()->create();
         $store = Store::factory()->create(['user_id' => $owner->id]);
 
         MessageCustomer::query()->create([

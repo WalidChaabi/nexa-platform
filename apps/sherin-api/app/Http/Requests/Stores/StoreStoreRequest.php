@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Stores;
 
 use App\Enums\UserRole;
+use App\Models\Store;
 use App\Support\Authorization\StoreAccess;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -11,7 +12,7 @@ class StoreStoreRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()?->can('create', \App\Models\Store::class) ?? false;
+        return $this->user()?->can('create', Store::class) ?? false;
     }
 
     /**

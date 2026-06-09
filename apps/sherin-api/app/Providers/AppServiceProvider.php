@@ -4,9 +4,9 @@ namespace App\Providers;
 
 use App\Contracts\Integrations\PaymentGateway;
 use App\Contracts\Integrations\SmsGateway;
+use App\Enums\UserRole;
 use App\Integrations\Payment\CmiPaymentGateway;
 use App\Integrations\Sms\BulkSmsGateway;
-use App\Enums\UserRole;
 use App\Models\Activity;
 use App\Models\Campaign;
 use App\Models\CampaignDetail;
@@ -58,6 +58,7 @@ class AppServiceProvider extends ServiceProvider
         CampaignHistorique::class => CampaignHistoriquePolicy::class,
         Rdv::class => RdvPolicy::class,
     ];
+
     /**
      * Register any application services.
      */

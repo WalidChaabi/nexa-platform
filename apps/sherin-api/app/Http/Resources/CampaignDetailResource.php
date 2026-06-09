@@ -2,10 +2,11 @@
 
 namespace App\Http\Resources;
 
+use App\Models\CampaignDetail;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/** @mixin \App\Models\CampaignDetail */
+/** @mixin CampaignDetail */
 class CampaignDetailResource extends JsonResource
 {
     /**

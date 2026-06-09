@@ -5,7 +5,6 @@ namespace App\Http\Requests\Owners;
 use App\Enums\UserRole;
 use App\Support\Authorization\StoreAccess;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class UpdateOwnerRequest extends FormRequest
 {

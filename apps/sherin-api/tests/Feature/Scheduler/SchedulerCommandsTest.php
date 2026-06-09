@@ -2,11 +2,11 @@
 
 namespace Tests\Feature\Scheduler;
 
+use App\Enums\RdvStatus;
 use App\Jobs\SendCampaignSmsJob;
 use App\Models\Customer;
 use App\Models\Rdv;
 use App\Models\Store;
-use App\Enums\RdvStatus;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Bus;

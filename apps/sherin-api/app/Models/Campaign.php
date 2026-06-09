@@ -11,6 +11,7 @@ class Campaign extends Model
 {
     /** @use HasFactory<CampaignFactory> */
     use HasFactory;
+
     protected $fillable = [
         'name',
         'type',

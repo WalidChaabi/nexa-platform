@@ -90,6 +90,7 @@ class IdorApiTest extends TestCase
 
     /**
      * @template T of Customer|Product|Rdv
+     *
      * @param  class-string<T>  $modelClass
      * @return array{0: User, 1: T}
      */

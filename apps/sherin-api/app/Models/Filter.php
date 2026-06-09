@@ -11,6 +11,7 @@ class Filter extends Model
 {
     /** @use HasFactory<FilterFactory> */
     use HasFactory;
+
     protected $fillable = [
         'age_min',
         'age_max',

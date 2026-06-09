@@ -2,10 +2,11 @@
 
 namespace App\Http\Resources;
 
+use App\Models\SmsCrossSelling;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/** @mixin \App\Models\SmsCrossSelling */
+/** @mixin SmsCrossSelling */
 class SmsCrossSellingResource extends JsonResource
 {
     /**

@@ -2,10 +2,11 @@
 
 namespace App\Http\Resources;
 
+use App\Models\CrossProduct;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/** @mixin \App\Models\CrossProduct */
+/** @mixin CrossProduct */
 class CrossProductResource extends JsonResource
 {
     /**

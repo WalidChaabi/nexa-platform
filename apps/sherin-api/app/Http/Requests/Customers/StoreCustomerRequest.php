@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Customers;
 
+use App\Models\Customer;
 use App\Support\Authorization\StoreAccess;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -9,7 +10,7 @@ class StoreCustomerRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()?->can('create', \App\Models\Customer::class) ?? false;
+        return $this->user()?->can('create', Customer::class) ?? false;
     }
 
     /**

@@ -2,10 +2,11 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Epingles;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/** @mixin \App\Models\Epingles */
+/** @mixin Epingles */
 class EpinglesResource extends JsonResource
 {
     /**

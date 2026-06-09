@@ -462,8 +462,8 @@ Work in **waves**. Finish each wave’s *verified* column before cutover. Roles:
 | ID | Task | Role | Priority | Depends on | Status |
 |----|------|------|----------|------------|--------|
 | W0-1 | Commit + push uncommitted UI (login-02, form patterns, invoices DataTable, Docker naming) | FE + Ops | P0 | — | [x] |
-| W0-2 | Smoke-test employer invoices list actions + create flow | QA | P0 | W0-1 | [ ] |
-| W0-3 | Confirm demo seed + `nexa_platform` Docker stack on fresh clone | Ops | P1 | — | [ ] |
+| W0-2 | Smoke-test employer invoices list actions + create flow | QA | P0 | W0-1 | [x] |
+| W0-3 | Confirm demo seed + `nexa_platform` Docker stack on fresh clone | Ops | P1 | — | [x] |
 
 #### Wave 1 — Money path (cutover blocker)
 
@@ -514,17 +514,17 @@ Work in **waves**. Finish each wave’s *verified* column before cutover. Roles:
 
 | ID | Task | Role | Priority | Depends on | Status |
 |----|------|------|----------|------------|--------|
-| W6-1 | Add PHPStan + Pint to V2 CI (per V2-PR-02 plan) | BE | P1 | — | [ ] |
-| W6-2 | Playwright: login, invoice create, checkout happy path | FE + QA | P1 | W1-1, W2-2 | [ ] |
-| W6-3 | API contract tests for critical Resources (invoice, payment) | BE | P2 | — | [ ] |
+| W6-1 | Add PHPStan + Pint to V2 CI (per V2-PR-02 plan) | BE | P1 | — | [x] |
+| W6-2 | Playwright: login, invoice create, checkout happy path | FE + QA | P1 | W1-1, W2-2 | [x] |
+| W6-3 | API contract tests for critical Resources (invoice, payment) | BE | P2 | — | [x] |
 | W6-4 | WCAG spot-check on login, invoice create, checkout | FE | P2 | W2-2 | [ ] |
 
 #### Wave 7 — Production readiness (before DNS flip)
 
 | ID | Task | Role | Priority | Depends on | Status |
 |----|------|------|----------|------------|--------|
-| W7-1 | Write `docs/runbooks/deployment-v2.md` | Ops | P0 | W1-3 | [ ] |
-| W7-2 | Write `docs/runbooks/incident-response.md` | Ops | P0 | — | [ ] |
+| W7-1 | Write `docs/runbooks/deployment-v2.md` | Ops | P0 | W1-3 | [x] |
+| W7-2 | Write `docs/runbooks/incident-response.md` | Ops | P0 | — | [x] |
 | W7-3 | Staging deploy with production DB copy; full parity pass | Ops + QA | P0 | W2–W4 | [ ] |
 | W7-4 | Sanctum cookie domains + CORS on production hostnames | BE + Ops | P0 | W7-3 | [ ] |
 | W7-5 | Horizon (queues) + error tracking (e.g. Sentry) | Ops | P1 | W7-1 | [ ] |

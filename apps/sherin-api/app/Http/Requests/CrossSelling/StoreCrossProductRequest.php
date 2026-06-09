@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\CrossSelling;
 
+use App\Models\CrossProduct;
+use App\Models\Product;
 use App\Support\Authorization\StoreAccess;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -9,7 +11,7 @@ class StoreCrossProductRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()?->can('create', \App\Models\CrossProduct::class) ?? false;
+        return $this->user()?->can('create', CrossProduct::class) ?? false;
     }
 
     /**
@@ -34,7 +36,7 @@ class StoreCrossProductRequest extends FormRequest
                 return;
             }
 
-            $storeId = (int) \App\Models\Product::query()->whereKey($productId)->value('store_id');
+            $storeId = (int) Product::query()->whereKey($productId)->value('store_id');
 
             if ($storeId && ! StoreAccess::canAccessStore($user, $storeId)) {
                 $validator->errors()->add('product_id', 'You do not have access to this product.');

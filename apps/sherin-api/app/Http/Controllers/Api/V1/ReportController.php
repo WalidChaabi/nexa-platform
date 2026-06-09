@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Reports\ReportFilterRequest;
 use App\Services\ReportService;
+use App\Support\Authorization\StoreAccess;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -62,7 +63,7 @@ class ReportController extends Controller
         $from = Carbon::parse($validated['from']);
         $to = Carbon::parse($validated['to']);
 
-        if (! \App\Support\Authorization\StoreAccess::canAccessStore($request->user(), $storeId)) {
+        if (! StoreAccess::canAccessStore($request->user(), $storeId)) {
             abort(403, 'You do not have access to this store.');
         }
 

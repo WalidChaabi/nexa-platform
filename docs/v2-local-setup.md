@@ -55,6 +55,30 @@ docker compose up -d
 
 On Windows, polling env vars are set in `docker-compose.yml` so file watching works through Docker bind mounts.
 
+### Fresh-clone smoke check (W0-3)
+
+After `docker compose up -d`, verify containers and demo logins:
+
+```bash
+docker compose ps
+# Expect: nexa_database, nexa_api, nexa_web (project name: nexa_platform)
+
+curl -s http://localhost:8000/api/v1/health
+curl -s -o /dev/null -w "%{http_code}" http://localhost:3000/login
+```
+
+| Role | Email | Password |
+|------|-------|----------|
+| Admin | `admin@nexa.test` | `password` |
+| Owner | `owner@nexa.test` | `password` |
+| Employer | `employer@nexa.test` | `password` |
+
+The API entrypoint runs migrations + `db:seed` when the database volume is empty. If login fails with *Invalid credentials*, run:
+
+```bash
+docker compose exec api php artisan db:seed --force
+```
+
 ## MySQL only (optional)
 
 ```bash

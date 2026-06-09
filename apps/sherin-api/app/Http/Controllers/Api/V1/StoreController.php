@@ -8,7 +8,9 @@ use App\Http\Requests\Stores\StoreStoreRequest;
 use App\Http\Requests\Stores\UpdateStoreRequest;
 use App\Http\Resources\StoreResource;
 use App\Models\Store;
+use App\Models\User;
 use App\Support\Authorization\StoreAccess;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -82,7 +84,7 @@ class StoreController extends Controller
         return response()->json(['message' => 'Store deleted.']);
     }
 
-    private function applyListScope(\Illuminate\Database\Eloquent\Builder $query, \App\Models\User $user): void
+    private function applyListScope(Builder $query, User $user): void
     {
         match ($user->role()) {
             UserRole::Admin => null,

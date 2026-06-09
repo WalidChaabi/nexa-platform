@@ -2,10 +2,11 @@
 
 namespace App\Http\Resources;
 
+use App\Models\InvoiceProduct;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/** @mixin \App\Models\InvoiceProduct */
+/** @mixin InvoiceProduct */
 class InvoiceProductResource extends JsonResource
 {
     /**

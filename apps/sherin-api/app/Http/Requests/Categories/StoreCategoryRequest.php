@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Categories;
 
+use App\Models\Category;
 use App\Support\Authorization\StoreAccess;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -9,7 +10,7 @@ class StoreCategoryRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()?->can('create', \App\Models\Category::class) ?? false;
+        return $this->user()?->can('create', Category::class) ?? false;
     }
 
     /**

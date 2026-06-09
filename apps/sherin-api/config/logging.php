@@ -1,5 +1,6 @@
 <?php
 
+use App\Logging\IntegrationsLogTap;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
@@ -133,7 +134,7 @@ return [
             'level' => env('LOG_LEVEL', 'debug'),
             'days' => env('LOG_DAILY_DAYS', 14),
             'replace_placeholders' => true,
-            'tap' => [App\Logging\IntegrationsLogTap::class],
+            'tap' => [IntegrationsLogTap::class],
         ],
 
     ],

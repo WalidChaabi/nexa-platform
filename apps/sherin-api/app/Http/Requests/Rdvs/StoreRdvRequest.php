@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Rdvs;
 
+use App\Models\Customer;
+use App\Models\Rdv;
 use App\Support\Authorization\StoreAccess;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -9,7 +11,7 @@ class StoreRdvRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()?->can('create', \App\Models\Rdv::class) ?? false;
+        return $this->user()?->can('create', Rdv::class) ?? false;
     }
 
     /**
@@ -35,7 +37,7 @@ class StoreRdvRequest extends FormRequest
                 return;
             }
 
-            $storeId = (int) \App\Models\Customer::query()->whereKey($customerId)->value('store_id');
+            $storeId = (int) Customer::query()->whereKey($customerId)->value('store_id');
 
             if ($storeId && ! StoreAccess::canAccessStore($user, $storeId)) {
                 $validator->errors()->add('customer_id', 'You do not have access to this customer.');

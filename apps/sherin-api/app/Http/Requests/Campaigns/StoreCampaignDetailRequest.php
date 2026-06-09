@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Campaigns;
 
+use App\Models\CampaignDetail;
 use App\Support\Authorization\StoreAccess;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -9,7 +10,7 @@ class StoreCampaignDetailRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()?->can('create', \App\Models\CampaignDetail::class) ?? false;
+        return $this->user()?->can('create', CampaignDetail::class) ?? false;
     }
 
     /**
