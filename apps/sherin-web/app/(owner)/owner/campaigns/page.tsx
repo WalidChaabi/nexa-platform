@@ -5,11 +5,19 @@ import {
   History,
   List,
   Megaphone,
+  Pencil,
   Plus,
   Power,
   Trash2,
 } from "lucide-react";
 
+import { CampaignFormSheet } from "@/components/campaigns/campaign-form-sheet";
+import {
+  buildFilterPayload,
+  CampaignFilterFields,
+  trimTime,
+  type CampaignFilterFormValues,
+} from "@/components/campaigns/campaign-filter-fields";
 import { PageHeader } from "@/components/layout/page-header";
 import { useLocale } from "@/components/providers/locale-provider";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -22,7 +30,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -52,13 +59,28 @@ import {
   type CampaignHistoriqueSummary,
   type CampaignType,
 } from "@/lib/api/campaigns";
+import { fetchProducts, type ProductSummary } from "@/lib/api/products";
 import { fetchStores, type StoreSummary } from "@/lib/api/stores";
 import { onSelectValue } from "@/lib/utils";
+
+const emptyFormValues: CampaignFilterFormValues = {
+  reduction: "10",
+  ageMin: "18",
+  ageMax: "65",
+  sexe: "both",
+  points: "0",
+  lastVisit: "0",
+  heureStart: "09:00",
+  heureEnd: "18:00",
+  message: "",
+  productId: "",
+};
 
 export default function OwnerCampaignsPage() {
   const { t } = useLocale();
   const [stores, setStores] = useState<StoreSummary[]>([]);
   const [types, setTypes] = useState<CampaignType[]>([]);
+  const [products, setProducts] = useState<ProductSummary[]>([]);
   const [details, setDetails] = useState<CampaignDetailSummary[]>([]);
   const [historiques, setHistoriques] = useState<CampaignHistoriqueSummary[]>(
     [],
@@ -69,11 +91,12 @@ export default function OwnerCampaignsPage() {
   const [creating, setCreating] = useState(false);
   const [storeId, setStoreId] = useState<string>("");
   const [campaignId, setCampaignId] = useState<string>("");
-  const [reduction, setReduction] = useState("10");
-  const [ageMin, setAgeMin] = useState("18");
-  const [ageMax, setAgeMax] = useState("65");
-  const [points, setPoints] = useState("0");
-  const [message, setMessage] = useState("");
+  const [formValues, setFormValues] =
+    useState<CampaignFilterFormValues>(emptyFormValues);
+  const [editDetailId, setEditDetailId] = useState<number | null>(null);
+  const [editOpen, setEditOpen] = useState(false);
+
+  const selectedType = types.find((type) => String(type.id) === campaignId);
 
   useEffect(() => {
     const active = true;
@@ -96,8 +119,8 @@ export default function OwnerCampaignsPage() {
           setDetails(detailData);
           setHistoriques(historyData);
 
-          if (storeData.length > 0 && !storeId) {
-            setStoreId(String(storeData[0].id));
+          if (storeData.length > 0) {
+            setStoreId((current) => current || String(storeData[0].id));
           }
         }
       } catch {
@@ -112,6 +135,7 @@ export default function OwnerCampaignsPage() {
     }
 
     void load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- reload only on explicit refresh
   }, [reloadKey]);
 
   useEffect(() => {
@@ -121,20 +145,32 @@ export default function OwnerCampaignsPage() {
 
     const active = true;
 
-    async function loadDefaults() {
+    async function loadStoreContext() {
       try {
-        const defaults = await fetchCampaignFilterDefaults(Number(storeId));
+        const [defaults, productData] = await Promise.all([
+          fetchCampaignFilterDefaults(Number(storeId)),
+          fetchProducts({ store_id: Number(storeId) }),
+        ]);
+
         if (active) {
-          setAgeMin(String(defaults.age_min));
-          setAgeMax(String(defaults.age_max));
-          setPoints(String(defaults.max_points));
+          setProducts(productData);
+          setFormValues((current) => ({
+            ...current,
+            ageMin: String(defaults.age_min),
+            ageMax: String(defaults.age_max),
+            points: String(defaults.max_points),
+            lastVisit: String(defaults.last_visit_months),
+            heureStart: trimTime(defaults.heure_start),
+            heureEnd: trimTime(defaults.heure_end),
+            sexe: defaults.sexe,
+          }));
         }
       } catch {
         // keep manual values
       }
     }
 
-    void loadDefaults();
+    void loadStoreContext();
   }, [storeId]);
 
   async function handleCreate(event: React.FormEvent<HTMLFormElement>) {
@@ -151,22 +187,17 @@ export default function OwnerCampaignsPage() {
       await createCampaignDetail({
         store_id: Number(storeId),
         campaign_id: Number(campaignId),
-        reduction: Number(reduction),
+        product_id: formValues.productId
+          ? Number(formValues.productId)
+          : undefined,
+        reduction: Number(formValues.reduction),
         active: 1,
-        filter: {
-          age_min: Number(ageMin),
-          age_max: Number(ageMax),
-          sexe: "both",
-          points: Number(points),
-          last_visit: 0,
-          heure_start: "09:00",
-          heure_end: "18:00",
-        },
-        messages: message.trim()
-          ? [{ message: message.trim(), date_start: 0 }]
+        filter: buildFilterPayload(formValues),
+        messages: formValues.message.trim()
+          ? [{ message: formValues.message.trim(), date_start: 0 }]
           : [],
       });
-      setMessage("");
+      setFormValues((current) => ({ ...current, message: "" }));
       setReloadKey((value) => value + 1);
     } catch {
       setErrorKey("owner.campaigns.createError");
@@ -197,6 +228,11 @@ export default function OwnerCampaignsPage() {
     } catch {
       setErrorKey("owner.campaigns.deleteError");
     }
+  }
+
+  function openEdit(detail: CampaignDetailSummary) {
+    setEditDetailId(detail.id);
+    setEditOpen(true);
   }
 
   return (
@@ -262,60 +298,12 @@ export default function OwnerCampaignsPage() {
               </Select>
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="reduction">{t("owner.campaigns.fields.reduction")}</Label>
-              <Input
-                id="reduction"
-                type="number"
-                min={0}
-                max={100}
-                value={reduction}
-                onChange={(event) => setReduction(event.target.value)}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="points">{t("owner.campaigns.fields.maxPoints")}</Label>
-              <Input
-                id="points"
-                type="number"
-                min={0}
-                value={points}
-                onChange={(event) => setPoints(event.target.value)}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="age-min">{t("owner.campaigns.fields.ageMin")}</Label>
-              <Input
-                id="age-min"
-                type="number"
-                min={0}
-                value={ageMin}
-                onChange={(event) => setAgeMin(event.target.value)}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="age-max">{t("owner.campaigns.fields.ageMax")}</Label>
-              <Input
-                id="age-max"
-                type="number"
-                min={0}
-                value={ageMax}
-                onChange={(event) => setAgeMax(event.target.value)}
-              />
-            </div>
-
-            <div className="space-y-2 md:col-span-2">
-              <Label htmlFor="message">{t("owner.campaigns.fields.message")}</Label>
-              <Input
-                id="message"
-                value={message}
-                onChange={(event) => setMessage(event.target.value)}
-                placeholder={t("owner.campaigns.messagePlaceholder")}
-              />
-            </div>
+            <CampaignFilterFields
+              values={formValues}
+              onChange={setFormValues}
+              showProduct={selectedType?.type === "cross-selling"}
+              products={products}
+            />
 
             <div className="md:col-span-2">
               <Button type="submit" disabled={creating || !storeId || !campaignId}>
@@ -364,6 +352,14 @@ export default function OwnerCampaignsPage() {
                       </Badge>
                     </TableCell>
                     <TableCell className="space-x-2">
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="outline"
+                        onClick={() => openEdit(detail)}
+                      >
+                        <Pencil className="size-4" />
+                      </Button>
                       <Button
                         type="button"
                         size="sm"
@@ -434,6 +430,13 @@ export default function OwnerCampaignsPage() {
           )}
         </CardContent>
       </Card>
+
+      <CampaignFormSheet
+        open={editOpen}
+        onOpenChange={setEditOpen}
+        detailId={editDetailId}
+        onSuccess={() => setReloadKey((value) => value + 1)}
+      />
     </div>
   );
 }

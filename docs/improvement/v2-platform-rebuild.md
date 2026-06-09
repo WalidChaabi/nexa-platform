@@ -489,10 +489,10 @@ Work in **waves**. Finish each wave’s *verified* column before cutover. Roles:
 | ID | Task | Role | Priority | Depends on | Status |
 |----|------|------|----------|------------|--------|
 | W3-1 | **Wire birthday command** — `nexa:birthday-campaign` creates unpaid `messages_customers` rows (V1 parity) | BE | P0 | — | [x] |
-| W3-2 | Parity: owner create/edit campaign + filters | QA | P1 | W2-1 | [ ] |
-| W3-3 | Verify `nexa:cross-selling` against V1 sample data (queued SMS count) | BE + QA | P1 | — | [ ] |
-| W3-4 | Verify `nexa:rendez-vous` reminders (30-min window) | BE + QA | P1 | — | [ ] |
-| W3-5 | Ops: document scheduler cron (`schedule:run` every minute) + queue worker in prod | Ops | P0 | W3-1 | [ ] |
+| W3-2 | Parity: owner create/edit campaign + filters | QA | P1 | W2-1 | [x] |
+| W3-3 | Verify `nexa:cross-selling` against V1 sample data (queued SMS count) | BE + QA | P1 | — | [x] |
+| W3-4 | Verify `nexa:rendez-vous` reminders (30-min window) | BE + QA | P1 | — | [x] |
+| W3-5 | Ops: document scheduler cron (`schedule:run` every minute) + queue worker in prod | Ops | P0 | W3-1 | [x] |
 
 #### Wave 4 — Calendar & CRM polish
 

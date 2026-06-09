@@ -147,9 +147,22 @@ export async function createCampaignDetail(
   return response.data;
 }
 
+export async function fetchCampaignDetail(
+  id: number,
+): Promise<CampaignDetailSummary> {
+  const response = await apiGet<CampaignDetailResponse>(
+    `/api/v1/campaign-details/${id}`,
+  );
+  return response.data;
+}
+
+export type CampaignDetailUpdateInput = Partial<
+  Pick<CampaignDetailInput, "reduction" | "active" | "filter" | "messages" | "product_id">
+>;
+
 export async function updateCampaignDetail(
   id: number,
-  input: Partial<Pick<CampaignDetailInput, "reduction" | "active" | "filter">>,
+  input: CampaignDetailUpdateInput,
 ): Promise<CampaignDetailSummary> {
   await ensureCsrfCookie();
   const response = await apiPut<CampaignDetailResponse>(

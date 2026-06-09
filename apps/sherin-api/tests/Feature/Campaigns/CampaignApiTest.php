@@ -171,6 +171,48 @@ class CampaignApiTest extends TestCase
             ->assertJsonPath('data.active', 0);
     }
 
+    public function test_owner_can_update_campaign_reduction_and_filters(): void
+    {
+        $owner = User::factory()->owner()->create();
+        $store = Store::factory()->create(['user_id' => $owner->id]);
+        $campaign = Campaign::query()->create(['name' => 'birthday', 'type' => 'birthday']);
+        $filter = Filter::factory()->create([
+            'age_min' => 18,
+            'age_max' => 60,
+            'sexe' => 'both',
+            'points' => 10,
+            'last_visit' => 0,
+        ]);
+        $detail = CampaignDetail::factory()->create([
+            'store_id' => $store->id,
+            'campaign_id' => $campaign->id,
+            'filter_id' => $filter->id,
+            'reduction' => 10,
+        ]);
+
+        $this->actingAs($owner)
+            ->putJson("/api/v1/campaign-details/{$detail->id}", [
+                'reduction' => 25,
+                'filter' => [
+                    'age_min' => 21,
+                    'age_max' => 55,
+                    'sexe' => 'female',
+                    'points' => 80,
+                    'last_visit' => 3,
+                    'heure_start' => '10:00',
+                    'heure_end' => '20:00',
+                ],
+                'messages' => [
+                    ['message' => 'Updated promo SMS', 'date_start' => 0],
+                ],
+            ])
+            ->assertOk()
+            ->assertJsonPath('data.reduction', 25)
+            ->assertJsonPath('data.filter.points', 80)
+            ->assertJsonPath('data.filter.sexe', 'female')
+            ->assertJsonPath('data.messages.0.message', 'Updated promo SMS');
+    }
+
     public function test_owner_can_list_campaign_historiques(): void
     {
         $owner = User::factory()->owner()->create();

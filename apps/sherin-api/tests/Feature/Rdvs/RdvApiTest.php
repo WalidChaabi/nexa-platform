@@ -131,6 +131,79 @@ class RdvApiTest extends TestCase
         Bus::assertDispatched(SendCampaignSmsJob::class);
     }
 
+    public function test_reminder_service_skips_appointments_outside_thirty_minute_window(): void
+    {
+        Bus::fake();
+
+        $store = Store::factory()->create(['sender_id' => 'DEMO']);
+        $customer = Customer::factory()->create(['store_id' => $store->id]);
+
+        Rdv::factory()->create([
+            'store_id' => $store->id,
+            'customer_id' => $customer->id,
+            'start' => Carbon::parse('2026-06-08 11:00:00'),
+            'status' => RdvStatus::Active->value,
+        ]);
+
+        $result = app(RdvReminderService::class)
+            ->sendUpcomingReminders(Carbon::parse('2026-06-08 10:00:00'));
+
+        $this->assertSame(0, $result['queued']);
+        Bus::assertNothingDispatched();
+    }
+
+    public function test_reminder_service_deduplicates_within_same_hour(): void
+    {
+        Bus::fake();
+
+        $store = Store::factory()->create(['sender_id' => 'DEMO']);
+        $customer = Customer::factory()->create(['store_id' => $store->id]);
+
+        Rdv::factory()->create([
+            'store_id' => $store->id,
+            'customer_id' => $customer->id,
+            'start' => Carbon::parse('2026-06-08 10:20:00'),
+            'status' => RdvStatus::Active->value,
+        ]);
+
+        $reference = Carbon::parse('2026-06-08 10:00:00');
+        Carbon::setTestNow($reference);
+
+        try {
+            $service = app(RdvReminderService::class);
+
+            $first = $service->sendUpcomingReminders($reference);
+            $second = $service->sendUpcomingReminders($reference);
+
+            $this->assertSame(1, $first['queued']);
+            $this->assertSame(0, $second['queued']);
+            Bus::assertDispatchedTimes(SendCampaignSmsJob::class, 1);
+        } finally {
+            Carbon::setTestNow();
+        }
+    }
+
+    public function test_reminder_service_skips_cancelled_appointments(): void
+    {
+        Bus::fake();
+
+        $store = Store::factory()->create(['sender_id' => 'DEMO']);
+        $customer = Customer::factory()->create(['store_id' => $store->id]);
+
+        Rdv::factory()->create([
+            'store_id' => $store->id,
+            'customer_id' => $customer->id,
+            'start' => Carbon::parse('2026-06-08 10:15:00'),
+            'status' => RdvStatus::Cancelled->value,
+        ]);
+
+        $result = app(RdvReminderService::class)
+            ->sendUpcomingReminders(Carbon::parse('2026-06-08 10:00:00'));
+
+        $this->assertSame(0, $result['queued']);
+        Bus::assertNothingDispatched();
+    }
+
     public function test_admin_can_list_all_appointments(): void
     {
         $admin = User::factory()->admin()->create();
