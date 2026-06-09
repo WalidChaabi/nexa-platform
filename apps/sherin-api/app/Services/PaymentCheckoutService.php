@@ -116,14 +116,25 @@ class PaymentCheckoutService
 
         if ($orderId) {
             $payment = PaymentHistory::query()->where('cmd', $orderId)->first();
+            $pendingContext = Cache::get($this->pendingCacheKey($orderId), []);
+            $storeIds = is_array($pendingContext['store_ids'] ?? null)
+                ? $pendingContext['store_ids']
+                : [];
 
             if ($payment && $verification->isSuccessful()) {
                 if ($payment->status !== PaymentHistoryStatus::Paid->value) {
                     $payment->update(['status' => PaymentHistoryStatus::Paid->value]);
+                    $payment->refresh();
+
+                    app(PaymentFulfillmentService::class)->fulfill($payment, $storeIds);
                 }
 
                 Cache::forget($this->pendingCacheKey($orderId));
-            } elseif ($payment && ! $verification->isSuccessful() && $verification->status !== PaymentVerificationStatus::Incomplete) {
+            } elseif (
+                $payment
+                && ! $verification->isSuccessful()
+                && $verification->status === PaymentVerificationStatus::Declined
+            ) {
                 $payment->update(['status' => PaymentHistoryStatus::Failed->value]);
                 Cache::forget($this->pendingCacheKey($orderId));
             }

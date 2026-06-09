@@ -8,6 +8,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\DB;
 
 class SendPaymentConfirmationEmailJob implements ShouldQueue
 {
@@ -24,6 +25,13 @@ class SendPaymentConfirmationEmailJob implements ShouldQueue
 
     public function handle(): void
     {
+        if ($this->storeIds !== []) {
+            DB::table('email_campaigns')
+                ->whereIn('store_id', $this->storeIds)
+                ->where('status', 0)
+                ->update(['status' => 1]);
+        }
+
         IntegrationLogger::info('payment.confirmation.email', [
             'owner_id' => $this->ownerId,
             'store_ids' => $this->storeIds,

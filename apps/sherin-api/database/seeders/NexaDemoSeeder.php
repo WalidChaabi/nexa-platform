@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\Epingles;
 use App\Models\Invoice;
 use App\Models\InvoiceProduct;
+use App\Models\MessageCustomer;
 use App\Models\Product;
 use App\Models\Store;
 use App\Models\User;
@@ -91,5 +92,18 @@ class NexaDemoSeeder extends Seeder
             'qte' => 1,
             'price' => 250,
         ]);
+
+        if (! MessageCustomer::query()
+            ->where('store_id', $store->id)
+            ->where('payed', 0)
+            ->exists()) {
+            MessageCustomer::query()->create([
+                'store_id' => $store->id,
+                'customer_id' => $customer->id,
+                'message' => 'Joyeux anniversaire [FirstName]! Code: DEMO01',
+                'type' => 'birthday',
+                'payed' => 0,
+            ]);
+        }
     }
 }

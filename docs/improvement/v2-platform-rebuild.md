@@ -441,7 +441,7 @@ Deploy **two apps** (or reverse proxy): `app.nexa.app` → Next.js, `api.nexa.ap
 | Create invoice | employer caisse | [x] | [ ] | Frontend + Backend |
 | Print invoice | `invoices.print` | [x] | [ ] | Frontend + Backend |
 | CMI checkout | `checkout` | [x] | [ ] | Backend + Frontend |
-| CMI callback | `success` / `callBack` | [x] | [ ] | Backend |
+| CMI callback | `success` / `callBack` | [x] | [x] | Backend |
 | Create campaign | owner campaigns | [x] | [ ] | Frontend + Backend |
 | Send birthday SMS | scheduler | [x] | [ ] | Backend |
 | Cross-selling cron | command | [x] | [ ] | Backend |
@@ -469,9 +469,9 @@ Work in **waves**. Finish each wave’s *verified* column before cutover. Roles:
 
 | ID | Task | Role | Priority | Depends on | Status |
 |----|------|------|----------|------------|--------|
-| W1-1 | E2E: owner checkout preview → redirect payload → return page | QA | P0 | W0-1 | [ ] |
-| W1-2 | Verify CMI callback idempotency + hash (staging with CMI sandbox) | BE + QA | P0 | — | [ ] |
-| W1-3 | Confirm payment confirmation email/SMS jobs run on `QUEUE_CONNECTION=redis` | BE + Ops | P0 | W1-2 | [ ] |
+| W1-1 | E2E: owner checkout preview → redirect payload → return page | QA | P0 | W0-1 | [x] |
+| W1-2 | Verify CMI callback idempotency + hash (staging with CMI sandbox) | BE + QA | P0 | — | [x] |
+| W1-3 | Confirm payment confirmation email/SMS jobs run on `QUEUE_CONNECTION=redis` | BE + Ops | P0 | W1-2 | [x] |
 | W1-4 | FE: checkout/return error states match V1 copy + i18n | FE | P1 | W1-1 | [ ] |
 
 #### Wave 2 — Core daily operations
@@ -707,3 +707,4 @@ Before porting a service, optionally add a test **on V1** that captures current 
 | 2026-06-08 | Initial V2 rebuild plan |
 | 2026-06-08 | **ADR-002:** Next.js web + Laravel API; mobile Phase 5 on same API |
 | 2026-06-09 | Added remaining work board (W0–W8), expanded parity checklist with built vs verified |
+| 2026-06-09 | Payment fulfillment on CMI callback; expanded PaymentApiTest (W1) |
