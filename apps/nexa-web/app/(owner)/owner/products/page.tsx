@@ -1,28 +1,20 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { List, Package, Search } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { Package } from "lucide-react";
 
+import { DataTable } from "@/components/data-table/data-table";
 import { PageHeader } from "@/components/layout/page-header";
+import { createOwnerProductsColumns } from "@/components/products/owner-products-columns";
 import { useLocale } from "@/components/providers/locale-provider";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { fetchProducts, type ProductSummary } from "@/lib/api/products";
 
 export default function OwnerProductsPage() {
@@ -30,19 +22,16 @@ export default function OwnerProductsPage() {
   const [products, setProducts] = useState<ProductSummary[]>([]);
   const [fetching, setFetching] = useState(true);
   const [errorKey, setErrorKey] = useState<string | null>(null);
-  const [search, setSearch] = useState("");
 
   useEffect(() => {
-    const active = true;
+    let active = true;
 
     async function loadProducts() {
       setFetching(true);
       setErrorKey(null);
 
       try {
-        const data = await fetchProducts({
-          q: search.trim() || undefined,
-        });
+        const data = await fetchProducts();
         if (active) {
           setProducts(data);
         }
@@ -58,7 +47,20 @@ export default function OwnerProductsPage() {
     }
 
     void loadProducts();
-  }, [search]);
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const columns = useMemo(
+    () =>
+      createOwnerProductsColumns({
+        t,
+        formatCurrency,
+      }),
+    [t, formatCurrency],
+  );
 
   return (
     <div className="space-y-6">
@@ -77,65 +79,23 @@ export default function OwnerProductsPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Search className="size-4 text-primary" />
-            {t("owner.products.searchTitle")}
-          </CardTitle>
-          <CardDescription>{t("owner.products.searchDescription")}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Input
-            placeholder={t("owner.products.searchPlaceholder")}
-            value={search}
-            onChange={(event) => setSearch(event.target.value)}
-          />
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <List className="size-4 text-primary" />
-            {t("owner.products.listTitle")}
-          </CardTitle>
+          <CardTitle>{t("owner.products.listTitle")}</CardTitle>
         </CardHeader>
         <CardContent>
           {fetching ? (
-            <div className="space-y-2">
-              <Skeleton className="h-10 w-full" />
-              <Skeleton className="h-10 w-full" />
+            <div className="space-y-3">
+              <Skeleton className="h-9 w-full max-w-sm" />
+              <Skeleton className="h-64 w-full" />
             </div>
-          ) : products.length === 0 ? (
-            <p className="text-sm text-muted-foreground">
-              {t("owner.products.empty")}
-            </p>
           ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>{t("owner.products.columns.label")}</TableHead>
-                  <TableHead>{t("owner.products.columns.store")}</TableHead>
-                  <TableHead>{t("owner.products.columns.category")}</TableHead>
-                  <TableHead>{t("owner.products.columns.price")}</TableHead>
-                  <TableHead>{t("owner.products.columns.quantity")}</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {products.map((product) => (
-                  <TableRow key={product.id}>
-                    <TableCell className="font-medium">{product.label}</TableCell>
-                    <TableCell>
-                      {product.store?.name ?? `#${product.store_id}`}
-                    </TableCell>
-                    <TableCell>
-                      {product.category?.name ?? "—"}
-                    </TableCell>
-                    <TableCell>{formatCurrency(product.price)}</TableCell>
-                    <TableCell>{product.quantite}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <DataTable
+              columns={columns}
+              data={products}
+              filterColumn="search"
+              filterPlaceholder={t("owner.products.searchPlaceholder")}
+              emptyMessage={t("owner.products.empty")}
+              initialColumnVisibility={{ search: false }}
+            />
           )}
         </CardContent>
       </Card>
