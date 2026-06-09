@@ -1,13 +1,15 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { Package } from "lucide-react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { FileSpreadsheet, Package } from "lucide-react";
 
 import { DataTable } from "@/components/data-table/data-table";
 import { PageHeader } from "@/components/layout/page-header";
 import { createAdminProductsColumns } from "@/components/products/admin-products-columns";
+import { ProductImportDialog } from "@/components/products/product-import-dialog";
 import { useLocale } from "@/components/providers/locale-provider";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -16,12 +18,20 @@ import {
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { fetchProducts, type ProductSummary } from "@/lib/api/products";
+import { fetchStores, type StoreSummary } from "@/lib/api/stores";
 
 export default function AdminProductsPage() {
   const { t, formatCurrency } = useLocale();
   const [products, setProducts] = useState<ProductSummary[]>([]);
+  const [stores, setStores] = useState<StoreSummary[]>([]);
   const [fetching, setFetching] = useState(true);
   const [errorKey, setErrorKey] = useState<string | null>(null);
+  const [reloadKey, setReloadKey] = useState(0);
+  const [importOpen, setImportOpen] = useState(false);
+
+  const reloadProducts = useCallback(() => {
+    setReloadKey((value) => value + 1);
+  }, []);
 
   useEffect(() => {
     let active = true;
@@ -31,9 +41,14 @@ export default function AdminProductsPage() {
       setErrorKey(null);
 
       try {
-        const data = await fetchProducts();
+        const [productData, storeData] = await Promise.all([
+          fetchProducts(),
+          fetchStores(),
+        ]);
+
         if (active) {
-          setProducts(data);
+          setProducts(productData);
+          setStores(storeData);
         }
       } catch {
         if (active) {
@@ -51,7 +66,7 @@ export default function AdminProductsPage() {
     return () => {
       active = false;
     };
-  }, []);
+  }, [reloadKey]);
 
   const columns = useMemo(
     () =>
@@ -68,7 +83,17 @@ export default function AdminProductsPage() {
         icon={Package}
         title={t("admin.products.title")}
         description={t("admin.products.description")}
-      />
+      >
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => setImportOpen(true)}
+          disabled={stores.length === 0}
+        >
+          <FileSpreadsheet className="size-4" />
+          {t("admin.products.import.trigger")}
+        </Button>
+      </PageHeader>
 
       {errorKey ? (
         <Alert variant="destructive">
@@ -99,6 +124,14 @@ export default function AdminProductsPage() {
           )}
         </CardContent>
       </Card>
+
+      <ProductImportDialog
+        open={importOpen}
+        onOpenChange={setImportOpen}
+        stores={stores}
+        namespace="admin.products"
+        onSuccess={reloadProducts}
+      />
     </div>
   );
 }

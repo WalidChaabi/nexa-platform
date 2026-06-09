@@ -1,4 +1,10 @@
-import { apiGet, apiPost, apiPut, ensureCsrfCookie } from "@/lib/api/client";
+import {
+  apiGet,
+  apiPost,
+  apiPostForm,
+  apiPut,
+  ensureCsrfCookie,
+} from "@/lib/api/client";
 
 export type ProductSummary = {
   id: number;
@@ -73,6 +79,25 @@ export async function createProduct(input: ProductInput): Promise<ProductSummary
   await ensureCsrfCookie();
   const response = await apiPost<ProductResponse>("/api/v1/products", input);
   return response.data;
+}
+
+export type ProductImportResult = {
+  created: number;
+  categories: number;
+  errors: Array<{ row: number; message: string }>;
+};
+
+export async function importProducts(
+  storeId: number,
+  file: File,
+): Promise<ProductImportResult> {
+  await ensureCsrfCookie();
+
+  const formData = new FormData();
+  formData.append("store_id", String(storeId));
+  formData.append("file", file);
+
+  return apiPostForm<ProductImportResult>("/api/v1/products/import", formData);
 }
 
 export async function updateProduct(
