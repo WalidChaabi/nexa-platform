@@ -47,15 +47,31 @@ type ReportsPanelProps = {
   stores: Array<{ id: number; name: string }>;
 };
 
+function formatDateInput(date: Date): string {
+  return date.toISOString().slice(0, 10);
+}
+
+function defaultReportRange(): { from: string; to: string } {
+  const to = new Date();
+  const from = new Date();
+  from.setDate(to.getDate() - 6);
+
+  return {
+    from: formatDateInput(from),
+    to: formatDateInput(to),
+  };
+}
+
 export function ReportsPanel({ translationPrefix, stores }: ReportsPanelProps) {
   const { t, formatCurrency, formatDateTime } = useLocale();
   const prefix = translationPrefix;
+  const defaultRange = defaultReportRange();
   const [reportType, setReportType] = useState<ReportType>("sales");
   const [storeId, setStoreId] = useState(
     stores.length > 0 ? String(stores[0].id) : "",
   );
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
+  const [from, setFrom] = useState(defaultRange.from);
+  const [to, setTo] = useState(defaultRange.to);
   const [forSexe, setForSexe] = useState("0");
   const [loading, setLoading] = useState(false);
   const [exporting, setExporting] = useState(false);
@@ -72,6 +88,7 @@ export function ReportsPanel({ translationPrefix, stores }: ReportsPanelProps) {
     event.preventDefault();
 
     if (!storeId || !from || !to) {
+      setErrorKey(`${prefix}.dateRangeRequired`);
       return;
     }
 

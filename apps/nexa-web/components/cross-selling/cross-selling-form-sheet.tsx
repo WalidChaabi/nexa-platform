@@ -6,6 +6,7 @@ import { Pencil } from "lucide-react";
 import { useLocale } from "@/components/providers/locale-provider";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { useAppToast } from "@/hooks/use-app-toast";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -35,6 +36,7 @@ export function CrossSellingFormSheet({
   onSuccess,
 }: CrossSellingFormSheetProps) {
   const { t } = useLocale();
+  const toast = useAppToast();
   const [days, setDays] = useState("20");
   const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -69,6 +71,7 @@ export function CrossSellingFormSheet({
       });
       onSuccess();
       onOpenChange(false);
+      toast.success("feedback.toast.crossSellingUpdated");
     } catch {
       setErrorKey("owner.crossSelling.updateError");
     } finally {

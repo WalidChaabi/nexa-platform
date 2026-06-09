@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { List, PlusCircle, Receipt } from "lucide-react";
 
 import { EmployerInvoicesTable } from "@/app/(employer)/employer/invoices/invoices-table";
+import { useConfirm } from "@/components/feedback/confirm-provider";
 import { useDashboardAuth } from "@/components/layout/dashboard-auth";
 import { PageHeader } from "@/components/layout/page-header";
 import { useLocale } from "@/components/providers/locale-provider";
@@ -17,6 +18,7 @@ import {
 } from "@/components/ui/card";
 import { NavLink } from "@/components/ui/nav-link";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useAppToast } from "@/hooks/use-app-toast";
 import {
   cancelInvoice,
   fetchInvoices,
@@ -26,6 +28,8 @@ import {
 export default function EmployerInvoicesPage() {
   const { user } = useDashboardAuth();
   const { t } = useLocale();
+  const confirm = useConfirm();
+  const toast = useAppToast();
   const [invoices, setInvoices] = useState<InvoiceSummary[]>([]);
   const [fetching, setFetching] = useState(true);
   const [errorKey, setErrorKey] = useState<string | null>(null);
@@ -65,19 +69,31 @@ export default function EmployerInvoicesPage() {
     void loadInvoices();
   }, [storeId, reloadKey]);
 
-  const handleCancel = useCallback(async (invoiceId: number) => {
-    setCancellingId(invoiceId);
-    setErrorKey(null);
+  const handleCancel = useCallback(
+    (invoiceId: number) => {
+      confirm({
+        title: t("feedback.confirm.cancelInvoice.title"),
+        description: t("feedback.confirm.cancelInvoice.description"),
+        confirmLabel: t("common.cancel"),
+        destructive: true,
+        onConfirm: async () => {
+          setCancellingId(invoiceId);
+          setErrorKey(null);
 
-    try {
-      await cancelInvoice(invoiceId);
-      setReloadKey((value) => value + 1);
-    } catch {
-      setErrorKey("employer.invoices.cancelError");
-    } finally {
-      setCancellingId(null);
-    }
-  }, []);
+          try {
+            await cancelInvoice(invoiceId);
+            setReloadKey((value) => value + 1);
+            toast.success("feedback.toast.invoiceCancelled");
+          } catch {
+            setErrorKey("employer.invoices.cancelError");
+          } finally {
+            setCancellingId(null);
+          }
+        },
+      });
+    },
+    [confirm, t, toast],
+  );
 
   return (
     <div className="space-y-6">

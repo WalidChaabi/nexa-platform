@@ -7,6 +7,7 @@ import { CampaignCreateDialog } from "@/components/campaigns/campaign-create-dia
 import { createCampaignDetailColumns } from "@/components/campaigns/campaign-detail-columns";
 import { CampaignFormSheet } from "@/components/campaigns/campaign-form-sheet";
 import { DataTable } from "@/components/data-table/data-table";
+import { useConfirm } from "@/components/feedback/confirm-provider";
 import { PageHeader } from "@/components/layout/page-header";
 import { useLocale } from "@/components/providers/locale-provider";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -20,6 +21,7 @@ import {
 } from "@/components/ui/card";
 import { createCampaignHistoriqueColumns } from "@/components/campaigns/campaign-historique-columns";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useAppToast } from "@/hooks/use-app-toast";
 import {
   deleteCampaignDetail,
   fetchCampaignDetails,
@@ -34,7 +36,9 @@ import { fetchProducts, type ProductSummary } from "@/lib/api/products";
 import { fetchStores, type StoreSummary } from "@/lib/api/stores";
 
 export default function OwnerCampaignsPage() {
-  const { t } = useLocale();
+  const { t, formatDateTime } = useLocale();
+  const confirm = useConfirm();
+  const toast = useAppToast();
   const [stores, setStores] = useState<StoreSummary[]>([]);
   const [types, setTypes] = useState<CampaignType[]>([]);
   const [products, setProducts] = useState<ProductSummary[]>([]);
@@ -91,33 +95,77 @@ export default function OwnerCampaignsPage() {
     };
   }, [reloadKey]);
 
-  const handleToggleActive = useCallback(async (detail: CampaignDetailSummary) => {
-    setErrorKey(null);
+  const handleToggleActive = useCallback(
+    (detail: CampaignDetailSummary) => {
+      const activating = detail.active !== 1;
 
-    try {
-      await updateCampaignDetail(detail.id, {
-        active: detail.active === 1 ? 0 : 1,
+      confirm({
+        title: t(
+          activating
+            ? "feedback.confirm.toggleCampaign.titleActivate"
+            : "feedback.confirm.toggleCampaign.titleDeactivate",
+        ),
+        description: t(
+          activating
+            ? "feedback.confirm.toggleCampaign.descriptionActivate"
+            : "feedback.confirm.toggleCampaign.descriptionDeactivate",
+        ),
+        confirmLabel: activating
+          ? t("owner.campaigns.activate")
+          : t("owner.campaigns.deactivate"),
+        onConfirm: async () => {
+          setErrorKey(null);
+
+          try {
+            await updateCampaignDetail(detail.id, {
+              active: detail.active === 1 ? 0 : 1,
+            });
+            setReloadKey((value) => value + 1);
+            toast.success(
+              activating
+                ? "feedback.toast.campaignActivated"
+                : "feedback.toast.campaignDeactivated",
+            );
+          } catch {
+            setErrorKey("owner.campaigns.updateError");
+          }
+        },
       });
-      setReloadKey((value) => value + 1);
-    } catch {
-      setErrorKey("owner.campaigns.updateError");
-    }
-  }, []);
+    },
+    [confirm, t, toast],
+  );
 
-  const handleDelete = useCallback(async (detail: CampaignDetailSummary) => {
-    setErrorKey(null);
+  const handleDelete = useCallback(
+    (detail: CampaignDetailSummary) => {
+      confirm({
+        title: t("feedback.confirm.deleteCampaign.title"),
+        description: t("feedback.confirm.deleteCampaign.description"),
+        confirmLabel: t("feedback.confirm.delete"),
+        destructive: true,
+        onConfirm: async () => {
+          setErrorKey(null);
 
-    try {
-      await deleteCampaignDetail(detail.id);
-      setReloadKey((value) => value + 1);
-    } catch {
-      setErrorKey("owner.campaigns.deleteError");
-    }
-  }, []);
+          try {
+            await deleteCampaignDetail(detail.id);
+            setReloadKey((value) => value + 1);
+            toast.success("feedback.toast.campaignDeleted");
+          } catch {
+            setErrorKey("owner.campaigns.deleteError");
+          }
+        },
+      });
+    },
+    [confirm, t, toast],
+  );
 
   const historyColumns = useMemo(
-    () => createCampaignHistoriqueColumns({ t, namespace: "owner.campaigns" }),
-    [t],
+    () =>
+      createCampaignHistoriqueColumns({
+        t,
+        formatDateTime,
+        namespace: "owner.campaigns",
+      }),
+    [t, formatDateTime],
   );
 
   const columns = useMemo(
@@ -215,7 +263,9 @@ export default function OwnerCampaignsPage() {
         open={editOpen}
         onOpenChange={setEditOpen}
         detailId={editDetailId}
-        onSuccess={() => setReloadKey((value) => value + 1)}
+        onSuccess={() => {
+          setReloadKey((value) => value + 1);
+        }}
       />
     </div>
   );

@@ -4,6 +4,7 @@ import { LayoutDashboard } from "lucide-react";
 
 import { DashboardKpisPanel } from "@/components/dashboard/dashboard-kpis";
 import { DashboardQuickActions } from "@/components/dashboard/dashboard-quick-actions";
+import { EmployerOnboardingChecklist } from "@/components/dashboard/employer-onboarding-checklist";
 import { useDashboardAuth } from "@/components/layout/dashboard-auth";
 import { PageHeader } from "@/components/layout/page-header";
 import { useLocale } from "@/components/providers/locale-provider";
@@ -19,6 +20,8 @@ export default function EmployerDashboardPage() {
         title={t("employer.dashboard.title")}
         description={t("employer.dashboard.signedIn", { name: user.full_name })}
       />
+
+      <EmployerOnboardingChecklist />
 
       <DashboardKpisPanel role="employer" />
 

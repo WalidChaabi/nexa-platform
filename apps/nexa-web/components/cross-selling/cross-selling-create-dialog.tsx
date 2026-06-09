@@ -6,6 +6,7 @@ import { RefreshCw } from "lucide-react";
 import { useLocale } from "@/components/providers/locale-provider";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { useAppToast } from "@/hooks/use-app-toast";
 import {
   Dialog,
   DialogContent,
@@ -41,6 +42,7 @@ export function CrossSellingCreateDialog({
   onSuccess,
 }: CrossSellingCreateDialogProps) {
   const { t } = useLocale();
+  const toast = useAppToast();
   const formId = useId();
   const [productId, setProductId] = useState("");
   const [message, setMessage] = useState("");
@@ -79,6 +81,7 @@ export function CrossSellingCreateDialog({
       });
       onSuccess();
       onOpenChange(false);
+      toast.success("feedback.toast.crossSellingCreated");
     } catch {
       setErrorKey("owner.crossSelling.createError");
     } finally {

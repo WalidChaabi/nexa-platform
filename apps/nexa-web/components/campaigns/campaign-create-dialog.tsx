@@ -12,6 +12,7 @@ import {
 import { useLocale } from "@/components/providers/locale-provider";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { useAppToast } from "@/hooks/use-app-toast";
 import {
   Dialog,
   DialogContent,
@@ -68,6 +69,7 @@ export function CampaignCreateDialog({
   onSuccess,
 }: CampaignCreateDialogProps) {
   const { t } = useLocale();
+  const toast = useAppToast();
   const formId = useId();
   const [storeId, setStoreId] = useState("");
   const [campaignId, setCampaignId] = useState("");
@@ -151,6 +153,7 @@ export function CampaignCreateDialog({
       });
       onSuccess();
       onOpenChange(false);
+      toast.success("feedback.toast.campaignCreated");
     } catch {
       setErrorKey("owner.campaigns.createError");
     } finally {

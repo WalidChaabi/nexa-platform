@@ -123,6 +123,10 @@ export function MarketingCounselBanner() {
 export function MarketingPlaceholderBanner() {
   const { t } = useLocale();
 
+  if (process.env.NODE_ENV === "development") {
+    return null;
+  }
+
   return (
     <div className="mx-auto max-w-6xl px-6 pb-6">
       <Alert className="border-border/80 bg-muted/40">

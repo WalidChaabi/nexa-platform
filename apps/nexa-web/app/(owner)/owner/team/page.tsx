@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Plus, UserCheck } from "lucide-react";
 
 import { DataTable } from "@/components/data-table/data-table";
+import { useConfirm } from "@/components/feedback/confirm-provider";
 import { EmployerFormDialog } from "@/components/employers/employer-form-dialog";
 import { createEmployersColumns } from "@/components/employers/employers-columns";
 import { PageHeader } from "@/components/layout/page-header";
@@ -18,6 +19,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useAppToast } from "@/hooks/use-app-toast";
 import {
   activateEmployer,
   deactivateEmployer,
@@ -33,6 +35,8 @@ type DialogState =
 
 export default function OwnerTeamPage() {
   const { t } = useLocale();
+  const confirm = useConfirm();
+  const toast = useAppToast();
   const [employers, setEmployers] = useState<EmployerSummary[]>([]);
   const [stores, setStores] = useState<StoreSummary[]>([]);
   const [fetching, setFetching] = useState(true);
@@ -75,20 +79,43 @@ export default function OwnerTeamPage() {
     };
   }, [reloadKey]);
 
-  const handleToggleActive = useCallback(async (employer: EmployerSummary) => {
-    setErrorKey(null);
+  const handleToggleActive = useCallback(
+    (employer: EmployerSummary) => {
+      if (employer.is_active !== 1) {
+        void (async () => {
+          setErrorKey(null);
 
-    try {
-      if (employer.is_active === 1) {
-        await deactivateEmployer(employer.id);
-      } else {
-        await activateEmployer(employer.id);
+          try {
+            await activateEmployer(employer.id);
+            setReloadKey((value) => value + 1);
+            toast.success("feedback.toast.updated");
+          } catch {
+            setErrorKey("owner.team.statusError");
+          }
+        })();
+        return;
       }
-      setReloadKey((value) => value + 1);
-    } catch {
-      setErrorKey("owner.team.statusError");
-    }
-  }, []);
+
+      confirm({
+        title: t("feedback.confirm.deactivateEmployer.title"),
+        description: t("feedback.confirm.deactivateEmployer.description"),
+        confirmLabel: t("feedback.confirm.deactivate"),
+        destructive: true,
+        onConfirm: async () => {
+          setErrorKey(null);
+
+          try {
+            await deactivateEmployer(employer.id);
+            setReloadKey((value) => value + 1);
+            toast.success("feedback.toast.deactivated");
+          } catch {
+            setErrorKey("owner.team.statusError");
+          }
+        },
+      });
+    },
+    [confirm, t, toast],
+  );
 
   const columns = useMemo(
     () =>
@@ -107,16 +134,15 @@ export default function OwnerTeamPage() {
         icon={UserCheck}
         title={t("owner.team.title")}
         description={t("owner.team.description")}
-        action={
-          <Button
-            onClick={() => setDialog({ open: true, mode: "create" })}
-            disabled={stores.length === 0}
-          >
-            <Plus />
-            {t("owner.team.invite")}
-          </Button>
-        }
-      />
+      >
+        <Button
+          onClick={() => setDialog({ open: true, mode: "create" })}
+          disabled={stores.length === 0}
+        >
+          <Plus />
+          {t("owner.team.invite")}
+        </Button>
+      </PageHeader>
 
       {stores.length === 0 && !fetching ? (
         <Alert>
@@ -148,7 +174,7 @@ export default function OwnerTeamPage() {
             <DataTable
               columns={columns}
               data={employers}
-              filterColumnId="search"
+              filterColumn="search"
               filterPlaceholder={t("owner.team.filterPlaceholder")}
               emptyMessage={t("owner.team.empty")}
             />
@@ -166,7 +192,9 @@ export default function OwnerTeamPage() {
         mode={dialog.open ? dialog.mode : "create"}
         employer={dialog.open && dialog.mode === "edit" ? dialog.employer : null}
         stores={stores}
-        onSuccess={() => setReloadKey((value) => value + 1)}
+        onSuccess={() => {
+          setReloadKey((value) => value + 1);
+        }}
       />
     </div>
   );

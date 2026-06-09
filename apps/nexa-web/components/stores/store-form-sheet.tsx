@@ -10,6 +10,7 @@ import {
 import { useLocale } from "@/components/providers/locale-provider";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { useAppToast } from "@/hooks/use-app-toast";
 import {
   Sheet,
   SheetContent,
@@ -38,6 +39,7 @@ export function StoreFormSheet({
   onSuccess,
 }: StoreFormSheetProps) {
   const { t } = useLocale();
+  const toast = useAppToast();
   const [values, setValues] = useState<StoreInput>(emptyStoreForm);
   const [submitting, setSubmitting] = useState(false);
   const [errorKey, setErrorKey] = useState<string | null>(null);
@@ -71,6 +73,7 @@ export function StoreFormSheet({
       await updateStore(store.id, values);
       onSuccess();
       onOpenChange(false);
+      toast.success("feedback.toast.storeUpdated");
     } catch {
       setErrorKey("owner.stores.updateError");
     } finally {

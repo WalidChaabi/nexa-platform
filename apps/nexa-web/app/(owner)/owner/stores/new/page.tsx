@@ -17,11 +17,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { NavLink } from "@/components/ui/nav-link";
+import { useAppToast } from "@/hooks/use-app-toast";
 import { createStore, type StoreSummary } from "@/lib/api/stores";
 
 export default function NewStorePage() {
   const router = useRouter();
   const { t } = useLocale();
+  const toast = useAppToast();
   const [values, setValues] = useState(emptyStoreForm);
   const [submitting, setSubmitting] = useState(false);
   const [errorKey, setErrorKey] = useState<string | null>(null);
@@ -35,6 +37,7 @@ export default function NewStorePage() {
     try {
       const store = await createStore(values);
       setCreatedStore(store);
+      toast.success("feedback.toast.storeCreated");
     } catch {
       setErrorKey("owner.stores.createError");
     } finally {

@@ -6,6 +6,7 @@ import { FileSpreadsheet } from "lucide-react";
 import { useLocale } from "@/components/providers/locale-provider";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { useAppToast } from "@/hooks/use-app-toast";
 import {
   Dialog,
   DialogContent,
@@ -56,6 +57,7 @@ export function ProductImportDialog({
   onSuccess,
 }: ProductImportDialogProps) {
   const { t } = useLocale();
+  const toast = useAppToast();
   const fileInputId = useId();
   const [storeId, setStoreId] = useState<string>("");
   const [file, setFile] = useState<File | null>(null);
@@ -99,6 +101,7 @@ export function ProductImportDialog({
 
       if (importResult.created > 0) {
         onSuccess();
+        toast.success("feedback.toast.importSuccess");
       }
     } catch {
       setErrorKey(key("importError"));

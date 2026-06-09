@@ -162,21 +162,21 @@ export function MarketingHeader() {
                 <PreferencesToolbar />
                 <SheetClose
                   render={
-                    <NavLink href="/login" variant="outline" className="w-full" />
+                    <NavLink href="/login" variant="outline" className="w-full">
+                      {t("marketing.nav.signIn")}
+                    </NavLink>
                   }
-                >
-                  {t("marketing.nav.signIn")}
-                </SheetClose>
+                />
                 <SheetClose
                   render={
                     <NavLink
                       href="/login"
                       className="w-full bg-brand-accent text-primary hover:bg-brand-accent/90"
-                    />
+                    >
+                      {t("marketing.nav.getStarted")}
+                    </NavLink>
                   }
-                >
-                  {t("marketing.nav.getStarted")}
-                </SheetClose>
+                />
               </div>
             </SheetContent>
           </Sheet>

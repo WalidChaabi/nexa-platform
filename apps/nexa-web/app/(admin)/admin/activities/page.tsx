@@ -6,6 +6,7 @@ import { Briefcase, Plus } from "lucide-react";
 import { ActivityFormDialog } from "@/components/activities/activity-form-dialog";
 import { createActivitiesColumns } from "@/components/activities/activities-columns";
 import { DataTable } from "@/components/data-table/data-table";
+import { useConfirm } from "@/components/feedback/confirm-provider";
 import { PageHeader } from "@/components/layout/page-header";
 import { useLocale } from "@/components/providers/locale-provider";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -18,6 +19,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useAppToast } from "@/hooks/use-app-toast";
 import {
   deleteActivity,
   fetchActivities,
@@ -31,6 +33,8 @@ type DialogState =
 
 export default function AdminActivitiesPage() {
   const { t } = useLocale();
+  const confirm = useConfirm();
+  const toast = useAppToast();
   const [activities, setActivities] = useState<ActivitySummary[]>([]);
   const [fetching, setFetching] = useState(true);
   const [errorKey, setErrorKey] = useState<string | null>(null);
@@ -67,16 +71,28 @@ export default function AdminActivitiesPage() {
     };
   }, [reloadKey]);
 
-  const handleDelete = useCallback(async (activity: ActivitySummary) => {
-    setErrorKey(null);
+  const handleDelete = useCallback(
+    (activity: ActivitySummary) => {
+      confirm({
+        title: t("feedback.confirm.deleteActivity.title"),
+        description: t("feedback.confirm.deleteActivity.description"),
+        confirmLabel: t("feedback.confirm.delete"),
+        destructive: true,
+        onConfirm: async () => {
+          setErrorKey(null);
 
-    try {
-      await deleteActivity(activity.id);
-      setReloadKey((value) => value + 1);
-    } catch {
-      setErrorKey("admin.activities.deleteError");
-    }
-  }, []);
+          try {
+            await deleteActivity(activity.id);
+            setReloadKey((value) => value + 1);
+            toast.success("feedback.toast.activityDeleted");
+          } catch {
+            setErrorKey("admin.activities.deleteError");
+          }
+        },
+      });
+    },
+    [confirm, t, toast],
+  );
 
   const columns = useMemo(
     () =>
@@ -119,7 +135,9 @@ export default function AdminActivitiesPage() {
             setDialog({ open: false });
           }
         }}
-        onSuccess={() => setReloadKey((value) => value + 1)}
+        onSuccess={() => {
+          setReloadKey((value) => value + 1);
+        }}
       />
 
       <Card>

@@ -25,7 +25,7 @@ import {
 } from "@/lib/api/cross-selling";
 
 export default function AdminCrossSellingPage() {
-  const { t } = useLocale();
+  const { t, formatDateTime } = useLocale();
   const [rules, setRules] = useState<CrossProductRule[]>([]);
   const [smsHistory, setSmsHistory] = useState<SmsCrossSellingRecord[]>([]);
   const [fetching, setFetching] = useState(true);
@@ -71,8 +71,13 @@ export default function AdminCrossSellingPage() {
   );
 
   const historyColumns = useMemo(
-    () => createCrossSellingHistoryColumns({ t, namespace: "admin.crossSelling" }),
-    [t],
+    () =>
+      createCrossSellingHistoryColumns({
+        t,
+        formatDateTime,
+        namespace: "admin.crossSelling",
+      }),
+    [t, formatDateTime],
   );
 
   return (

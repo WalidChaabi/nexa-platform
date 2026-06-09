@@ -12,6 +12,7 @@ import {
 import { useLocale } from "@/components/providers/locale-provider";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { useAppToast } from "@/hooks/use-app-toast";
 import {
   Sheet,
   SheetContent,
@@ -55,6 +56,7 @@ export function CampaignFormSheet({
   onSuccess,
 }: CampaignFormSheetProps) {
   const { t } = useLocale();
+  const toast = useAppToast();
   const [detail, setDetail] = useState<CampaignDetailSummary | null>(null);
   const [products, setProducts] = useState<ProductSummary[]>([]);
   const [values, setValues] = useState<CampaignFilterFormValues>(emptyValues);
@@ -138,6 +140,7 @@ export function CampaignFormSheet({
       });
       onSuccess();
       onOpenChange(false);
+      toast.success("feedback.toast.campaignUpdated");
     } catch {
       setErrorKey("owner.campaigns.updateError");
     } finally {

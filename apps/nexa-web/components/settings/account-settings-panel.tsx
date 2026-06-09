@@ -8,6 +8,7 @@ import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { useLocale } from "@/components/providers/locale-provider";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { useAppToast } from "@/hooks/use-app-toast";
 import {
   Card,
   CardContent,
@@ -25,6 +26,7 @@ import {
 export function AccountSettingsPanel() {
   const { user, setUser } = useDashboardAuth();
   const { t } = useLocale();
+  const toast = useAppToast();
 
   const [firstname, setFirstname] = useState(user.firstname);
   const [lastname, setLastname] = useState(user.lastname);
@@ -55,6 +57,7 @@ export function AccountSettingsPanel() {
       });
       setUser(updated);
       setProfileMessage("success");
+      toast.success("feedback.toast.profileSaved");
     } catch {
       setProfileMessage("error");
     } finally {
@@ -77,6 +80,7 @@ export function AccountSettingsPanel() {
       setNewPassword("");
       setConfirmPassword("");
       setPasswordMessage("success");
+      toast.success("feedback.toast.passwordUpdated");
     } catch {
       setPasswordMessage("error");
     } finally {

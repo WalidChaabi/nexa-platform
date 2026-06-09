@@ -11,6 +11,7 @@ import {
 import { useLocale } from "@/components/providers/locale-provider";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { useAppToast } from "@/hooks/use-app-toast";
 import {
   Sheet,
   SheetContent,
@@ -50,6 +51,7 @@ export function CustomerFormSheet({
   onSuccess,
 }: CustomerFormSheetProps) {
   const { t } = useLocale();
+  const toast = useAppToast();
   const [values, setValues] = useState<CustomerFormValues>(emptyCustomerFormValues);
   const [submitting, setSubmitting] = useState(false);
   const [errorKey, setErrorKey] = useState<string | null>(null);
@@ -121,6 +123,11 @@ export function CustomerFormSheet({
       }
 
       onOpenChange(false);
+      toast.success(
+        mode === "edit"
+          ? "feedback.toast.updated"
+          : "feedback.toast.customerCreated",
+      );
     } catch {
       setErrorKey(
         mode === "edit"

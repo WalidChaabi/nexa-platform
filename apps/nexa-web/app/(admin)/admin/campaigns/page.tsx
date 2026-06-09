@@ -25,7 +25,7 @@ import {
 } from "@/lib/api/campaigns";
 
 export default function AdminCampaignsPage() {
-  const { t } = useLocale();
+  const { t, formatDateTime } = useLocale();
   const [details, setDetails] = useState<CampaignDetailSummary[]>([]);
   const [historiques, setHistoriques] = useState<CampaignHistoriqueSummary[]>(
     [],
@@ -73,8 +73,13 @@ export default function AdminCampaignsPage() {
   );
 
   const historyColumns = useMemo(
-    () => createCampaignHistoriqueColumns({ t, namespace: "admin.campaigns" }),
-    [t],
+    () =>
+      createCampaignHistoriqueColumns({
+        t,
+        formatDateTime,
+        namespace: "admin.campaigns",
+      }),
+    [t, formatDateTime],
   );
 
   return (

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Plus, UserCog } from "lucide-react";
 
 import { DataTable } from "@/components/data-table/data-table";
+import { useConfirm } from "@/components/feedback/confirm-provider";
 import { OwnerFormDialog } from "@/components/owners/owner-form-dialog";
 import { createOwnersColumns } from "@/components/owners/owners-columns";
 import { PageHeader } from "@/components/layout/page-header";
@@ -18,6 +19,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useAppToast } from "@/hooks/use-app-toast";
 import {
   activateOwner,
   deactivateOwner,
@@ -32,6 +34,8 @@ type DialogState =
 
 export default function AdminOwnersPage() {
   const { t } = useLocale();
+  const confirm = useConfirm();
+  const toast = useAppToast();
   const [owners, setOwners] = useState<OwnerSummary[]>([]);
   const [fetching, setFetching] = useState(true);
   const [errorKey, setErrorKey] = useState<string | null>(null);
@@ -68,20 +72,43 @@ export default function AdminOwnersPage() {
     };
   }, [reloadKey]);
 
-  const handleToggleActive = useCallback(async (owner: OwnerSummary) => {
-    setErrorKey(null);
+  const handleToggleActive = useCallback(
+    (owner: OwnerSummary) => {
+      if (owner.is_active !== 1) {
+        void (async () => {
+          setErrorKey(null);
 
-    try {
-      if (owner.is_active === 1) {
-        await deactivateOwner(owner.id);
-      } else {
-        await activateOwner(owner.id);
+          try {
+            await activateOwner(owner.id);
+            setReloadKey((value) => value + 1);
+            toast.success("feedback.toast.updated");
+          } catch {
+            setErrorKey("admin.owners.statusError");
+          }
+        })();
+        return;
       }
-      setReloadKey((value) => value + 1);
-    } catch {
-      setErrorKey("admin.owners.statusError");
-    }
-  }, []);
+
+      confirm({
+        title: t("feedback.confirm.deactivateOwner.title"),
+        description: t("feedback.confirm.deactivateOwner.description"),
+        confirmLabel: t("feedback.confirm.deactivate"),
+        destructive: true,
+        onConfirm: async () => {
+          setErrorKey(null);
+
+          try {
+            await deactivateOwner(owner.id);
+            setReloadKey((value) => value + 1);
+            toast.success("feedback.toast.deactivated");
+          } catch {
+            setErrorKey("admin.owners.statusError");
+          }
+        },
+      });
+    },
+    [confirm, t, toast],
+  );
 
   const columns = useMemo(
     () =>
@@ -122,7 +149,9 @@ export default function AdminOwnersPage() {
             setDialog({ open: false });
           }
         }}
-        onSuccess={() => setReloadKey((value) => value + 1)}
+        onSuccess={() => {
+          setReloadKey((value) => value + 1);
+        }}
       />
 
       <Card>

@@ -6,6 +6,7 @@ import { Package } from "lucide-react";
 import { useLocale } from "@/components/providers/locale-provider";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { useAppToast } from "@/hooks/use-app-toast";
 import {
   Dialog,
   DialogContent,
@@ -63,6 +64,7 @@ export function ProductFormDialog({
   onSuccess,
 }: ProductFormDialogProps) {
   const { t } = useLocale();
+  const toast = useAppToast();
   const formId = useId();
   const [values, setValues] = useState<ProductFormState>(emptyProduct);
   const [submitting, setSubmitting] = useState(false);
@@ -121,6 +123,11 @@ export function ProductFormDialog({
 
       onSuccess();
       onOpenChange(false);
+      toast.success(
+        mode === "edit"
+          ? "feedback.toast.productUpdated"
+          : "feedback.toast.productCreated",
+      );
     } catch {
       setErrorKey(
         mode === "edit"

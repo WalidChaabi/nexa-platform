@@ -7,6 +7,7 @@ import { CrossSellingCreateDialog } from "@/components/cross-selling/cross-selli
 import { createCrossSellingColumns } from "@/components/cross-selling/cross-selling-columns";
 import { CrossSellingFormSheet } from "@/components/cross-selling/cross-selling-form-sheet";
 import { DataTable } from "@/components/data-table/data-table";
+import { useConfirm } from "@/components/feedback/confirm-provider";
 import { PageHeader } from "@/components/layout/page-header";
 import { useLocale } from "@/components/providers/locale-provider";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -20,6 +21,7 @@ import {
 } from "@/components/ui/card";
 import { createCrossSellingHistoryColumns } from "@/components/cross-selling/cross-selling-history-columns";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useAppToast } from "@/hooks/use-app-toast";
 import {
   deleteCrossProduct,
   fetchCrossProducts,
@@ -30,7 +32,9 @@ import {
 import { fetchProducts, type ProductSummary } from "@/lib/api/products";
 
 export default function OwnerCrossSellingPage() {
-  const { t } = useLocale();
+  const { t, formatDateTime } = useLocale();
+  const confirm = useConfirm();
+  const toast = useAppToast();
   const [rules, setRules] = useState<CrossProductRule[]>([]);
   const [smsHistory, setSmsHistory] = useState<SmsCrossSellingRecord[]>([]);
   const [products, setProducts] = useState<ProductSummary[]>([]);
@@ -83,20 +87,37 @@ export default function OwnerCrossSellingPage() {
     (product) => !usedProductIds.has(product.id),
   );
 
-  const handleDelete = useCallback(async (rule: CrossProductRule) => {
-    setErrorKey(null);
+  const handleDelete = useCallback(
+    (rule: CrossProductRule) => {
+      confirm({
+        title: t("feedback.confirm.deleteCrossSelling.title"),
+        description: t("feedback.confirm.deleteCrossSelling.description"),
+        confirmLabel: t("feedback.confirm.delete"),
+        destructive: true,
+        onConfirm: async () => {
+          setErrorKey(null);
 
-    try {
-      await deleteCrossProduct(rule.id);
-      setReloadKey((value) => value + 1);
-    } catch {
-      setErrorKey("owner.crossSelling.deleteError");
-    }
-  }, []);
+          try {
+            await deleteCrossProduct(rule.id);
+            setReloadKey((value) => value + 1);
+            toast.success("feedback.toast.crossSellingDeleted");
+          } catch {
+            setErrorKey("owner.crossSelling.deleteError");
+          }
+        },
+      });
+    },
+    [confirm, t, toast],
+  );
 
   const historyColumns = useMemo(
-    () => createCrossSellingHistoryColumns({ t, namespace: "owner.crossSelling" }),
-    [t],
+    () =>
+      createCrossSellingHistoryColumns({
+        t,
+        formatDateTime,
+        namespace: "owner.crossSelling",
+      }),
+    [t, formatDateTime],
   );
 
   const columns = useMemo(
@@ -191,7 +212,9 @@ export default function OwnerCrossSellingPage() {
         open={editOpen}
         onOpenChange={setEditOpen}
         rule={editRule}
-        onSuccess={() => setReloadKey((value) => value + 1)}
+        onSuccess={() => {
+          setReloadKey((value) => value + 1);
+        }}
       />
     </div>
   );

@@ -11,6 +11,7 @@ import {
 import { useLocale } from "@/components/providers/locale-provider";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { useAppToast } from "@/hooks/use-app-toast";
 import {
   Dialog,
   DialogContent,
@@ -41,6 +42,7 @@ export function OwnerFormDialog({
   onSuccess,
 }: OwnerFormDialogProps) {
   const { t } = useLocale();
+  const toast = useAppToast();
   const formId = useId();
   const [values, setValues] = useState<OwnerFormValues>(emptyOwnerFormValues);
   const [submitting, setSubmitting] = useState(false);
@@ -106,6 +108,9 @@ export function OwnerFormDialog({
 
       onSuccess();
       onOpenChange(false);
+      toast.success(
+        mode === "edit" ? "feedback.toast.updated" : "feedback.toast.ownerCreated",
+      );
     } catch {
       setErrorKey(
         mode === "edit" ? "admin.owners.updateError" : "admin.owners.createError",

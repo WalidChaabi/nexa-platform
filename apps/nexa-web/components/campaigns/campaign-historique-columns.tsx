@@ -4,16 +4,20 @@ import { type ColumnDef } from "@tanstack/react-table";
 
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
 import type { CampaignHistoriqueSummary } from "@/lib/api/campaigns";
+import type { useLocale } from "@/components/providers/locale-provider";
+
+type Locale = ReturnType<typeof useLocale>;
 
 export type CampaignHistoriqueTableActions = {
-  t: (key: string) => string;
+  t: Locale["t"];
+  formatDateTime: Locale["formatDateTime"];
   namespace: "owner.campaigns" | "admin.campaigns";
 };
 
 export function createCampaignHistoriqueColumns(
   actions: CampaignHistoriqueTableActions,
 ): ColumnDef<CampaignHistoriqueSummary>[] {
-  const { t, namespace } = actions;
+  const { t, formatDateTime, namespace } = actions;
   const col = (key: string) => t(`${namespace}.columns.${key}`);
 
   return [
@@ -58,7 +62,7 @@ export function createCampaignHistoriqueColumns(
       header: col("date"),
       cell: ({ row }) =>
         row.original.start_date
-          ? new Date(row.original.start_date).toLocaleDateString()
+          ? formatDateTime(row.original.start_date)
           : "—",
       enableSorting: false,
     },

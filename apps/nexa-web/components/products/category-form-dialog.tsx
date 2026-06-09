@@ -6,6 +6,7 @@ import { Tags } from "lucide-react";
 import { useLocale } from "@/components/providers/locale-provider";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { useAppToast } from "@/hooks/use-app-toast";
 import {
   Dialog,
   DialogContent,
@@ -40,6 +41,7 @@ export function CategoryFormDialog({
   onSuccess,
 }: CategoryFormDialogProps) {
   const { t } = useLocale();
+  const toast = useAppToast();
   const formId = useId();
   const [name, setName] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -79,6 +81,11 @@ export function CategoryFormDialog({
 
       onSuccess();
       onOpenChange(false);
+      toast.success(
+        mode === "edit"
+          ? "feedback.toast.categoryUpdated"
+          : "feedback.toast.categoryCreated",
+      );
     } catch {
       setErrorKey(
         mode === "edit"

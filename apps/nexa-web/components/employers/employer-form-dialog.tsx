@@ -11,6 +11,7 @@ import {
 import { useLocale } from "@/components/providers/locale-provider";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { useAppToast } from "@/hooks/use-app-toast";
 import {
   Dialog,
   DialogContent,
@@ -44,6 +45,7 @@ export function EmployerFormDialog({
   onSuccess,
 }: EmployerFormDialogProps) {
   const { t } = useLocale();
+  const toast = useAppToast();
   const formId = useId();
   const [values, setValues] = useState<EmployerFormValues>(emptyEmployerFormValues);
   const [submitting, setSubmitting] = useState(false);
@@ -122,6 +124,11 @@ export function EmployerFormDialog({
 
       onSuccess();
       onOpenChange(false);
+      toast.success(
+        mode === "edit"
+          ? "feedback.toast.employerUpdated"
+          : "feedback.toast.employerCreated",
+      );
     } catch {
       setErrorKey(
         mode === "edit" ? "owner.team.updateError" : "owner.team.createError",

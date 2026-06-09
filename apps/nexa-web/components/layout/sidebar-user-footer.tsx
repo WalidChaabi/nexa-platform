@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ChevronsUpDown, LogOut, Settings, User } from "lucide-react";
+import { ChevronsUpDown, LogOut, Settings } from "lucide-react";
 
 import { useLocale } from "@/components/providers/locale-provider";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -115,10 +115,6 @@ export function SidebarUserFooter({ user }: { user: AuthUser }) {
                 >
                   <Settings />
                   {t("nav.settings")}
-                </DropdownMenuItem>
-                <DropdownMenuItem disabled>
-                  <User />
-                  {t("common.account", { role: t(`roles.${user.role}`) })}
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />

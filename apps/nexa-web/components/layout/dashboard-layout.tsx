@@ -32,6 +32,7 @@ type DashboardLayoutProps = {
   role: AuthUser["role"];
   navItems: NavItem[];
   workspaceKey: string;
+  initialUser?: AuthUser | null;
   children: React.ReactNode;
 };
 
@@ -102,10 +103,11 @@ export function DashboardLayout({
   role,
   navItems,
   workspaceKey,
+  initialUser = null,
   children,
 }: DashboardLayoutProps) {
   const pathname = usePathname();
-  const { user, loading, setUser } = useRequireAuth(role);
+  const { user, loading, setUser } = useRequireAuth(role, initialUser);
   const { t } = useLocale();
   const isPrintView = pathname.endsWith("/print");
   const workspaceLabel = t(workspaceKey);

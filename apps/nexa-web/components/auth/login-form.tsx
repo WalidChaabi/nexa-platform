@@ -14,6 +14,12 @@ import { cn } from "@/lib/utils";
 
 const isDev = process.env.NODE_ENV === "development";
 
+const DEV_ACCOUNTS = [
+  { email: "admin@nexa.test", labelKey: "auth.devRoleAdmin" as const },
+  { email: "owner@nexa.test", labelKey: "auth.devRoleOwner" as const },
+  { email: "employer@nexa.test", labelKey: "auth.devRoleEmployer" as const },
+] as const;
+
 export function LoginForm({
   className,
   redirectTo,
@@ -100,9 +106,29 @@ export function LoginForm({
         </Button>
 
         {isDev ? (
-          <p className="text-center text-xs text-balance text-muted-foreground">
-            {t("auth.devSeed")}
-          </p>
+          <div className="space-y-2">
+            <p className="text-center text-xs text-balance text-muted-foreground">
+              {t("auth.devSeed")}
+            </p>
+            <div className="flex flex-wrap justify-center gap-2">
+              {DEV_ACCOUNTS.map((account) => (
+                <Button
+                  key={account.email}
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  disabled={loading}
+                  onClick={() => {
+                    setEmail(account.email);
+                    setPassword("password");
+                    setError(null);
+                  }}
+                >
+                  {t(account.labelKey)}
+                </Button>
+              ))}
+            </div>
+          </div>
         ) : null}
       </div>
     </form>

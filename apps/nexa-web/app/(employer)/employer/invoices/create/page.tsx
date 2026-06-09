@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useAppToast } from "@/hooks/use-app-toast";
 import type { CustomerSummary } from "@/lib/api/customers";
 import { createInvoice } from "@/lib/api/invoices";
 import { fetchPosCatalog, type PosCustomer, type PosProduct } from "@/lib/api/pos";
@@ -51,6 +52,7 @@ export default function CreateInvoicePage() {
   const router = useRouter();
   const { user } = useDashboardAuth();
   const { t, formatCurrency } = useLocale();
+  const toast = useAppToast();
   const [catalogLoading, setCatalogLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [errorKey, setErrorKey] = useState<string | null>(null);
@@ -166,6 +168,7 @@ export default function CreateInvoicePage() {
         products: productLines,
       });
 
+      toast.success("feedback.toast.invoiceCreated");
       router.push(`/employer/invoices/${invoice.id}`);
     } catch {
       setErrorKey("employer.create.createError");

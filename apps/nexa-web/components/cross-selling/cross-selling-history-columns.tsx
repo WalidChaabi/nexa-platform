@@ -4,16 +4,20 @@ import { type ColumnDef } from "@tanstack/react-table";
 
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
 import type { SmsCrossSellingRecord } from "@/lib/api/cross-selling";
+import type { useLocale } from "@/components/providers/locale-provider";
+
+type Locale = ReturnType<typeof useLocale>;
 
 export type CrossSellingHistoryTableActions = {
-  t: (key: string) => string;
+  t: Locale["t"];
+  formatDateTime: Locale["formatDateTime"];
   namespace: "owner.crossSelling" | "admin.crossSelling";
 };
 
 export function createCrossSellingHistoryColumns(
   actions: CrossSellingHistoryTableActions,
 ): ColumnDef<SmsCrossSellingRecord>[] {
-  const { t, namespace } = actions;
+  const { t, formatDateTime, namespace } = actions;
   const col = (key: string) => t(`${namespace}.columns.${key}`);
 
   return [
@@ -54,7 +58,7 @@ export function createCrossSellingHistoryColumns(
       header: col("sentDate"),
       cell: ({ row }) =>
         row.original.sent_date
-          ? new Date(row.original.sent_date).toLocaleDateString()
+          ? formatDateTime(row.original.sent_date)
           : "—",
       enableSorting: false,
     },

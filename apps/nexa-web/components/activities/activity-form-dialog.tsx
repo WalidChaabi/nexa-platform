@@ -11,6 +11,7 @@ import {
 import { useLocale } from "@/components/providers/locale-provider";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { useAppToast } from "@/hooks/use-app-toast";
 import {
   Dialog,
   DialogContent,
@@ -41,6 +42,7 @@ export function ActivityFormDialog({
   onSuccess,
 }: ActivityFormDialogProps) {
   const { t } = useLocale();
+  const toast = useAppToast();
   const formId = useId();
   const [values, setValues] = useState<ActivityFormValues>(emptyActivityFormValues);
   const [submitting, setSubmitting] = useState(false);
@@ -90,6 +92,9 @@ export function ActivityFormDialog({
 
       onSuccess();
       onOpenChange(false);
+      toast.success(
+        mode === "edit" ? "feedback.toast.updated" : "feedback.toast.created",
+      );
     } catch {
       setErrorKey(
         mode === "edit"
