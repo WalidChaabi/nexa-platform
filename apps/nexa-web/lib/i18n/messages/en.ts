@@ -135,6 +135,107 @@ export const en = {
       },
     },
   },
+  marketing: {
+    nav: {
+      features: "Features",
+      roles: "Who it's for",
+      signIn: "Sign in",
+      getStarted: "Get started",
+      openMenu: "Open menu",
+    },
+    hero: {
+      badge: "Retail operations platform",
+      headline: "The operating system for modern retail",
+      description:
+        "POS, CRM, campaigns, and payments — unified for retailers who want to sell smarter and grow faster.",
+      ctaPrimary: "Sign in to your workspace",
+      ctaSecondary: "See how it works",
+      note: "Multi-store ready · Role-based workspaces · Real-time dashboards",
+      preview: {
+        workspace: "Owner dashboard",
+        revenue: "Revenue (7d)",
+        invoices: "Invoices",
+        customers: "Customers",
+        chartTitle: "Sales trend",
+        chartBadge: "Last 7 days",
+      },
+    },
+    trust: {
+      multiStore: "Multi-store",
+      multiStoreLabel: "Manage every location from one platform",
+      realTime: "Real-time",
+      realTimeLabel: "Live KPIs, charts, and operational insights",
+      roles: "3 roles",
+      rolesLabel: "Admin, owner, and staff workspaces",
+    },
+    features: {
+      badge: "Platform capabilities",
+      title: "Everything you need to run retail",
+      subtitle:
+        "From checkout to campaigns, Nexa connects the tools your team uses every day.",
+      pos: {
+        title: "POS & invoicing",
+        description:
+          "Create invoices, track payments, and print receipts — fast checkout for store staff.",
+      },
+      crm: {
+        title: "Customer CRM",
+        description:
+          "Build lasting relationships with customer profiles, history, and appointment scheduling.",
+      },
+      campaigns: {
+        title: "Marketing campaigns",
+        description:
+          "Launch targeted promotions and cross-selling programs that drive repeat visits.",
+      },
+      payments: {
+        title: "Payments",
+        description:
+          "Accept and reconcile payments with integrated checkout flows and return handling.",
+      },
+      stores: {
+        title: "Multi-store management",
+        description:
+          "Open locations, assign staff, and keep product catalogs in sync across stores.",
+      },
+      analytics: {
+        title: "Analytics & reports",
+        description:
+          "Monitor revenue, invoices, and customer growth with role-aware dashboards.",
+      },
+    },
+    roles: {
+      badge: "Role-based access",
+      title: "Built for every role on your team",
+      subtitle:
+        "Each workspace is tailored to what admins, owners, and store staff need to do.",
+      admin: {
+        title: "Platform admin",
+        description:
+          "Oversee owners, activities, stores, and platform-wide settings from a central console.",
+      },
+      owner: {
+        title: "Store owner",
+        description:
+          "Run campaigns, manage catalogs, view reports, and grow across multiple locations.",
+      },
+      employer: {
+        title: "Store staff",
+        description:
+          "Process sales at the counter, serve customers, and handle day-to-day store operations.",
+      },
+    },
+    cta: {
+      title: "Ready to run your stores smarter?",
+      description:
+        "Sign in to your Nexa workspace and start with dashboards, POS, and customer tools today.",
+      button: "Sign in to Nexa",
+    },
+    footer: {
+      tagline: "Sell. Retain. Grow.",
+      copyright: "© {year} Nexa. All rights reserved.",
+    },
+  },
   auth: {
     tagline: "Sell. Retain. Grow.",
     headline: "The operating system for modern retail",

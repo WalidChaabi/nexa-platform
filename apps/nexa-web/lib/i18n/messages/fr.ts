@@ -136,6 +136,107 @@ export const fr = {
       },
     },
   },
+  marketing: {
+    nav: {
+      features: "Fonctionnalités",
+      roles: "Pour qui",
+      signIn: "Se connecter",
+      getStarted: "Commencer",
+      openMenu: "Ouvrir le menu",
+    },
+    hero: {
+      badge: "Plateforme retail tout-en-un",
+      headline: "Le système d'exploitation du commerce moderne",
+      description:
+        "PDV, CRM, campagnes et paiements — unifiés pour les commerçants qui veulent vendre mieux et grandir plus vite.",
+      ctaPrimary: "Accéder à votre espace",
+      ctaSecondary: "Découvrir la plateforme",
+      note: "Multi-magasins · Espaces par rôle · Tableaux de bord en temps réel",
+      preview: {
+        workspace: "Tableau de bord propriétaire",
+        revenue: "Chiffre d'affaires (7j)",
+        invoices: "Factures",
+        customers: "Clients",
+        chartTitle: "Tendance des ventes",
+        chartBadge: "7 derniers jours",
+      },
+    },
+    trust: {
+      multiStore: "Multi-magasins",
+      multiStoreLabel: "Gérez chaque point de vente depuis une seule plateforme",
+      realTime: "Temps réel",
+      realTimeLabel: "KPI, graphiques et insights opérationnels en direct",
+      roles: "3 rôles",
+      rolesLabel: "Espaces admin, propriétaire et employé",
+    },
+    features: {
+      badge: "Capacités de la plateforme",
+      title: "Tout pour piloter votre commerce",
+      subtitle:
+        "De la caisse aux campagnes, Nexa connecte les outils que votre équipe utilise au quotidien.",
+      pos: {
+        title: "PDV & facturation",
+        description:
+          "Créez des factures, suivez les paiements et imprimez les reçus — encaissement rapide en magasin.",
+      },
+      crm: {
+        title: "CRM clients",
+        description:
+          "Fidélisez avec des profils clients, l'historique et la prise de rendez-vous.",
+      },
+      campaigns: {
+        title: "Campagnes marketing",
+        description:
+          "Lancez des promotions ciblées et du cross-selling pour générer des visites récurrentes.",
+      },
+      payments: {
+        title: "Paiements",
+        description:
+          "Encaissez et rapprochez les paiements avec des parcours de checkout intégrés.",
+      },
+      stores: {
+        title: "Gestion multi-magasins",
+        description:
+          "Ouvrez des points de vente, assignez le personnel et synchronisez les catalogues.",
+      },
+      analytics: {
+        title: "Analyses & rapports",
+        description:
+          "Suivez le chiffre d'affaires, les factures et la croissance client avec des tableaux de bord adaptés.",
+      },
+    },
+    roles: {
+      badge: "Accès par rôle",
+      title: "Conçu pour chaque membre de l'équipe",
+      subtitle:
+        "Chaque espace est adapté aux besoins des admins, propriétaires et employés.",
+      admin: {
+        title: "Admin plateforme",
+        description:
+          "Supervisez propriétaires, activités, magasins et paramètres globaux depuis une console centrale.",
+      },
+      owner: {
+        title: "Propriétaire de magasin",
+        description:
+          "Pilotez campagnes, catalogues, rapports et la croissance sur plusieurs emplacements.",
+      },
+      employer: {
+        title: "Personnel de magasin",
+        description:
+          "Encaissez en caisse, servez les clients et gérez les opérations quotidiennes.",
+      },
+    },
+    cta: {
+      title: "Prêt à piloter vos magasins autrement ?",
+      description:
+        "Connectez-vous à votre espace Nexa et démarrez avec tableaux de bord, PDV et outils clients.",
+      button: "Se connecter à Nexa",
+    },
+    footer: {
+      tagline: "Vendez. Fidélisez. Grandissez.",
+      copyright: "© {year} Nexa. Tous droits réservés.",
+    },
+  },
   auth: {
     tagline: "Vendez. Fidélisez. Grandissez.",
     headline: "Le système d'exploitation du commerce moderne",
