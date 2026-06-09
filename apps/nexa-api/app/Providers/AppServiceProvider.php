@@ -82,5 +82,11 @@ class AppServiceProvider extends ServiceProvider
                 ->where('is_admin', UserRole::Owner->value)
                 ->findOrFail($value);
         });
+
+        Route::bind('employer', function (string $value): User {
+            return User::query()
+                ->where('is_admin', UserRole::Employer->value)
+                ->findOrFail($value);
+        });
     }
 }

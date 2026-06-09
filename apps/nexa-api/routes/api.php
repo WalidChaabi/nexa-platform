@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\V1\CategoryController;
 use App\Http\Controllers\Api\V1\CrossProductController;
 use App\Http\Controllers\Api\V1\CustomerController;
 use App\Http\Controllers\Api\V1\DashboardController;
+use App\Http\Controllers\Api\V1\EmployerController;
 use App\Http\Controllers\Api\V1\EpinglesController;
 use App\Http\Controllers\Api\V1\InvoiceController;
 use App\Http\Controllers\Api\V1\OwnerController;
@@ -107,6 +108,13 @@ Route::middleware(['auth:sanctum', 'active'])->group(function () {
         Route::put('/activities/{activity}', [ActivityController::class, 'update']);
         Route::delete('/activities/{activity}', [ActivityController::class, 'destroy']);
     });
+
+    Route::get('/employers', [EmployerController::class, 'index']);
+    Route::post('/employers', [EmployerController::class, 'store']);
+    Route::get('/employers/{employer}', [EmployerController::class, 'show']);
+    Route::put('/employers/{employer}', [EmployerController::class, 'update']);
+    Route::post('/employers/{employer}/activate', [EmployerController::class, 'activate']);
+    Route::post('/employers/{employer}/deactivate', [EmployerController::class, 'deactivate']);
 
     Route::get('/dashboard/kpis', [DashboardController::class, 'kpis']);
 
