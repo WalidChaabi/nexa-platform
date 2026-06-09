@@ -20,6 +20,8 @@ This audit is **not** a V1 migration checklist. You are launching Nexa as a **ne
 
 **Related docs (historical):** [technical-audit-v1-v2.md](./technical-audit-v1-v2.md) (parity comparison), [v2-platform-rebuild.md](./improvement/v2-platform-rebuild.md) (build log).
 
+> **Implementation plan (PR-driven):** [nexa-v1-ga-implementation-plan.md](./improvement/nexa-v1-ga-implementation-plan.md)
+
 ---
 
 ## Executive summary
@@ -109,7 +111,7 @@ Nexa V2 is a **strong technical foundation** for a vertical SaaS in retail / mul
 - Cohesive **Nexa** brand (`lib/brand.ts`, logo, CSS tokens)
 - Documented UI pattern: DataTable + Dialog + safe row actions (`.cursor/rules/nexa-web-ui.mdc`)
 - **Trilingual UI** (en / fr / ar) with RTL `dir` for Arabic
-- Marketing landing page with features, roles, CTA (`components/marketing/marketing-site.tsx`)
+- Guest marketing site: home, pricing, compare, docs, changelog, testimonials, privacy, terms (`components/marketing/`, routes under `/`, `/pricing`, `/compare`, `/docs`, `/changelog`, `/privacy`, `/terms`)
 - Role-based workspaces with clear navigation (`lib/nav-config.ts`)
 
 ### 4. Testability
@@ -131,9 +133,9 @@ Weaknesses are grouped by **business impact**, not code style.
 | **No self-serve signup** | Every customer requires you to manually create an owner in admin |
 | **No subscription / plans** | You cannot charge €49/mo per store; only usage settlement via CMI |
 | **No trial or onboarding wizard** | New owners get a store wizard but no product tour, checklist, or sample data choice |
-| **Thin marketing site** | No pricing page, testimonials, docs, changelog, or comparison |
-| **No legal pages** | Privacy policy, terms, cookies — required for EU/international sales |
-| **Admin-centric control** | Employers cannot be invited by owners; scales poorly for your customers’ teams |
+| **Marketing site still pre-GA** | Pages exist (pricing, compare, docs, changelog, testimonials, privacy, terms) but pricing is sales-led placeholder, legal copy needs counsel review, no separate docs site or status page |
+| **No cookie / analytics policy** | Privacy + terms stubs published; cookie notice still required if analytics added |
+| **Admin-centric control** | 🟡 Owner team invite in progress (`/owner/team`, PR-06) — admin employer directory still optional |
 | **Morocco-default positioning** | MAD currency, CMI, BulkSMS.ma, `Africa/Casablanca` scheduler — fine for MA launch, not “international” |
 
 ### B. UX inconsistencies
@@ -144,7 +146,7 @@ Weaknesses are grouped by **business impact**, not code style.
 | **List UX not uniform** | DataTable pattern on ~8 pages; others still basic `Table` |
 | **No settings for owner/employer** | Only admin settings (locale/theme); profile/password disabled in sidebar |
 | **Login pre-filled dev credentials** | `employer@nexa.test` in `login-form.tsx` — must not ship to prod |
-| **Marketing hero uses fake KPIs** | Decorative numbers, not product screenshots or real demo |
+| **Marketing hero uses illustrative UI** | Dashboard preview is styled mock, not product screenshots or live demo |
 
 ### C. Technical / production gaps
 
@@ -206,12 +208,12 @@ Use this when prioritizing. **Default to reinvent** if V1 UX was clunky.
 | Multi-store per owner | **Keep** | Built | |
 | CMI platform billing | **Keep for MA** | Built | Add Stripe for SaaS fee in V3 |
 | Owner store wizard | **Keep** | Built | Extend into onboarding |
-| Employees (employer users) | **Reinvent** | Missing | Owner-invited staff with permissions, not admin-only CRUD |
+| Employees (employer users) | **Reinvent** | 🟡 PR-06 | Owner-invited staff at `/owner/team`; fine-grained permissions → V3 |
 | Restaurant table management | **Drop or V3+** | Missing | Only if you target F&B vertical |
 | Caisse / fonds de caisse | **Reinvent** | Missing | Modern “cash drawer sessions” if retailers need it |
 | Email templates / newsletter | **Reinvent** | Missing | Use a proper campaign composer in V3 |
 | Admin manual SMS | **Drop** | Missing | Replace with support tools + audit |
-| Guest marketing site (V1) | **Reinvent** | Partial | Next.js marketing site is better base |
+| Guest marketing site (V1) | **Reinvent** | 🟡 Partial | Home + pricing + compare + docs hub + changelog + testimonials + legal stubs in `nexa-web` |
 | Epingles (pins) full CRUD | **Drop or low** | Read-only API | Unless calendar UX requires it |
 | Objectives / gamification | **Drop** | Missing | Unless validated with clients |
 
@@ -232,12 +234,12 @@ Use this when prioritizing. **Default to reinvent** if V1 UX was clunky.
 #### Product
 
 - [ ] **Remove all dev defaults** — empty login form, no demo passwords in prod builds
-- [ ] **Owner can invite employers** — API + UI (replaces V1 admin-only employee CRUD)
+- [x] **Owner can invite employers** — API + UI (`/owner/team`; merge PR-06 to `v2/main`)
 - [ ] **Owner settings** — profile, password change, store defaults (currency display, timezone)
 - [ ] **Uniform list UX** on all primary list pages (DataTable + row actions)
 - [ ] **Production Docker** — multi-stage `next build` + `next start`; API `php-fpm` or `octane` image
-- [ ] **Legal minimum** — `/privacy`, `/terms` (even static MD pages)
-- [ ] **Pricing page** — clear what you charge (even if sales-led: “Contact us” + feature tiers)
+- [x] **Legal minimum (stub)** — `/privacy`, `/terms` (static i18n pages — **counsel review before prod**)
+- [x] **Pricing page (stub)** — `/pricing` with Starter / Growth / Enterprise tiers and “Talk to sales” CTAs (**wire to Stripe or CRM before GA**)
 - [ ] **Onboarding checklist** — owner dashboard: create store → add products → invite staff → send first campaign
 
 #### Billing (your revenue)
@@ -316,7 +318,7 @@ flowchart LR
 | Phase | Focus | Key deliverables |
 |-------|-------|------------------|
 | **1. Hardening** | Ship safely | Prod Dockerfile, middleware auth, remove dev leaks, Sentry, E2E in `nexa-web` |
-| **2. Team model** | Customers scale | Owner invites employers; role permissions matrix |
+| **2. Team model** | Customers scale | Owner invites employers (PR-06 ✅ local); profile/settings (PR-07–08) |
 | **3. UX completeness** | Professional feel | DataTable everywhere, owner settings, onboarding checklist, real marketing screenshots |
 | **4. Monetization** | You make money | Stripe subscription (or documented sales-led plan), pricing page |
 | **5. Pilot** | Proof | 1–3 paying pilots, feedback loop, fix P0 bugs |
@@ -505,4 +507,4 @@ V3 is the **international, self-serve, extensible SaaS platform** — the produc
 
 Update this doc when you lock billing model, first pilot, or V3.0 scope.
 
-*Last updated: June 9, 2026*
+*Last updated: June 9, 2026 (marketing site expansion)*
