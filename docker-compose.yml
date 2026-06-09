@@ -87,6 +87,7 @@ services:
     environment:
       NEXT_PUBLIC_API_URL: http://localhost:8000
       API_INTERNAL_URL: http://api:8000
+      FRONTEND_URL: http://localhost:3000
       # Required for file watching through Docker bind mounts (especially on Windows).
       WATCHPACK_POLLING: "true"
       CHOKIDAR_USEPOLLING: "true"
