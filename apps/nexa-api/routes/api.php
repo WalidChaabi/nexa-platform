@@ -65,6 +65,7 @@ Route::middleware(['auth:sanctum', 'active', 'throttle:api'])->group(function ()
     Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);
 
     Route::get('/products', [ProductController::class, 'index']);
+    Route::post('/products/import', [ProductController::class, 'import']);
     Route::post('/products', [ProductController::class, 'store']);
     Route::get('/products/{product}', [ProductController::class, 'show']);
     Route::put('/products/{product}', [ProductController::class, 'update']);
