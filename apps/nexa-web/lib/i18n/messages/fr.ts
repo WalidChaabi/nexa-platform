@@ -755,6 +755,36 @@ export const fr = {
       opsBody:
         "Consultez les ventes de vos magasins, gérez les lieux, clients et catalogue depuis la barre latérale.",
     },
+    onboarding: {
+      title: "Préparez votre magasin",
+      description:
+        "Complétez ces étapes pour lancer les ventes, l'accès du personnel et votre première campagne client.",
+      progress: "{completed} sur {total} terminées",
+      action: "Voir l'étape",
+      dismiss: "Masquer la checklist",
+      steps: {
+        store: {
+          title: "Créer votre premier magasin",
+          description:
+            "Ajoutez un lieu avec coordonnées et paramètres de facturation.",
+        },
+        products: {
+          title: "Ajouter des produits au catalogue",
+          description:
+            "Constituez votre catalogue pour que le personnel vende au POS.",
+        },
+        team: {
+          title: "Inviter le personnel",
+          description:
+            "Donnez aux employeurs l'accès pour encaisser en caisse.",
+        },
+        campaign: {
+          title: "Envoyer votre première campagne",
+          description:
+            "Touchez vos clients avec une promotion SMS ciblée.",
+        },
+      },
+    },
     invoices: {
       title: "Historique factures",
       description: "Ventes de tous vos magasins.",

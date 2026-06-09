@@ -5,6 +5,7 @@ import { LayoutDashboard } from "lucide-react";
 
 import { DashboardKpisPanel } from "@/components/dashboard/dashboard-kpis";
 import { DashboardQuickActions } from "@/components/dashboard/dashboard-quick-actions";
+import { OwnerOnboardingChecklist } from "@/components/dashboard/owner-onboarding-checklist";
 import { useDashboardAuth } from "@/components/layout/dashboard-auth";
 import { PageHeader } from "@/components/layout/page-header";
 import { useLocale } from "@/components/providers/locale-provider";
@@ -43,6 +44,8 @@ export default function OwnerDashboardPage() {
         title={t("owner.dashboard.title")}
         description={t("owner.dashboard.signedIn", { name: user.full_name })}
       />
+
+      <OwnerOnboardingChecklist />
 
       <DashboardKpisPanel
         role="owner"

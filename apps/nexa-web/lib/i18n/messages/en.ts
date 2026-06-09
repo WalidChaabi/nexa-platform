@@ -750,6 +750,32 @@ export const en = {
       opsBody:
         "Review sales across your stores, manage locations, and browse customers and catalog from the sidebar.",
     },
+    onboarding: {
+      title: "Get your store ready",
+      description:
+        "Complete these steps to launch sales, staff access, and your first customer campaign.",
+      progress: "{completed} of {total} complete",
+      action: "Go to step",
+      dismiss: "Dismiss checklist",
+      steps: {
+        store: {
+          title: "Create your first store",
+          description: "Add a location with contact details and invoice settings.",
+        },
+        products: {
+          title: "Add products to your catalog",
+          description: "Build your catalog so staff can sell from the POS.",
+        },
+        team: {
+          title: "Invite store staff",
+          description: "Give employers access to process sales at the counter.",
+        },
+        campaign: {
+          title: "Send your first campaign",
+          description: "Reach customers with a targeted SMS promotion.",
+        },
+      },
+    },
     invoices: {
       title: "Invoice history",
       description: "Sales across all stores you own.",
