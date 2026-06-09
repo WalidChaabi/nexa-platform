@@ -7,10 +7,13 @@ import { type AuthUser, fetchCurrentUser } from "@/lib/api/auth";
 
 type Role = AuthUser["role"];
 
-export function useRequireAuth(requiredRole?: Role) {
+export function useRequireAuth(
+  requiredRole?: Role,
+  initialUser?: AuthUser | null,
+) {
   const router = useRouter();
-  const [user, setUser] = useState<AuthUser | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<AuthUser | null>(initialUser ?? null);
+  const [loading, setLoading] = useState(initialUser == null);
 
   useEffect(() => {
     let active = true;

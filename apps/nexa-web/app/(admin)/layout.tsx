@@ -1,20 +1,16 @@
-"use client";
+import { RoleDashboardLayout } from "@/components/layout/role-dashboard-layout";
+import { getServerUser } from "@/lib/auth/get-server-user";
 
-import { DashboardLayout } from "@/components/layout/dashboard-layout";
-import { adminNav } from "@/lib/nav-config";
-
-export default function AdminLayout({
+export default async function AdminLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const initialUser = await getServerUser();
+
   return (
-    <DashboardLayout
-      role="admin"
-      navItems={adminNav}
-      workspaceKey="workspace.admin"
-    >
+    <RoleDashboardLayout role="admin" initialUser={initialUser}>
       {children}
-    </DashboardLayout>
+    </RoleDashboardLayout>
   );
 }
