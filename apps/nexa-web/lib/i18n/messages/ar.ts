@@ -7,6 +7,8 @@ export const ar = {
     navigation: "التنقل",
     error: "خطأ",
     loading: "جاري التحميل...",
+    pageLoadError: "حدث خطأ أثناء تحميل هذه الصفحة.",
+    tryAgain: "إعادة المحاولة",
     backToList: "العودة إلى القائمة",
     view: "عرض",
     cancel: "إلغاء",

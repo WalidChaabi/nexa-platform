@@ -7,6 +7,8 @@ export const en = {
     navigation: "Navigation",
     error: "Error",
     loading: "Loading...",
+    pageLoadError: "Something went wrong loading this page.",
+    tryAgain: "Try again",
     backToList: "Back to list",
     view: "View",
     cancel: "Cancel",

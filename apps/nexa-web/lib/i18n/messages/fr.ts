@@ -7,6 +7,8 @@ export const fr = {
     navigation: "Navigation",
     error: "Erreur",
     loading: "Chargement...",
+    pageLoadError: "Une erreur s'est produite lors du chargement de cette page.",
+    tryAgain: "Réessayer",
     backToList: "Retour à la liste",
     view: "Voir",
     cancel: "Annuler",
