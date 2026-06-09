@@ -142,6 +142,12 @@ export const en = {
     nav: {
       features: "Features",
       roles: "Who it's for",
+      pricing: "Pricing",
+      compare: "Compare",
+      docs: "Docs",
+      changelog: "Changelog",
+      privacy: "Privacy",
+      terms: "Terms",
       signIn: "Sign in",
       getStarted: "Get started",
       openMenu: "Open menu",
@@ -152,16 +158,51 @@ export const en = {
       description:
         "POS, CRM, campaigns, and payments — unified for retailers who want to sell smarter and grow faster.",
       ctaPrimary: "Sign in to your workspace",
-      ctaSecondary: "See how it works",
+      ctaSecondary: "View pricing",
       note: "Multi-store ready · Role-based workspaces · Real-time dashboards",
+      pillars: {
+        1: "POS & invoicing",
+        2: "SMS campaigns",
+        3: "Multi-store analytics",
+      },
       preview: {
         workspace: "Owner dashboard",
+        live: "Live preview",
         revenue: "Revenue (7d)",
         invoices: "Invoices",
         customers: "Customers",
         chartTitle: "Sales trend",
         chartBadge: "Last 7 days",
       },
+    },
+    howItWorks: {
+      badge: "How it works",
+      title: "From signup to first campaign in days",
+      subtitle:
+        "Nexa is sales-led today — we onboard your team, then you run stores from role-based workspaces.",
+      steps: {
+        1: {
+          title: "Get provisioned",
+          description:
+            "Your platform admin or sales contact creates your owner account and first store.",
+        },
+        2: {
+          title: "Set up catalog & staff",
+          description:
+            "Add products, invite employers, and configure store settings from the owner workspace.",
+        },
+        3: {
+          title: "Sell & market",
+          description:
+            "Staff run POS daily while owners launch campaigns and track performance.",
+        },
+      },
+    },
+    placeholder: {
+      title: "Pre-GA marketing content",
+      description:
+        "Pricing is indicative and sales-led. Legal pages are starter templates — have counsel review before production. Full docs site ships with V3.",
+      short: "Pricing indicative · Legal drafts · Docs hub only",
     },
     trust: {
       multiStore: "Multi-store",
@@ -233,9 +274,348 @@ export const en = {
       description:
         "Sign in to your Nexa workspace and start with dashboards, POS, and customer tools today.",
       button: "Sign in to Nexa",
+      pricing: "See pricing",
+    },
+    testimonials: {
+      badge: "Customer stories",
+      title: "Built with retailers in mind",
+      subtitle:
+        "Early adopters use Nexa to replace fragmented tools and run stores from one workspace.",
+      quotes: {
+        1: {
+          text: "We stopped juggling WhatsApp lists and spreadsheets. Campaigns, customers, and daily sales finally live in one place.",
+          name: "Sara B.",
+          role: "Owner, multi-location boutique — Casablanca",
+        },
+        2: {
+          text: "Staff onboarding is straightforward. Employers jump into POS on day one without calling us for every invoice.",
+          name: "Karim L.",
+          role: "Operations lead, fashion retail — Rabat",
+        },
+        3: {
+          text: "Owner dashboards give us visibility across stores without exporting CSV files every weekend.",
+          name: "Nadia M.",
+          role: "Retail group manager — Marrakech",
+        },
+      },
+    },
+    pricing: {
+      badge: "Simple plans",
+      title: "Pricing that scales with your stores",
+      subtitle:
+        "Sales-led onboarding today — self-serve billing arrives with Stripe in a future release.",
+      popular: "Most popular",
+      salesBanner: {
+        eyebrow: "Sales-led onboarding",
+        title: "Every plan starts with a conversation",
+        description:
+          "We tailor store count, onboarding, and SMS usage to your retail group. Stripe self-serve billing is on the V3 roadmap.",
+        cta: "Email sales",
+        docs: "Read getting started",
+      },
+      faq: {
+        badge: "FAQ",
+        title: "Common pricing questions",
+        items: {
+          1: {
+            q: "Can I self-serve signup today?",
+            a: "Not yet. Accounts are provisioned by your Nexa admin or sales contact. Self-serve signup arrives with V3.",
+          },
+          2: {
+            q: "What about SMS and email costs?",
+            a: "Platform subscription covers software access. SMS/email usage is billed separately at pass-through rates via CMI checkout.",
+          },
+          3: {
+            q: "Is there a free trial?",
+            a: "We offer guided pilots for qualified retail groups. Talk to sales to scope a trial period.",
+          },
+          4: {
+            q: "Can I switch plans later?",
+            a: "Yes. Upgrade or add stores as you grow — your contract defines billing terms until Stripe billing ships.",
+          },
+        },
+      },
+      note: "SMS and email usage is billed separately at pass-through rates. Contact us for onboarding or multi-brand setups.",
+      plans: {
+        starter: {
+          name: "Starter",
+          description: "One store getting off spreadsheets.",
+          price: "€29",
+          period: "per store / month",
+          cta: "Talk to sales",
+          features: {
+            1: "1 store location",
+            2: "Up to 2 staff accounts",
+            3: "POS, CRM, and print receipts",
+            4: "Basic sales reports",
+            5: "Email support",
+          },
+        },
+        growth: {
+          name: "Growth",
+          description: "Owners running campaigns across locations.",
+          price: "€79",
+          period: "per month (up to 5 stores)",
+          cta: "Talk to sales",
+          features: {
+            1: "Up to 5 store locations",
+            2: "Unlimited staff per store",
+            3: "Campaigns & cross-selling",
+            4: "Owner analytics & exports",
+            5: "Priority onboarding",
+          },
+        },
+        enterprise: {
+          name: "Enterprise",
+          description: "Franchise groups and custom rollouts.",
+          price: "Custom",
+          period: "tailored contract",
+          cta: "Contact us",
+          features: {
+            1: "Unlimited stores",
+            2: "Dedicated onboarding",
+            3: "Custom integrations roadmap",
+            4: "SLA & priority support",
+            5: "Multi-brand configuration",
+          },
+        },
+      },
+    },
+    compare: {
+      badge: "Why Nexa",
+      title: "Nexa vs. the tools you outgrew",
+      subtitle:
+        "See how a unified retail platform compares to spreadsheets and single-purpose legacy POS.",
+      recommended: "Recommended",
+      cta: {
+        title: "See which plan fits your stores",
+        description:
+          "Compare tiers on our pricing page or talk to sales for a custom rollout.",
+        button: "View pricing",
+      },
+      note: "Comparison reflects Nexa v1.0 GA scope. Enterprise features such as SSO and public API ship in V3.",
+      table: {
+        capability: "Capability",
+        nexa: "Nexa",
+        spreadsheets: "Spreadsheets",
+        legacyPos: "Legacy POS",
+      },
+      rows: {
+        pos: "POS & invoicing",
+        crm: "Customer CRM",
+        campaigns: "SMS campaigns",
+        multiStore: "Multi-store owner view",
+        reports: "Role-based analytics",
+        staffRoles: "Admin / owner / staff roles",
+        smsBilling: "Usage billing for SMS",
+        setup: "Time to first campaign",
+      },
+      matrix: {
+        pos: { nexa: "yes", spreadsheets: "no", legacyPos: "yes" },
+        crm: { nexa: "yes", spreadsheets: "Partial", legacyPos: "no" },
+        campaigns: { nexa: "yes", spreadsheets: "no", legacyPos: "no" },
+        multiStore: { nexa: "yes", spreadsheets: "no", legacyPos: "Partial" },
+        reports: { nexa: "yes", spreadsheets: "Manual", legacyPos: "Limited" },
+        staffRoles: { nexa: "yes", spreadsheets: "no", legacyPos: "Partial" },
+        smsBilling: { nexa: "yes", spreadsheets: "no", legacyPos: "no" },
+        setup: { nexa: "Days", spreadsheets: "Weeks", legacyPos: "Weeks" },
+      },
+    },
+    changelog: {
+      badge: "Product updates",
+      title: "Changelog",
+      subtitle: "What shipped in the Nexa platform rebuild.",
+      releases: {
+        1: {
+          version: "v0.4 — Marketing site",
+          date: "June 2026",
+          summary: "Guest marketing pages, pricing, docs hub, and legal stubs.",
+          items: {
+            1: "Landing page with features, roles, and testimonials",
+            2: "Pricing, compare, changelog, and docs pages",
+            3: "Privacy policy and terms of service pages",
+            4: "Shared marketing header and footer navigation",
+          },
+        },
+        2: {
+          version: "v0.3 — Analytics",
+          date: "May 2026",
+          summary: "Dashboard KPI cards and 7-day trend charts.",
+          items: {
+            1: "Role-aware KPI panels for admin, owner, and employer",
+            2: "Recharts revenue and activity trends",
+            3: "Store filter on admin dashboard",
+          },
+        },
+        3: {
+          version: "v0.2 — Retail core",
+          date: "April 2026",
+          summary: "POS, CRM, campaigns, and multi-store flows.",
+          items: {
+            1: "Invoice create, print, and cancel",
+            2: "Customer and product catalogs",
+            3: "SMS campaigns, cross-selling, and calendar",
+            4: "Owner CMI usage billing checkout",
+          },
+        },
+        4: {
+          version: "v0.1 — Platform bootstrap",
+          date: "March 2026",
+          summary: "Laravel 12 API + Next.js 16 web foundation.",
+          items: {
+            1: "Sanctum auth with admin, owner, employer roles",
+            2: "Docker Compose dev stack",
+            3: "Trilingual UI (en / fr / ar)",
+          },
+        },
+      },
+    },
+    docs: {
+      badge: "Documentation",
+      title: "Docs & getting started",
+      subtitle:
+        "Product guides for teams onboarding to Nexa. Full API reference ships with V3.",
+      onThisPage: "On this page",
+      hubNote: "This is an in-app docs hub — not a separate documentation site. See also:",
+      cta: {
+        title: "Need access?",
+        description: "Accounts are provisioned by your platform admin or sales contact.",
+        button: "Sign in",
+      },
+      sections: {
+        gettingStarted: {
+          title: "Getting started",
+          description: "First steps after your owner account is created.",
+          items: {
+            1: "Sign in with credentials provided by your admin",
+            2: "Complete the store wizard for your first location",
+            3: "Add products and categories",
+            4: "Invite staff (owner invite flow — v1.0 GA)",
+          },
+        },
+        roles: {
+          title: "Roles & workspaces",
+          description: "Who sees what in Nexa.",
+          items: {
+            1: "Admin — platform operators, owners, and global settings",
+            2: "Owner — campaigns, reports, billing, multi-store",
+            3: "Employer — POS, customers, and daily store ops",
+          },
+        },
+        pos: {
+          title: "POS workflow",
+          description: "Day-to-day selling for store staff.",
+          items: {
+            1: "Pick customer and products from catalog",
+            2: "Create invoice and collect payment",
+            3: "Print receipt for customer",
+            4: "Cancel pending invoices when needed",
+          },
+        },
+        campaigns: {
+          title: "Campaigns & CRM",
+          description: "Marketing automation for owners.",
+          items: {
+            1: "Build customer segments with filters",
+            2: "Launch SMS campaigns and track history",
+            3: "Configure cross-selling rules",
+            4: "Schedule birthday automation",
+          },
+        },
+        billing: {
+          title: "Billing & usage",
+          description: "How platform fees and pass-through usage work today.",
+          items: {
+            1: "Platform subscription — sales-led (see Pricing)",
+            2: "SMS/email usage settled via CMI checkout",
+            3: "Stripe subscriptions planned for V3",
+          },
+        },
+      },
+    },
+    legal: {
+      toc: "Contents",
+      related: "Related policy",
+      counselBanner: {
+        title: "Draft — not legal advice",
+        description:
+          "This page is a starter template for pre-GA planning. Have qualified counsel review and localize before publishing to production customers.",
+      },
+      updated: "Last updated: June 9, 2026. This is a starter legal template — have counsel review before production launch.",
+      privacy: {
+        title: "Privacy Policy",
+        subtitle: "How Nexa handles personal data for retailers and their customers.",
+        sections: {
+          1: {
+            title: "Who we are",
+            body: "Nexa is a retail operations platform operated by your Nexa installation provider. This policy describes data processed when you use the web application and API.",
+          },
+          2: {
+            title: "Data we collect",
+            body: "Account data (name, email, role), store and transaction data (invoices, customers, products), usage data (campaigns, SMS sends), and technical logs (IP, session, errors).",
+          },
+          3: {
+            title: "How we use data",
+            body: "To provide POS, CRM, campaigns, billing, support, security monitoring, and product improvement. We do not sell personal data.",
+          },
+          4: {
+            title: "Processors & transfers",
+            body: "We use infrastructure and messaging providers (hosting, email, SMS gateways such as BulkSMS) necessary to deliver the service. Data may be processed in regions where those providers operate.",
+          },
+          5: {
+            title: "Retention & rights",
+            body: "Data is retained while your account is active and as required for legal obligations. Contact your administrator to request access, correction, or deletion — full GDPR tooling ships in V3.",
+          },
+          6: {
+            title: "Contact",
+            body: "Privacy questions: contact your Nexa platform operator or the email published on your production site.",
+          },
+        },
+      },
+      terms: {
+        title: "Terms of Service",
+        subtitle: "Terms governing use of the Nexa platform.",
+        sections: {
+          1: {
+            title: "Agreement",
+            body: "By accessing Nexa you agree to these terms on behalf of your business. If you do not agree, do not use the service.",
+          },
+          2: {
+            title: "Accounts & access",
+            body: "Accounts are provisioned by an administrator. You are responsible for credential security and actions taken under your users.",
+          },
+          3: {
+            title: "Acceptable use",
+            body: "You may not misuse the platform, attempt unauthorized access, send unlawful SMS campaigns, or process data without appropriate customer consent.",
+          },
+          4: {
+            title: "Fees",
+            body: "Subscription and usage fees are defined in your commercial agreement or pricing page. SMS and third-party pass-through costs may apply in addition to platform fees.",
+          },
+          5: {
+            title: "Availability & support",
+            body: "We aim for high availability but do not guarantee uninterrupted service. Support channels and SLAs depend on your plan.",
+          },
+          6: {
+            title: "Liability",
+            body: "The service is provided as-is within the scope of your agreement. Limitation of liability and indemnity terms are finalized in your signed contract for production customers.",
+          },
+        },
+      },
     },
     footer: {
       tagline: "Sell. Retain. Grow.",
+      blurb: "Multi-store retail operations — POS, CRM, campaigns, and payments in one platform.",
+      signInLink: "Sign in to your workspace",
+      cta: {
+        title: "Ready to talk about your stores?",
+        description:
+          "See indicative pricing or contact sales for a tailored rollout.",
+        button: "View pricing",
+      },
+      product: "Product",
+      resources: "Resources",
+      legal: "Legal",
       copyright: "© {year} Nexa. All rights reserved.",
     },
   },

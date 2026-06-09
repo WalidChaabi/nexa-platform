@@ -143,6 +143,12 @@ export const fr = {
     nav: {
       features: "Fonctionnalités",
       roles: "Pour qui",
+      pricing: "Tarifs",
+      compare: "Comparatif",
+      docs: "Docs",
+      changelog: "Changelog",
+      privacy: "Confidentialité",
+      terms: "Conditions",
       signIn: "Se connecter",
       getStarted: "Commencer",
       openMenu: "Ouvrir le menu",
@@ -153,16 +159,51 @@ export const fr = {
       description:
         "PDV, CRM, campagnes et paiements — unifiés pour les commerçants qui veulent vendre mieux et grandir plus vite.",
       ctaPrimary: "Accéder à votre espace",
-      ctaSecondary: "Découvrir la plateforme",
+      ctaSecondary: "Voir les tarifs",
       note: "Multi-magasins · Espaces par rôle · Tableaux de bord en temps réel",
+      pillars: {
+        1: "PDV & facturation",
+        2: "Campagnes SMS",
+        3: "Analyses multi-magasins",
+      },
       preview: {
         workspace: "Tableau de bord propriétaire",
+        live: "Aperçu en direct",
         revenue: "Chiffre d'affaires (7j)",
         invoices: "Factures",
         customers: "Clients",
         chartTitle: "Tendance des ventes",
         chartBadge: "7 derniers jours",
       },
+    },
+    howItWorks: {
+      badge: "Comment ça marche",
+      title: "De l'inscription à la première campagne en quelques jours",
+      subtitle:
+        "Nexa est commercial aujourd'hui — nous onboardons votre équipe, puis vous pilotez vos magasins par rôle.",
+      steps: {
+        1: {
+          title: "Provisionnement",
+          description:
+            "Votre admin ou contact commercial crée le compte propriétaire et le premier magasin.",
+        },
+        2: {
+          title: "Catalogue & équipe",
+          description:
+            "Ajoutez produits, invitez les employés et configurez le magasin depuis l'espace propriétaire.",
+        },
+        3: {
+          title: "Vendre & marketer",
+          description:
+            "Le staff utilise le PDV au quotidien pendant que les propriétaires lancent des campagnes.",
+        },
+      },
+    },
+    placeholder: {
+      title: "Contenu marketing pré-GA",
+      description:
+        "Tarifs indicatifs et vente assistée. Pages légales = modèles de départ — faites valider par un conseil avant la prod. Site docs complet en V3.",
+      short: "Tarifs indicatifs · Brouillons légaux · Hub docs uniquement",
     },
     trust: {
       multiStore: "Multi-magasins",
@@ -234,9 +275,348 @@ export const fr = {
       description:
         "Connectez-vous à votre espace Nexa et démarrez avec tableaux de bord, PDV et outils clients.",
       button: "Se connecter à Nexa",
+      pricing: "Voir les tarifs",
+    },
+    testimonials: {
+      badge: "Témoignages",
+      title: "Pensé pour les commerçants",
+      subtitle:
+        "Les premiers utilisateurs remplacent des outils fragmentés par un seul espace de travail.",
+      quotes: {
+        1: {
+          text: "Fini les listes WhatsApp et les tableurs. Campagnes, clients et ventes sont enfin au même endroit.",
+          name: "Sara B.",
+          role: "Propriétaire, boutique multi-sites — Casablanca",
+        },
+        2: {
+          text: "L'onboarding du personnel est simple. Les employés utilisent le PDV dès le premier jour.",
+          name: "Karim L.",
+          role: "Responsable opérations, mode — Rabat",
+        },
+        3: {
+          text: "Les tableaux de bord propriétaire nous donnent une vue sur tous les magasins sans export CSV.",
+          name: "Nadia M.",
+          role: "Manager retail — Marrakech",
+        },
+      },
+    },
+    pricing: {
+      badge: "Offres simples",
+      title: "Des tarifs qui suivent vos magasins",
+      subtitle:
+        "Onboarding commercial aujourd'hui — facturation self-serve avec Stripe dans une prochaine version.",
+      popular: "Le plus populaire",
+      salesBanner: {
+        eyebrow: "Onboarding commercial",
+        title: "Chaque offre commence par un échange",
+        description:
+          "Nous adaptons le nombre de magasins, l'onboarding et l'usage SMS à votre groupe. Facturation self-serve Stripe en V3.",
+        cta: "Écrire aux ventes",
+        docs: "Guide de démarrage",
+      },
+      faq: {
+        badge: "FAQ",
+        title: "Questions tarifaires fréquentes",
+        items: {
+          1: {
+            q: "Inscription en self-serve aujourd'hui ?",
+            a: "Pas encore. Les comptes sont créés par votre admin ou contact commercial. Self-serve en V3.",
+          },
+          2: {
+            q: "Coûts SMS et e-mail ?",
+            a: "L'abonnement couvre l'accès logiciel. L'usage SMS/e-mail est facturé séparément via checkout CMI.",
+          },
+          3: {
+            q: "Essai gratuit ?",
+            a: "Nous proposons des pilotes guidés pour les groupes qualifiés. Contactez les ventes.",
+          },
+          4: {
+            q: "Changer d'offre plus tard ?",
+            a: "Oui. Montez en gamme ou ajoutez des magasins — votre contrat définit la facturation jusqu'à Stripe.",
+          },
+        },
+      },
+      note: "L'usage SMS/e-mail est facturé séparément au tarif pass-through. Contactez-nous pour l'onboarding multi-marques.",
+      plans: {
+        starter: {
+          name: "Starter",
+          description: "Un magasin qui quitte les tableurs.",
+          price: "29 €",
+          period: "par magasin / mois",
+          cta: "Parler aux ventes",
+          features: {
+            1: "1 point de vente",
+            2: "Jusqu'à 2 comptes staff",
+            3: "PDV, CRM et impressions",
+            4: "Rapports de vente de base",
+            5: "Support e-mail",
+          },
+        },
+        growth: {
+          name: "Growth",
+          description: "Propriétaires avec campagnes multi-sites.",
+          price: "79 €",
+          period: "par mois (jusqu'à 5 magasins)",
+          cta: "Parler aux ventes",
+          features: {
+            1: "Jusqu'à 5 magasins",
+            2: "Staff illimité par magasin",
+            3: "Campagnes & cross-selling",
+            4: "Analyses propriétaire & exports",
+            5: "Onboarding prioritaire",
+          },
+        },
+        enterprise: {
+          name: "Enterprise",
+          description: "Franchises et déploiements sur mesure.",
+          price: "Sur mesure",
+          period: "contrat adapté",
+          cta: "Nous contacter",
+          features: {
+            1: "Magasins illimités",
+            2: "Onboarding dédié",
+            3: "Feuille de route intégrations",
+            4: "SLA & support prioritaire",
+            5: "Configuration multi-marques",
+          },
+        },
+      },
+    },
+    compare: {
+      badge: "Pourquoi Nexa",
+      title: "Nexa vs. les outils dépassés",
+      subtitle:
+        "Comparez une plateforme retail unifiée aux tableurs et aux PDV monolithiques.",
+      recommended: "Recommandé",
+      cta: {
+        title: "Quelle offre pour vos magasins ?",
+        description:
+          "Comparez les offres sur la page Tarifs ou contactez les ventes pour un déploiement sur mesure.",
+        button: "Voir les tarifs",
+      },
+      note: "Comparatif basé sur le périmètre v1.0 GA. SSO et API publique arrivent en V3.",
+      table: {
+        capability: "Capacité",
+        nexa: "Nexa",
+        spreadsheets: "Tableurs",
+        legacyPos: "PDV legacy",
+      },
+      rows: {
+        pos: "PDV & facturation",
+        crm: "CRM clients",
+        campaigns: "Campagnes SMS",
+        multiStore: "Vue multi-magasins",
+        reports: "Analyses par rôle",
+        staffRoles: "Rôles admin / owner / staff",
+        smsBilling: "Facturation usage SMS",
+        setup: "Délai première campagne",
+      },
+      matrix: {
+        pos: { nexa: "yes", spreadsheets: "no", legacyPos: "yes" },
+        crm: { nexa: "yes", spreadsheets: "Partiel", legacyPos: "no" },
+        campaigns: { nexa: "yes", spreadsheets: "no", legacyPos: "no" },
+        multiStore: { nexa: "yes", spreadsheets: "no", legacyPos: "Partiel" },
+        reports: { nexa: "yes", spreadsheets: "Manuel", legacyPos: "Limité" },
+        staffRoles: { nexa: "yes", spreadsheets: "no", legacyPos: "Partiel" },
+        smsBilling: { nexa: "yes", spreadsheets: "no", legacyPos: "no" },
+        setup: { nexa: "Jours", spreadsheets: "Semaines", legacyPos: "Semaines" },
+      },
+    },
+    changelog: {
+      badge: "Mises à jour",
+      title: "Changelog",
+      subtitle: "Ce qui a été livré dans la refonte Nexa.",
+      releases: {
+        1: {
+          version: "v0.4 — Site marketing",
+          date: "Juin 2026",
+          summary: "Pages marketing, tarifs, docs et mentions légales.",
+          items: {
+            1: "Page d'accueil avec fonctionnalités, rôles et témoignages",
+            2: "Pages tarifs, comparatif, changelog et docs",
+            3: "Politique de confidentialité et conditions d'utilisation",
+            4: "Navigation header et footer partagés",
+          },
+        },
+        2: {
+          version: "v0.3 — Analytique",
+          date: "Mai 2026",
+          summary: "KPI et tendances sur 7 jours.",
+          items: {
+            1: "Panneaux KPI par rôle",
+            2: "Graphiques Recharts",
+            3: "Filtre magasin sur le dashboard admin",
+          },
+        },
+        3: {
+          version: "v0.2 — Cœur retail",
+          date: "Avril 2026",
+          summary: "PDV, CRM, campagnes et multi-magasins.",
+          items: {
+            1: "Création, impression et annulation de factures",
+            2: "Catalogues clients et produits",
+            3: "Campagnes SMS, cross-selling et calendrier",
+            4: "Checkout CMI pour l'usage plateforme",
+          },
+        },
+        4: {
+          version: "v0.1 — Bootstrap",
+          date: "Mars 2026",
+          summary: "API Laravel 12 + web Next.js 16.",
+          items: {
+            1: "Auth Sanctum avec rôles admin, owner, employer",
+            2: "Stack Docker Compose",
+            3: "Interface trilingue (en / fr / ar)",
+          },
+        },
+      },
+    },
+    docs: {
+      badge: "Documentation",
+      title: "Docs & démarrage",
+      subtitle:
+        "Guides produit pour l'onboarding. La référence API complète arrive en V3.",
+      onThisPage: "Sur cette page",
+      hubNote: "Hub docs intégré — pas de site documentation séparé. Voir aussi :",
+      cta: {
+        title: "Besoin d'un accès ?",
+        description: "Les comptes sont créés par votre admin plateforme ou contact commercial.",
+        button: "Se connecter",
+      },
+      sections: {
+        gettingStarted: {
+          title: "Premiers pas",
+          description: "Après la création de votre compte propriétaire.",
+          items: {
+            1: "Connectez-vous avec les identifiants fournis",
+            2: "Complétez l'assistant magasin",
+            3: "Ajoutez produits et catégories",
+            4: "Invitez le personnel (flux owner — v1.0 GA)",
+          },
+        },
+        roles: {
+          title: "Rôles & espaces",
+          description: "Qui voit quoi dans Nexa.",
+          items: {
+            1: "Admin — opérateurs plateforme et paramètres globaux",
+            2: "Owner — campagnes, rapports, facturation, multi-magasins",
+            3: "Employer — PDV, clients et opérations quotidiennes",
+          },
+        },
+        pos: {
+          title: "Workflow PDV",
+          description: "Vente au quotidien en magasin.",
+          items: {
+            1: "Sélection client et produits",
+            2: "Créer la facture et encaisser",
+            3: "Imprimer le reçu",
+            4: "Annuler les factures en attente",
+          },
+        },
+        campaigns: {
+          title: "Campagnes & CRM",
+          description: "Marketing pour les propriétaires.",
+          items: {
+            1: "Segments clients avec filtres",
+            2: "Campagnes SMS et historique",
+            3: "Règles de cross-selling",
+            4: "Automatisation anniversaires",
+          },
+        },
+        billing: {
+          title: "Facturation & usage",
+          description: "Frais plateforme et usage pass-through.",
+          items: {
+            1: "Abonnement plateforme — commercial (voir Tarifs)",
+            2: "Usage SMS/e-mail via checkout CMI",
+            3: "Abonnements Stripe prévus en V3",
+          },
+        },
+      },
+    },
+    legal: {
+      toc: "Sommaire",
+      related: "Politique associée",
+      counselBanner: {
+        title: "Brouillon — pas un avis juridique",
+        description:
+          "Modèle de départ pour la planification pré-GA. Faites relire et adapter par un conseil qualifié avant publication.",
+      },
+      updated: "Dernière mise à jour : 9 juin 2026. Modèle juridique de départ — faites valider par un conseil avant la mise en production.",
+      privacy: {
+        title: "Politique de confidentialité",
+        subtitle: "Traitement des données personnelles dans Nexa.",
+        sections: {
+          1: {
+            title: "Qui sommes-nous",
+            body: "Nexa est une plateforme retail opérée par votre fournisseur d'installation. Cette politique décrit les données traitées via l'application web et l'API.",
+          },
+          2: {
+            title: "Données collectées",
+            body: "Compte (nom, e-mail, rôle), données magasin et transactions, usage (campagnes, SMS), journaux techniques.",
+          },
+          3: {
+            title: "Utilisation",
+            body: "Pour fournir PDV, CRM, campagnes, facturation, support et sécurité. Nous ne vendons pas de données personnelles.",
+          },
+          4: {
+            title: "Sous-traitants",
+            body: "Hébergement, e-mail et passerelles SMS (ex. BulkSMS) nécessaires au service. Données traitées dans les régions de ces prestataires.",
+          },
+          5: {
+            title: "Conservation & droits",
+            body: "Conservation pendant la durée du compte et obligations légales. Contactez votre administrateur pour accès, rectification ou suppression.",
+          },
+          6: {
+            title: "Contact",
+            body: "Questions confidentialité : contactez l'opérateur Nexa ou l'e-mail publié sur votre site de production.",
+          },
+        },
+      },
+      terms: {
+        title: "Conditions d'utilisation",
+        subtitle: "Conditions d'usage de la plateforme Nexa.",
+        sections: {
+          1: {
+            title: "Accord",
+            body: "En accédant à Nexa, vous acceptez ces conditions pour votre entreprise.",
+          },
+          2: {
+            title: "Comptes",
+            body: "Comptes créés par un administrateur. Vous êtes responsable de la sécurité des identifiants.",
+          },
+          3: {
+            title: "Usage acceptable",
+            body: "Interdiction d'usage abusif, d'accès non autorisé, de campagnes SMS illégales ou de traitement sans consentement.",
+          },
+          4: {
+            title: "Frais",
+            body: "Abonnement et usage définis dans votre accord commercial ou page Tarifs.",
+          },
+          5: {
+            title: "Disponibilité",
+            body: "Haute disponibilité visée sans garantie d'interruption nulle. Support selon votre offre.",
+          },
+          6: {
+            title: "Responsabilité",
+            body: "Service fourni dans le cadre de votre contrat. Limitations de responsabilité finalisées pour les clients production.",
+          },
+        },
+      },
     },
     footer: {
       tagline: "Vendez. Fidélisez. Grandissez.",
+      blurb: "Opérations retail multi-magasins — PDV, CRM, campagnes et paiements.",
+      signInLink: "Accéder à votre espace",
+      cta: {
+        title: "Parlons de vos magasins ?",
+        description:
+          "Consultez les tarifs indicatifs ou contactez les ventes pour un déploiement sur mesure.",
+        button: "Voir les tarifs",
+      },
+      product: "Produit",
+      resources: "Ressources",
+      legal: "Légal",
       copyright: "© {year} Nexa. Tous droits réservés.",
     },
   },
