@@ -42,9 +42,11 @@ nexa-platform/
 | Topic | Location |
 |-------|----------|
 | V2 local development | [docs/v2-local-setup.md](docs/v2-local-setup.md) |
+| **Product audit & roadmap (v1.0 GA → V3)** | [docs/nexa-product-audit-and-roadmap.md](docs/nexa-product-audit-and-roadmap.md) |
+| V1 vs V2 comparison (legacy reference) | [docs/technical-audit-v1-v2.md](docs/technical-audit-v1-v2.md) |
 | V1 deployment | [docs/runbooks/deployment-v1.md](docs/runbooks/deployment-v1.md) |
 | Improvement program (V1 + V2 strategy) | [docs/improvement/README.md](docs/improvement/README.md) |
-| Technical audit | [docs/technical-audit-report.md](docs/technical-audit-report.md) |
+| Technical audit (V1 legacy) | [docs/technical-audit-report.md](docs/technical-audit-report.md) |
 
 ## Per-app READMEs
 
