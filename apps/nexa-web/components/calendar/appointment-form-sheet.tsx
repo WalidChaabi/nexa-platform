@@ -1,20 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { Pencil } from "lucide-react";
 
+import { DateTimePickerField } from "@/components/calendar/datetime-picker-field";
+import { ServiceSelectField } from "@/components/calendar/service-select-field";
 import { useLocale } from "@/components/providers/locale-provider";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { useAppToast } from "@/hooks/use-app-toast";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
 import {
   Sheet,
   SheetContent,
@@ -24,11 +20,15 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import {
+  isAppointmentDateTimeComplete,
+  parseAppointmentDateTime,
+  toApiDatetime,
+} from "@/lib/calendar/datetime";
+import {
   updateAppointment,
   type AppointmentSummary,
   type CalendarService,
 } from "@/lib/api/rdvs";
-import { onSelectValue } from "@/lib/utils";
 
 type AppointmentFormSheetProps = {
   open: boolean;
@@ -39,21 +39,6 @@ type AppointmentFormSheetProps = {
   onSuccess: () => void;
 };
 
-function toDatetimeLocalValue(value: string | null): string {
-  if (!value) {
-    return "";
-  }
-
-  const date = new Date(value);
-  const pad = (part: number) => String(part).padStart(2, "0");
-
-  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
-}
-
-function toApiDatetime(localValue: string): string {
-  return new Date(localValue).toISOString().slice(0, 19).replace("T", " ");
-}
-
 export function AppointmentFormSheet({
   open,
   onOpenChange,
@@ -63,11 +48,20 @@ export function AppointmentFormSheet({
   onSuccess,
 }: AppointmentFormSheetProps) {
   const { t } = useLocale();
+  const toast = useAppToast();
   const prefix = translationPrefix;
+  const formId = useId();
+  const serviceId = `${formId}-service`;
+  const dateId = `${formId}-date`;
+  const timeId = `${formId}-time`;
   const [serviceKey, setServiceKey] = useState("");
-  const [startAt, setStartAt] = useState("");
+  const [date, setDate] = useState<Date | undefined>();
+  const [time, setTime] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [errorKey, setErrorKey] = useState<string | null>(null);
+
+  const scheduleReady = isAppointmentDateTimeComplete(date, time);
+  const canSubmit = Boolean(serviceKey && scheduleReady) && !submitting;
 
   useEffect(() => {
     if (!open || !appointment) {
@@ -76,7 +70,9 @@ export function AppointmentFormSheet({
 
     queueMicrotask(() => {
       setErrorKey(null);
-      setStartAt(toDatetimeLocalValue(appointment.start));
+      const parsed = parseAppointmentDateTime(appointment.start);
+      setDate(parsed.date);
+      setTime(parsed.time);
 
       const matched = services.find(
         (service) =>
@@ -91,13 +87,19 @@ export function AppointmentFormSheet({
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
 
-    if (!appointment) {
+    if (!appointment || !scheduleReady) {
       return;
     }
 
     const service = services.find((item) => String(item.id) === serviceKey);
 
-    if (!service || !startAt) {
+    if (!service) {
+      return;
+    }
+
+    const start = toApiDatetime(date, time);
+
+    if (!start) {
       return;
     }
 
@@ -108,10 +110,11 @@ export function AppointmentFormSheet({
       await updateAppointment(appointment.id, {
         title: service.name,
         event_id: service.color,
-        start: toApiDatetime(startAt),
+        start,
       });
       onSuccess();
       onOpenChange(false);
+      toast.success("feedback.toast.appointmentUpdated");
     } catch {
       setErrorKey(`${prefix}.updateError`);
     } finally {
@@ -121,10 +124,10 @@ export function AppointmentFormSheet({
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="overflow-y-auto sm:max-w-md">
-        <SheetHeader>
-          <SheetTitle className="flex items-center gap-2">
-            <Pencil className="size-4 text-primary" />
+      <SheetContent className="flex w-full flex-col gap-0 overflow-hidden p-0 sm:max-w-md">
+        <SheetHeader className="space-y-1 border-b px-6 py-5 text-start">
+          <SheetTitle className="flex items-center gap-2 text-lg">
+            <Pencil className="size-5 text-primary" />
             {t(`${prefix}.editTitle`)}
           </SheetTitle>
           <SheetDescription>
@@ -136,54 +139,61 @@ export function AppointmentFormSheet({
           </SheetDescription>
         </SheetHeader>
 
-        {errorKey ? (
-          <Alert variant="destructive" className="mt-4">
-            <AlertDescription>{t(errorKey)}</AlertDescription>
-          </Alert>
-        ) : null}
+        <form
+          id={formId}
+          className="flex-1 space-y-5 overflow-y-auto px-6 py-5"
+          onSubmit={handleSubmit}
+        >
+          {errorKey ? (
+            <Alert variant="destructive">
+              <AlertDescription>{t(errorKey)}</AlertDescription>
+            </Alert>
+          ) : null}
 
-        <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
-          <div className="space-y-2">
-            <Label htmlFor="edit-rdv-service">{t(`${prefix}.fields.service`)}</Label>
-            <Select value={serviceKey} onValueChange={onSelectValue(setServiceKey)}>
-              <SelectTrigger id="edit-rdv-service">
-                <SelectValue placeholder={t(`${prefix}.selectService`)} />
-              </SelectTrigger>
-              <SelectContent>
-                {services.map((service) => (
-                  <SelectItem key={service.id} value={String(service.id)}>
-                    <span className="inline-flex items-center gap-2">
-                      <span
-                        className="size-3 rounded-full"
-                        style={{ backgroundColor: service.color }}
-                      />
-                      {service.name}
-                    </span>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+          {appointment?.customer ? (
+            <div className="rounded-lg border bg-muted/20 px-3 py-2">
+              <Label className="text-xs text-muted-foreground">
+                {t(`${prefix}.fields.customer`)}
+              </Label>
+              <p className="font-medium">{appointment.customer.display_name}</p>
+              <p className="text-sm text-muted-foreground">
+                {appointment.customer.phone}
+              </p>
+            </div>
+          ) : null}
 
-          <div className="space-y-2">
-            <Label htmlFor="edit-rdv-start">{t(`${prefix}.fields.start`)}</Label>
-            <Input
-              id="edit-rdv-start"
-              type="datetime-local"
-              value={startAt}
-              onChange={(event) => setStartAt(event.target.value)}
-            />
-          </div>
+          <ServiceSelectField
+            id={serviceId}
+            label={t(`${prefix}.fields.service`)}
+            placeholder={t(`${prefix}.selectService`)}
+            searchPlaceholder={t(`${prefix}.searchService`)}
+            emptyMessage={t(`${prefix}.emptyServices`)}
+            services={services}
+            value={serviceKey}
+            onValueChange={setServiceKey}
+          />
 
-          <SheetFooter>
-            <Button
-              type="submit"
-              disabled={submitting || !serviceKey || !startAt}
-            >
-              {submitting ? t(`${prefix}.saving`) : t(`${prefix}.save`)}
-            </Button>
-          </SheetFooter>
+          <Separator />
+
+          <DateTimePickerField
+            date={date}
+            time={time}
+            onDateChange={setDate}
+            onTimeChange={setTime}
+            dateLabel={t(`${prefix}.fields.date`)}
+            timeLabel={t(`${prefix}.fields.time`)}
+            selectDateLabel={t(`${prefix}.selectDate`)}
+            previewLabel={t(`${prefix}.schedulePreview`)}
+            dateId={dateId}
+            timeId={timeId}
+          />
         </form>
+
+        <SheetFooter className="mt-auto border-t bg-muted/20 px-6 py-4">
+          <Button type="submit" form={formId} disabled={!canSubmit}>
+            {submitting ? t(`${prefix}.saving`) : t(`${prefix}.save`)}
+          </Button>
+        </SheetFooter>
       </SheetContent>
     </Sheet>
   );

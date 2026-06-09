@@ -1,12 +1,15 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Plus } from "lucide-react";
+import { CalendarDays, List, Plus } from "lucide-react";
 
 import { AppointmentCreateDialog } from "@/components/calendar/appointment-create-dialog";
+import { AppointmentsCalendar } from "@/components/calendar/appointments-calendar";
 import { createAppointmentsColumns } from "@/components/calendar/appointments-columns";
 import { AppointmentFormSheet } from "@/components/calendar/appointment-form-sheet";
+import { ServiceLegend } from "@/components/calendar/service-legend";
 import { DataTable } from "@/components/data-table/data-table";
+import { useConfirm } from "@/components/feedback/confirm-provider";
 import { useLocale } from "@/components/providers/locale-provider";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
@@ -25,6 +28,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useAppToast } from "@/hooks/use-app-toast";
 import {
   deleteAppointment,
   fetchAppointments,
@@ -33,9 +37,16 @@ import {
   type CalendarService,
 } from "@/lib/api/rdvs";
 import { fetchCustomers, type CustomerSummary } from "@/lib/api/customers";
+import { cn } from "@/lib/utils";
+
+type CalendarTranslationPrefix =
+  | "owner.calendar"
+  | "employer.calendar"
+  | "admin.calendar";
 
 type AppointmentsPanelProps = {
-  translationPrefix: "owner.calendar" | "employer.calendar";
+  translationPrefix: CalendarTranslationPrefix;
+  readOnly?: boolean;
   storeFilter?: {
     stores: Array<{ id: number; name: string }>;
     selectedStoreId: string;
@@ -43,11 +54,32 @@ type AppointmentsPanelProps = {
   };
 };
 
+type ViewMode = "calendar" | "list";
+
+function scheduleFromDate(date: Date): { date: Date; time: string } {
+  const next = new Date(date);
+  const now = new Date();
+
+  if (next.toDateString() === now.toDateString()) {
+    next.setHours(now.getHours() + 1, 0, 0, 0);
+  } else {
+    next.setHours(9, 0, 0, 0);
+  }
+
+  return {
+    date: next,
+    time: `${String(next.getHours()).padStart(2, "0")}:00`,
+  };
+}
+
 export function AppointmentsPanel({
   translationPrefix,
+  readOnly = false,
   storeFilter,
 }: AppointmentsPanelProps) {
-  const { t } = useLocale();
+  const { t, formatDateTime } = useLocale();
+  const confirm = useConfirm();
+  const toast = useAppToast();
   const prefix = translationPrefix;
   const [appointments, setAppointments] = useState<AppointmentSummary[]>([]);
   const [customers, setCustomers] = useState<CustomerSummary[]>([]);
@@ -55,7 +87,12 @@ export function AppointmentsPanel({
   const [fetching, setFetching] = useState(true);
   const [errorKey, setErrorKey] = useState<string | null>(null);
   const [reloadKey, setReloadKey] = useState(0);
+  const [viewMode, setViewMode] = useState<ViewMode>("calendar");
   const [createOpen, setCreateOpen] = useState(false);
+  const [createSchedule, setCreateSchedule] = useState<{
+    date: Date;
+    time: string;
+  } | null>(null);
   const [editAppointment, setEditAppointment] =
     useState<AppointmentSummary | null>(null);
   const [editOpen, setEditOpen] = useState(false);
@@ -101,32 +138,48 @@ export function AppointmentsPanel({
     };
   }, [reloadKey, storeFilter?.selectedStoreId, prefix]);
 
-  const handleDelete = useCallback(
-    async (appointment: AppointmentSummary) => {
-      setErrorKey(null);
+  const openCreateDialog = useCallback((schedule?: { date: Date; time: string }) => {
+    setCreateSchedule(schedule ?? null);
+    setCreateOpen(true);
+  }, []);
 
-      try {
-        await deleteAppointment(appointment.id);
-        setReloadKey((value) => value + 1);
-      } catch {
-        setErrorKey(`${prefix}.deleteError`);
-      }
+  const handleDelete = useCallback(
+    (appointment: AppointmentSummary) => {
+      confirm({
+        title: t("feedback.confirm.deleteAppointment.title"),
+        description: t("feedback.confirm.deleteAppointment.description"),
+        confirmLabel: t("feedback.confirm.delete"),
+        destructive: true,
+        onConfirm: async () => {
+          setErrorKey(null);
+
+          try {
+            await deleteAppointment(appointment.id);
+            setReloadKey((value) => value + 1);
+            toast.success("feedback.toast.appointmentDeleted");
+          } catch {
+            setErrorKey(`${prefix}.deleteError`);
+          }
+        },
+      });
     },
-    [prefix],
+    [confirm, prefix, t, toast],
   );
 
   const columns = useMemo(
     () =>
       createAppointmentsColumns({
         t,
+        formatDateTime,
         translationPrefix: prefix,
+        readOnly,
         onEdit: (appointment) => {
           setEditAppointment(appointment);
           setEditOpen(true);
         },
         onDelete: (appointment) => void handleDelete(appointment),
       }),
-    [t, prefix, handleDelete],
+    [t, formatDateTime, prefix, readOnly, handleDelete],
   );
 
   return (
@@ -164,32 +217,97 @@ export function AppointmentsPanel({
         </Card>
       ) : null}
 
-      <AppointmentCreateDialog
-        open={createOpen}
-        onOpenChange={setCreateOpen}
-        translationPrefix={prefix}
-        customers={customers}
-        services={services}
-        onSuccess={() => setReloadKey((value) => value + 1)}
-      />
+      {readOnly ? null : (
+        <AppointmentCreateDialog
+          open={createOpen}
+          onOpenChange={setCreateOpen}
+          translationPrefix={
+            prefix === "admin.calendar" ? "owner.calendar" : prefix
+          }
+          customers={customers}
+          services={services}
+          initialSchedule={createSchedule}
+          onSuccess={() => {
+            setReloadKey((value) => value + 1);
+          }}
+        />
+      )}
 
       <Card>
-        <CardHeader className="flex flex-row items-start justify-between gap-4">
-          <div>
-            <CardTitle>{t(`${prefix}.listTitle`)}</CardTitle>
-            <CardDescription>{t(`${prefix}.listDescription`)}</CardDescription>
+        <CardHeader className="gap-4 space-y-0">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+            <div>
+              <CardTitle>{t(`${prefix}.calendarTitle`)}</CardTitle>
+              <CardDescription>
+                {readOnly
+                  ? t(`${prefix}.listDescription`)
+                  : t(`${prefix}.calendarDescription`)}
+              </CardDescription>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2">
+              <div className="inline-flex rounded-lg border bg-muted/30 p-1">
+                <Button
+                  type="button"
+                  size="sm"
+                  variant={viewMode === "calendar" ? "default" : "ghost"}
+                  className={cn("h-8 gap-1.5", viewMode === "calendar" && "shadow-sm")}
+                  onClick={() => setViewMode("calendar")}
+                >
+                  <CalendarDays className="size-4" />
+                  {t(`${prefix}.viewCalendar`)}
+                </Button>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant={viewMode === "list" ? "default" : "ghost"}
+                  className={cn("h-8 gap-1.5", viewMode === "list" && "shadow-sm")}
+                  onClick={() => setViewMode("list")}
+                >
+                  <List className="size-4" />
+                  {t(`${prefix}.viewList`)}
+                </Button>
+              </div>
+
+              {readOnly ? null : (
+                <Button onClick={() => openCreateDialog()}>
+                  <Plus />
+                  {t(`${prefix}.create`)}
+                </Button>
+              )}
+            </div>
           </div>
-          <Button onClick={() => setCreateOpen(true)}>
-            <Plus />
-            {t(`${prefix}.create`)}
-          </Button>
         </CardHeader>
-        <CardContent>
+
+        <CardContent className="space-y-6">
           {fetching ? (
             <div className="space-y-3">
-              <Skeleton className="h-9 w-full max-w-sm" />
-              <Skeleton className="h-64 w-full" />
+              <Skeleton className="h-[28rem] w-full" />
             </div>
+          ) : viewMode === "calendar" ? (
+            <>
+              <AppointmentsCalendar
+                appointments={appointments}
+                readOnly={readOnly}
+                onDateClick={(date) => {
+                  if (!readOnly) {
+                    openCreateDialog(scheduleFromDate(date));
+                  }
+                }}
+                onEventClick={(appointment) => {
+                  if (readOnly) {
+                    return;
+                  }
+
+                  setEditAppointment(appointment);
+                  setEditOpen(true);
+                }}
+              />
+              <ServiceLegend
+                services={services}
+                title={t(`${prefix}.legendTitle`)}
+              />
+            </>
           ) : (
             <DataTable
               columns={columns}
@@ -203,14 +321,20 @@ export function AppointmentsPanel({
         </CardContent>
       </Card>
 
-      <AppointmentFormSheet
-        open={editOpen}
-        onOpenChange={setEditOpen}
-        appointment={editAppointment}
-        services={services}
-        translationPrefix={prefix}
-        onSuccess={() => setReloadKey((value) => value + 1)}
-      />
+      {readOnly ? null : (
+        <AppointmentFormSheet
+          open={editOpen}
+          onOpenChange={setEditOpen}
+          appointment={editAppointment}
+          services={services}
+          translationPrefix={
+            prefix === "admin.calendar" ? "owner.calendar" : prefix
+          }
+          onSuccess={() => {
+            setReloadKey((value) => value + 1);
+          }}
+        />
+      )}
     </div>
   );
 }

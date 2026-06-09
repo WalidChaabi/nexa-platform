@@ -6,10 +6,20 @@ import { AppointmentRowActions } from "@/components/calendar/appointment-row-act
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
 import { Badge } from "@/components/ui/badge";
 import type { AppointmentSummary } from "@/lib/api/rdvs";
+import type { useLocale } from "@/components/providers/locale-provider";
+
+type Locale = ReturnType<typeof useLocale>;
+
+export type CalendarTranslationPrefix =
+  | "owner.calendar"
+  | "employer.calendar"
+  | "admin.calendar";
 
 export type AppointmentsTableActions = {
-  t: (key: string) => string;
-  translationPrefix: "owner.calendar" | "employer.calendar";
+  t: Locale["t"];
+  formatDateTime: Locale["formatDateTime"];
+  translationPrefix: CalendarTranslationPrefix;
+  readOnly?: boolean;
   onEdit: (appointment: AppointmentSummary) => void;
   onDelete: (appointment: AppointmentSummary) => void;
 };
@@ -17,10 +27,17 @@ export type AppointmentsTableActions = {
 export function createAppointmentsColumns(
   actions: AppointmentsTableActions,
 ): ColumnDef<AppointmentSummary>[] {
-  const { t, translationPrefix, onEdit, onDelete } = actions;
+  const {
+    t,
+    formatDateTime,
+    translationPrefix,
+    readOnly = false,
+    onEdit,
+    onDelete,
+  } = actions;
   const prefix = translationPrefix;
 
-  return [
+  const columns: ColumnDef<AppointmentSummary>[] = [
     {
       id: "search",
       accessorFn: (row) =>
@@ -48,9 +65,7 @@ export function createAppointmentsColumns(
         />
       ),
       cell: ({ row }) =>
-        row.original.start
-          ? new Date(row.original.start).toLocaleString()
-          : "—",
+        row.original.start ? formatDateTime(row.original.start) : "—",
     },
     {
       accessorKey: "title",
@@ -80,7 +95,10 @@ export function createAppointmentsColumns(
       header: t(`${prefix}.columns.store`),
       enableSorting: false,
     },
-    {
+  ];
+
+  if (!readOnly) {
+    columns.push({
       id: "actions",
       enableHiding: false,
       enableSorting: false,
@@ -90,11 +108,17 @@ export function createAppointmentsColumns(
       cell: ({ row }) => (
         <AppointmentRowActions
           appointment={row.original}
-          translationPrefix={translationPrefix}
+          translationPrefix={
+            translationPrefix === "admin.calendar"
+              ? "owner.calendar"
+              : translationPrefix
+          }
           onEdit={onEdit}
           onDelete={onDelete}
         />
       ),
-    },
-  ];
+    });
+  }
+
+  return columns;
 }

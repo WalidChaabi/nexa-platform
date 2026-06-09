@@ -1,0 +1,74 @@
+.appointments-calendar .fc {
+  --fc-border-color: var(--border);
+  --fc-page-bg-color: var(--card);
+  --fc-neutral-bg-color: var(--muted);
+  --fc-neutral-text-color: var(--muted-foreground);
+  --fc-today-bg-color: color-mix(in oklch, var(--primary) 10%, transparent);
+  --fc-button-bg-color: var(--secondary);
+  --fc-button-border-color: var(--border);
+  --fc-button-text-color: var(--secondary-foreground);
+  --fc-button-hover-bg-color: var(--muted);
+  --fc-button-hover-border-color: var(--border);
+  --fc-button-active-bg-color: var(--primary);
+  --fc-button-active-border-color: var(--primary);
+  --fc-button-active-text-color: var(--primary-foreground);
+  --fc-event-border-color: transparent;
+  --fc-event-text-color: #fff;
+  font-family: var(--font-sans);
+}
+
+.appointments-calendar .fc .fc-toolbar-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.appointments-calendar .fc .fc-button {
+  border-radius: var(--radius-md);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  padding: 0.35rem 0.65rem;
+  text-transform: none;
+}
+
+.appointments-calendar .fc .fc-daygrid-day-number,
+.appointments-calendar .fc .fc-col-header-cell-cushion {
+  color: var(--foreground);
+  text-decoration: none;
+}
+
+.appointments-calendar .fc .fc-daygrid-event {
+  border-radius: calc(var(--radius-md) - 2px);
+  font-size: 0.75rem;
+  padding: 1px 4px;
+}
+
+.appointments-calendar .fc .fc-timegrid-slot-label-cushion,
+.appointments-calendar .fc .fc-timegrid-axis-cushion {
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+}
+
+.appointments-calendar .fc .fc-scrollgrid {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.appointments-calendar .fc .fc-daygrid-day.fc-day-today {
+  background: var(--fc-today-bg-color);
+}
+
+.appointments-calendar .fc .fc-daygrid-day-frame {
+  min-height: 6.5rem;
+}
+
+@media (max-width: 768px) {
+  .appointments-calendar .fc .fc-toolbar {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .appointments-calendar .fc .fc-toolbar-chunk {
+    display: flex;
+    justify-content: center;
+  }
+}
