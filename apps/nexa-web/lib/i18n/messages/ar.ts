@@ -239,6 +239,33 @@ export const ar = {
       copyright: "© {year} Nexa. جميع الحقوق محفوظة.",
     },
   },
+  settings: {
+    title: "الإعدادات",
+    description: "تحديث الملف الشخصي وكلمة المرور وتفضيلات العرض.",
+    profileTitle: "الملف الشخصي",
+    profileDescription: "الاسم وبيانات الاتصال.",
+    passwordTitle: "كلمة المرور",
+    passwordDescription: "تغيير كلمة مرور تسجيل الدخول.",
+    preferencesTitle: "التفضيلات",
+    preferencesDescription: "اللغة والمظهر لهذا المتصفح.",
+    saveProfile: "حفظ الملف الشخصي",
+    savingProfile: "جارٍ الحفظ...",
+    profileSaved: "تم تحديث الملف الشخصي.",
+    profileError: "تعذر تحديث الملف الشخصي.",
+    savePassword: "تحديث كلمة المرور",
+    savingPassword: "جارٍ التحديث...",
+    passwordSaved: "تم تحديث كلمة المرور.",
+    passwordError: "تعذر تحديث كلمة المرور. تحقق من كلمة المرور الحالية.",
+    fields: {
+      email: "البريد الإلكتروني",
+      firstname: "الاسم الأول",
+      lastname: "اسم العائلة",
+      phone: "الهاتف",
+      currentPassword: "كلمة المرور الحالية",
+      newPassword: "كلمة المرور الجديدة",
+      confirmPassword: "تأكيد كلمة المرور الجديدة",
+    },
+  },
   auth: {
     tagline: "بِع. احتفظ. انمُ.",
     headline: "نظام التشغيل للتجزئة الحديثة",
@@ -762,6 +789,32 @@ export const ar = {
       opsDescription: "نظرة عامة على شبكة التجزئة والأداء.",
       opsBody:
         "راجع المبيعات عبر متاجرك، وأدر المواقع والعملاء والكتالوج من الشريط الجانبي.",
+    },
+    onboarding: {
+      title: "جهّز متجرك",
+      description:
+        "أكمل هذه الخطوات لإطلاق المبيعات وصلاحيات الموظفين وأول حملة عملاء.",
+      progress: "{completed} من {total} مكتملة",
+      action: "انتقل للخطوة",
+      dismiss: "إخفاء القائمة",
+      steps: {
+        store: {
+          title: "أنشئ متجرك الأول",
+          description: "أضف موقعاً مع بيانات الاتصال وإعدادات الفواتير.",
+        },
+        products: {
+          title: "أضف منتجات إلى الكتالوج",
+          description: "ابنِ الكتالوج ليتمكن الموظفون من البيع عبر نقطة البيع.",
+        },
+        team: {
+          title: "ادعُ موظفي المتجر",
+          description: "امنح الموظفين صلاحية معالجة المبيعات عند الصندوق.",
+        },
+        campaign: {
+          title: "أرسل حملتك الأولى",
+          description: "تواصل مع العملاء عبر عرض ترويجي SMS مستهدف.",
+        },
+      },
     },
     invoices: {
       title: "سجل الفواتير",

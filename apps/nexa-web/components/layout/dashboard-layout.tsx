@@ -105,7 +105,7 @@ export function DashboardLayout({
   children,
 }: DashboardLayoutProps) {
   const pathname = usePathname();
-  const { user, loading } = useRequireAuth(role);
+  const { user, loading, setUser } = useRequireAuth(role);
   const { t } = useLocale();
   const isPrintView = pathname.endsWith("/print");
   const workspaceLabel = t(workspaceKey);
@@ -127,12 +127,14 @@ export function DashboardLayout({
 
   if (isPrintView) {
     return (
-      <DashboardAuthProvider user={user}>{children}</DashboardAuthProvider>
+      <DashboardAuthProvider user={user} setUser={setUser}>
+        {children}
+      </DashboardAuthProvider>
     );
   }
 
   return (
-    <DashboardAuthProvider user={user}>
+    <DashboardAuthProvider user={user} setUser={setUser}>
       <SidebarProvider>
         <AppSidebar
           user={user}

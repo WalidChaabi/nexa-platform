@@ -64,6 +64,11 @@ export const employerNav: NavItem[] = [
     href: "/employer/calendar",
     icon: CalendarDays,
   },
+  {
+    titleKey: "nav.settings",
+    href: "/employer/settings",
+    icon: Settings,
+  },
 ];
 
 export const adminNav: NavItem[] = [
@@ -186,5 +191,10 @@ export const ownerNav: NavItem[] = [
     titleKey: "nav.products",
     href: "/owner/products",
     icon: Package,
+  },
+  {
+    titleKey: "nav.settings",
+    href: "/owner/settings",
+    icon: Settings,
   },
 ];

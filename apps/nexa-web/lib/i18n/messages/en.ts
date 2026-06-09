@@ -239,6 +239,33 @@ export const en = {
       copyright: "© {year} Nexa. All rights reserved.",
     },
   },
+  settings: {
+    title: "Settings",
+    description: "Update your profile, password, and workspace preferences.",
+    profileTitle: "Profile",
+    profileDescription: "Your name and contact details.",
+    passwordTitle: "Password",
+    passwordDescription: "Change your sign-in password.",
+    preferencesTitle: "Preferences",
+    preferencesDescription: "Language and appearance for this browser.",
+    saveProfile: "Save profile",
+    savingProfile: "Saving profile...",
+    profileSaved: "Profile updated.",
+    profileError: "Could not update profile.",
+    savePassword: "Update password",
+    savingPassword: "Updating password...",
+    passwordSaved: "Password updated.",
+    passwordError: "Could not update password. Check your current password.",
+    fields: {
+      email: "Email",
+      firstname: "First name",
+      lastname: "Last name",
+      phone: "Phone",
+      currentPassword: "Current password",
+      newPassword: "New password",
+      confirmPassword: "Confirm new password",
+    },
+  },
   auth: {
     tagline: "Sell. Retain. Grow.",
     headline: "The operating system for modern retail",
@@ -761,6 +788,32 @@ export const en = {
       opsDescription: "Overview of your retail network and performance.",
       opsBody:
         "Review sales across your stores, manage locations, and browse customers and catalog from the sidebar.",
+    },
+    onboarding: {
+      title: "Get your store ready",
+      description:
+        "Complete these steps to launch sales, staff access, and your first customer campaign.",
+      progress: "{completed} of {total} complete",
+      action: "Go to step",
+      dismiss: "Dismiss checklist",
+      steps: {
+        store: {
+          title: "Create your first store",
+          description: "Add a location with contact details and invoice settings.",
+        },
+        products: {
+          title: "Add products to your catalog",
+          description: "Build your catalog so staff can sell from the POS.",
+        },
+        team: {
+          title: "Invite store staff",
+          description: "Give employers access to process sales at the counter.",
+        },
+        campaign: {
+          title: "Send your first campaign",
+          description: "Reach customers with a targeted SMS promotion.",
+        },
+      },
     },
     invoices: {
       title: "Invoice history",

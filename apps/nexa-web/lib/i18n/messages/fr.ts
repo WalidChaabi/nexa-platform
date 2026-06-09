@@ -240,6 +240,35 @@ export const fr = {
       copyright: "© {year} Nexa. Tous droits réservés.",
     },
   },
+  settings: {
+    title: "Paramètres",
+    description:
+      "Mettez à jour votre profil, mot de passe et préférences d'affichage.",
+    profileTitle: "Profil",
+    profileDescription: "Votre nom et vos coordonnées.",
+    passwordTitle: "Mot de passe",
+    passwordDescription: "Modifiez votre mot de passe de connexion.",
+    preferencesTitle: "Préférences",
+    preferencesDescription: "Langue et apparence pour ce navigateur.",
+    saveProfile: "Enregistrer le profil",
+    savingProfile: "Enregistrement...",
+    profileSaved: "Profil mis à jour.",
+    profileError: "Impossible de mettre à jour le profil.",
+    savePassword: "Mettre à jour le mot de passe",
+    savingPassword: "Mise à jour...",
+    passwordSaved: "Mot de passe mis à jour.",
+    passwordError:
+      "Impossible de mettre à jour le mot de passe. Vérifiez le mot de passe actuel.",
+    fields: {
+      email: "E-mail",
+      firstname: "Prénom",
+      lastname: "Nom",
+      phone: "Téléphone",
+      currentPassword: "Mot de passe actuel",
+      newPassword: "Nouveau mot de passe",
+      confirmPassword: "Confirmer le nouveau mot de passe",
+    },
+  },
   auth: {
     tagline: "Vendez. Fidélisez. Grandissez.",
     headline: "Le système d'exploitation du commerce moderne",
@@ -764,6 +793,36 @@ export const fr = {
       opsDescription: "Vue d'ensemble de votre réseau retail et performances.",
       opsBody:
         "Consultez les ventes de vos magasins, gérez les lieux, clients et catalogue depuis la barre latérale.",
+    },
+    onboarding: {
+      title: "Préparez votre magasin",
+      description:
+        "Complétez ces étapes pour lancer les ventes, l'accès du personnel et votre première campagne client.",
+      progress: "{completed} sur {total} terminées",
+      action: "Voir l'étape",
+      dismiss: "Masquer la checklist",
+      steps: {
+        store: {
+          title: "Créer votre premier magasin",
+          description:
+            "Ajoutez un lieu avec coordonnées et paramètres de facturation.",
+        },
+        products: {
+          title: "Ajouter des produits au catalogue",
+          description:
+            "Constituez votre catalogue pour que le personnel vende au POS.",
+        },
+        team: {
+          title: "Inviter le personnel",
+          description:
+            "Donnez aux employeurs l'accès pour encaisser en caisse.",
+        },
+        campaign: {
+          title: "Envoyer votre première campagne",
+          description:
+            "Touchez vos clients avec une promotion SMS ciblée.",
+        },
+      },
     },
     invoices: {
       title: "Historique factures",

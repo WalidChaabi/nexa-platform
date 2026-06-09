@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ChevronsUpDown, LogOut, User } from "lucide-react";
+import { ChevronsUpDown, LogOut, Settings, User } from "lucide-react";
 
 import { useLocale } from "@/components/providers/locale-provider";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -22,6 +23,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { logout, type AuthUser } from "@/lib/api/auth";
+import { settingsPathForRole } from "@/lib/settings-path";
 
 function initials(user: AuthUser): string {
   const parts = [user.firstname, user.lastname]
@@ -106,6 +108,14 @@ export function SidebarUserFooter({ user }: { user: AuthUser }) {
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
+                <DropdownMenuItem
+                  render={
+                    <Link href={settingsPathForRole(user.role)} />
+                  }
+                >
+                  <Settings />
+                  {t("nav.settings")}
+                </DropdownMenuItem>
                 <DropdownMenuItem disabled>
                   <User />
                   {t("common.account", { role: t(`roles.${user.role}`) })}
