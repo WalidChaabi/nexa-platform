@@ -48,5 +48,5 @@ export function useRequireAuth(requiredRole?: Role) {
     };
   }, [requiredRole, router]);
 
-  return { user, loading };
+  return { user, loading, setUser };
 }

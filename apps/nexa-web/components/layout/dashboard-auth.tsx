@@ -6,6 +6,7 @@ import type { AuthUser } from "@/lib/api/auth";
 
 type DashboardAuthContextValue = {
   user: AuthUser;
+  setUser: (user: AuthUser) => void;
 };
 
 const DashboardAuthContext = createContext<DashboardAuthContextValue | null>(
@@ -14,13 +15,15 @@ const DashboardAuthContext = createContext<DashboardAuthContextValue | null>(
 
 export function DashboardAuthProvider({
   user,
+  setUser,
   children,
 }: {
   user: AuthUser;
+  setUser: (user: AuthUser) => void;
   children: React.ReactNode;
 }) {
   return (
-    <DashboardAuthContext.Provider value={{ user }}>
+    <DashboardAuthContext.Provider value={{ user, setUser }}>
       {children}
     </DashboardAuthContext.Provider>
   );
