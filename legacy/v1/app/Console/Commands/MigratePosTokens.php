@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Schema;
 
 class MigratePosTokens extends Command
 {
-    protected $signature = 'sherin:migrate-pos-tokens {--dry-run : List users without hashing}';
+    protected $signature = 'nexa:migrate-pos-tokens {--dry-run : List users without hashing}';
 
     protected $description = 'Hash legacy plaintext POS tokens into pos_token_hash';
 

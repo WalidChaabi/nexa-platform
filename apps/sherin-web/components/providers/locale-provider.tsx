@@ -74,10 +74,12 @@ export function LocaleProvider({
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    const initial = readStoredLocale();
-    setLocaleState(initial);
-    applyDocumentLocale(initial);
-    setReady(true);
+    queueMicrotask(() => {
+      const initial = readStoredLocale();
+      setLocaleState(initial);
+      applyDocumentLocale(initial);
+      setReady(true);
+    });
   }, []);
 
   const setLocale = useCallback((next: Locale) => {

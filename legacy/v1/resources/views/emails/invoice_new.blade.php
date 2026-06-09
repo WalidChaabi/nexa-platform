@@ -1,7 +1,7 @@
 <div class="info" style="text-align: center;padding-top: -30px!important;top:0px !important">
     <div style="margin-left: 250px!important;top:0px !important">
         {{-- <img src="{{(auth()->user()->store->logo)!='' ? asset(getImageByModel(auth()->user()->store->id,'stores',auth()->user()->store->logo)):'https://via.placeholder.com/350x150' }}" width="75" height="75"> --}}
-        <img src="{{public_path('uploads/stores/1/logo-sherin.png')}}" width="75" height="75">
+        <img src="{{public_path('uploads/stores/1/logo-nexa.png')}}" width="75" height="75">
     </div>
     <h2 style="text-align: center;padding-top: -30px!important">
         {{ auth()->user()->store->name }}

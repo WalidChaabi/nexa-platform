@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Sparkles } from "lucide-react";
-
+import { BrandLogo } from "@/components/brand/brand-logo";
 import { AuthLoading } from "@/components/layout/auth-loading";
 import { DashboardAuthProvider } from "@/components/layout/dashboard-auth";
 import { PreferencesToolbar } from "@/components/layout/preferences-toolbar";
@@ -57,8 +56,8 @@ function AppSidebar({
               size="lg"
               render={<Link href={user.dashboard_path} />}
             >
-              <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                <Sparkles className="size-4" />
+              <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary p-1.5 text-primary-foreground">
+                <BrandLogo variant="on-primary" />
               </div>
               <div className="grid flex-1 text-start text-sm leading-tight">
                 <span className="truncate font-semibold">

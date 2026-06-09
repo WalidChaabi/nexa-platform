@@ -1,7 +1,7 @@
 <?php 
 
 return [
-    'recherche SHERIN'                  => ' SHERIN  البحث في  ',
+    'recherche NEXA'                  => ' NEXA  البحث في  ',
     'Chargement'                        => 'جاري التحميل',
     'Clients'                           =>  'الزبناء',
     'Liste'                             =>  'اللائحة',

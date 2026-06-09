@@ -1,4 +1,4 @@
-# V2 local development setup
+# Nexa — V2 local development setup
 
 ## Prerequisites
 
@@ -11,8 +11,8 @@
 
 ```
 legacy/v1/          # Laravel 5.7 (maintenance)
-apps/sherin-api/    # Laravel API
-apps/sherin-web/    # Next.js
+apps/sherin-api/    # Laravel API (Nexa)
+apps/sherin-web/    # Next.js (Nexa)
 ```
 
 ## Full stack in Docker (recommended)
@@ -29,7 +29,7 @@ docker compose watch
 |---------|-----|
 | Web | http://localhost:3000 |
 | API | http://localhost:8000/api/v1/health |
-| MySQL | `localhost:3306` — db `sherin_test`, user `me` / password `ok` |
+| MySQL | `localhost:3306` — db `nexa_test`, user `me` / password `ok` |
 
 ### Hot reload (no rebuild for code edits)
 
@@ -49,7 +49,7 @@ If Next.js stops picking up new routes (404 after adding pages), clear the dev c
 
 ```bash
 docker compose down
-docker volume rm sherin-laravel-app-main_web-next
+docker volume rm nexa-platform_web-next
 docker compose up -d
 ```
 
@@ -61,7 +61,7 @@ On Windows, polling env vars are set in `docker-compose.yml` so file watching wo
 docker compose up -d database
 ```
 
-Default: database `sherin_test`, user `me` / password `ok`, port `3306`.
+Default: database `nexa_test`, user `me` / password `ok`, port `3306`.
 
 ## API (`apps/sherin-api`)
 
@@ -78,7 +78,7 @@ APP_URL=http://localhost:8000
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=sherin_test
+DB_DATABASE=nexa_test
 DB_USERNAME=me
 DB_PASSWORD=ok
 FRONTEND_URL=http://localhost:3000

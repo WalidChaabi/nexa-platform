@@ -60,7 +60,7 @@ return [
 
     'from' => [
         'address' => env('MAIL_FROM_ADDRESS', 'hamzaaitsidisaid.11@gmail.com'),
-        'name' => env('MAIL_FROM_NAME', 'SHERIN'),
+        'name' => env('MAIL_FROM_NAME', 'NEXA'),
     ],
 
     /*

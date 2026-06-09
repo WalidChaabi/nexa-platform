@@ -28,7 +28,7 @@
                                         <tr>
                                             <td align="center"
                                                 style="font-family: 'Raleway', sans-serif; font-size:37px; color:#ffffff; line-height:24px; font-weight: bold; letter-spacing: 7px;">
-                                                SHERIN</td>
+                                                NEXA</td>
                                         </tr>
                                         <tr>
                                             <td align="center"
@@ -78,7 +78,7 @@
                             <td align="center"
                                 style="font-family: 'Lato', sans-serif; font-size:14px; color:#757575; line-height:24px; font-weight: 300;">
                                 {{trans('Bienvenu')}} ! {{$owner->firstname}} <br>
-                                {{trans('Vous etes un nouveau client Sherin')}}; {{trans('Vous pouvez maintenant utiliser toutes nos service sur l\'application SHERIN')}} .<br>
+                                {{trans('Vous etes un nouveau client Nexa')}}; {{trans('Vous pouvez maintenant utiliser toutes nos service sur l\'application NEXA')}} .<br>
                                 <table>
                                     <thead>
                                       <tr>

@@ -53,7 +53,7 @@ class RdvReminderService
             SendCampaignSmsJob::dispatch(
                 phone: (string) $customer->phone,
                 message: $message,
-                senderId: (string) ($store->sender_id ?: 'SHERIN'),
+                senderId: (string) ($store->sender_id ?: 'NEXA'),
                 storeId: (int) $store->id,
                 campaignId: null,
             );

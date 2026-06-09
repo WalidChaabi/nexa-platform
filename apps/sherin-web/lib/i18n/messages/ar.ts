@@ -1,6 +1,6 @@
 export const ar = {
   common: {
-    appName: "شيرين",
+    appName: "Nexa",
     navigation: "التنقل",
     error: "خطأ",
     loading: "جاري التحميل...",
@@ -15,7 +15,7 @@ export const ar = {
     signingOut: "جاري تسجيل الخروج...",
     account: "حساب {role}",
     storeNumber: "المتجر رقم {id}",
-    platform: "منصة شيرين",
+    platform: "منصة Nexa",
     noStore: "لا يوجد متجر مرتبط بهذا الحساب",
     openUserMenu: "فتح قائمة المستخدم",
     theme: "المظهر",
@@ -64,21 +64,21 @@ export const ar = {
     employer: "موظف",
   },
   auth: {
-    tagline: "منصة التجزئة والولاء",
-    headline: "أدر متجرك من مكان واحد.",
+    tagline: "بِع. احتفظ. انمُ.",
+    headline: "نظام التشغيل للتجزئة الحديثة",
     description:
-      "فواتير، عملاء، حملات ومدفوعات — مصممة لتجار المغرب بتجربة نقطة بيع حديثة.",
-    footer: "شيرين الإصدار 2 · بيئة التطوير",
+      "نقطة البيع، إدارة العملاء، الحملات والمدفوعات — منصة موحدة للتجار الذين يريدون البيع بذكاء والنمو بسرعة.",
+    footer: "Nexa · بيئة التطوير",
     signInToContinue: "سجّل الدخول للمتابعة",
     welcomeBack: "مرحباً بعودتك",
-    signInDescription: "سجّل الدخول باستخدام حساب شيرين.",
+    signInDescription: "سجّل الدخول باستخدام حساب Nexa.",
     email: "البريد الإلكتروني",
     password: "كلمة المرور",
     signIn: "تسجيل الدخول",
     signingIn: "جاري تسجيل الدخول...",
     signInFailed: "فشل تسجيل الدخول",
     loginFailed: "فشل تسجيل الدخول.",
-    devSeed: "حساب تجريبي: employer@sherin.test / password",
+    devSeed: "حساب تجريبي: employer@nexa.test / password",
   },
   employer: {
     dashboard: {
@@ -398,7 +398,7 @@ export const ar = {
     },
     payments: {
       title: "مدفوعات المنصة",
-      description: "سجل فوترة الملاك عبر خدمات شيرين.",
+      description: "سجل فوترة الملاك عبر خدمات Nexa.",
       listTitle: "سجل المدفوعات",
       listDescription: "فواتير CMI للحملات والرسائل.",
       loadError: "تعذر تحميل سجل المدفوعات.",
@@ -713,7 +713,7 @@ export const ar = {
     },
     payments: {
       title: "المدفوعات",
-      description: "ادفع مقابل خدمات الرسائل والحملات في شيرين.",
+      description: "ادفع مقابل خدمات الرسائل والحملات في Nexa.",
       payNow: "ادفع الآن",
       listTitle: "سجل المدفوعات",
       listDescription: "تسويات CMI السابقة لحسابك.",

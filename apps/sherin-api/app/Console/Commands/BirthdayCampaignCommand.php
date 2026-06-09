@@ -7,7 +7,7 @@ use Illuminate\Console\Command;
 
 class BirthdayCampaignCommand extends Command
 {
-    protected $signature = 'sherin:birthday-campaign';
+    protected $signature = 'nexa:birthday-campaign';
 
     protected $description = 'Run birthday SMS campaign scheduler (dispatches jobs when campaigns module is wired)';
 

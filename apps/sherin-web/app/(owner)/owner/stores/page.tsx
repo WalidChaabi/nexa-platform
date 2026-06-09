@@ -53,7 +53,7 @@ export default function OwnerStoresPage() {
   const [savingEdit, setSavingEdit] = useState(false);
 
   useEffect(() => {
-    let active = true;
+    const active = true;
 
     async function loadStores() {
       setFetching(true);

@@ -63,7 +63,7 @@ export default function EmployerCustomersPage() {
     }
 
     const activeStoreId = storeId;
-    let active = true;
+    const active = true;
 
     async function loadCustomers() {
       setFetching(true);

@@ -120,7 +120,7 @@
                     <td style="width:10%; text-align:right;">
                     </td>
                     <td style="width:15%; text-align:right;">
-                        {{config('constant.sherin_tva') * 100}} %
+                        {{config('constant.nexa_tva') * 100}} %
                     </td>
                 </tr>
                 <tr class="item">

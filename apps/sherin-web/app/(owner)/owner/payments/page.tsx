@@ -33,7 +33,7 @@ export default function OwnerPaymentsPage() {
   const [errorKey, setErrorKey] = useState<string | null>(null);
 
   useEffect(() => {
-    let active = true;
+    const active = true;
 
     async function loadPayments() {
       setFetching(true);

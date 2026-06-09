@@ -1,6 +1,6 @@
 # V2 — Platform Rebuild Plan
 
-**Track:** Next-generation Sherin platform  
+**Track:** Next-generation Nexa platform  
 **Branch base:** `v2/main` (new Laravel 11 app — monorepo `apps/v2/` or separate repo)  
 **Duration:** 4–6 months to production cutover  
 **Stack target:** **Laravel 11 API** (PHP 8.3) + **Next.js 16** web (TypeScript, Tailwind, shadcn/ui)
@@ -91,7 +91,7 @@ docs(v2): add local development setup guide
 
 **Tasks:**
 - `npx create-next-app@latest apps/sherin-web` (TypeScript, Tailwind, App Router)
-- Install shadcn/ui; set design tokens aligned with Sherin brand
+- Install shadcn/ui; set design tokens aligned with Nexa brand
 - `lib/api/client.ts` — base URL from `NEXT_PUBLIC_API_URL`
 - Role-based layout shells: `(admin)`, `(owner)`, `(employer)`
 - ESLint + Prettier; CI job for `npm run build` + `npm run lint`
@@ -429,7 +429,7 @@ test(invoice): API feature tests for CRUD and IDOR denial
 
 ## Phase 4 — Cutover (Month 5–6)
 
-Deploy **two apps** (or reverse proxy): `app.sherin.ma` → Next.js, `api.sherin.ma` → Laravel (or `/api` on same host).
+Deploy **two apps** (or reverse proxy): `app.nexa.app` → Next.js, `api.nexa.app` → Laravel (or `/api` on same host).
 
 ### Parity checklist
 

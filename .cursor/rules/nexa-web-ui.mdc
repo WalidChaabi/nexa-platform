@@ -1,10 +1,10 @@
 ---
-description: Sherin web UI — lucide-react icons and shadcn/ui only
+description: Nexa web UI — lucide-react icons and shadcn/ui only
 globs: apps/sherin-web/**/*
 alwaysApply: false
 ---
 
-# Sherin Web UI
+# Nexa Web UI
 
 Use **lucide-react** for all icons and **shadcn/ui** (`@/components/ui/*`) for interactive UI.
 
@@ -12,6 +12,7 @@ Use **lucide-react** for all icons and **shadcn/ui** (`@/components/ui/*`) for i
 
 - Import named icons from `lucide-react` only — no other icon libraries, inline SVGs, or emoji as UI icons.
 - Page headers: pass `icon` to `PageHeader` (e.g. `Store`, `Users`, `Package`, `Receipt`).
+- Brand mark: use `BrandLogo` from `@/components/brand/brand-logo` — not generic placeholder icons.
 - Actions: pair icons with shadcn `Button` / `NavLink` — `Plus` create, `Pencil` edit, `Search` search, `X` cancel.
 - Card section titles: `CardTitle` with `className="flex items-center gap-2"` + icon (`size-4` or `size-5 text-primary`).
 - Sidebar nav icons live in `lib/nav-config.ts` as `LucideIcon` types.
@@ -23,23 +24,7 @@ Use **lucide-react** for all icons and **shadcn/ui** (`@/components/ui/*`) for i
 - Add missing shadcn components via the project CLI before building custom widgets.
 - Match patterns from `employer/page.tsx` and `admin/page.tsx`.
 
-## Example
+## Branding
 
-```tsx
-import { Package, Plus, Pencil } from "lucide-react";
-import { PageHeader } from "@/components/layout/page-header";
-import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
-
-<PageHeader icon={Package} title={t("employer.products.title")} description="..." />
-<CardHeader>
-  <CardTitle className="flex items-center gap-2">
-    <Plus className="size-4 text-primary" />
-    {t("employer.products.createTitle")}
-  </CardTitle>
-</CardHeader>
-<Button type="button" size="sm" variant="outline">
-  <Pencil />
-  {t("common.edit")}
-</Button>
-```
+- Product name and colors: `lib/brand.ts` and `app/globals.css`.
+- Do not reintroduce legacy product names in user-facing copy.

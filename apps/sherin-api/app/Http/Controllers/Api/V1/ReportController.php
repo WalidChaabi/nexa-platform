@@ -85,7 +85,7 @@ class ReportController extends Controller
         ])->render();
 
         $filename = sprintf(
-            'sherin-%s-%s-%s.html',
+            'nexa-%s-%s-%s.html',
             $type,
             $report['store']['id'],
             now()->format('Ymd'),

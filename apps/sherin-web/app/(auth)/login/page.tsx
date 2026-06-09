@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { AlertCircle, Sparkles } from "lucide-react";
+import { AlertCircle } from "lucide-react";
 
+import { BrandLogo } from "@/components/brand/brand-logo";
 import { useLocale } from "@/components/providers/locale-provider";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
@@ -20,7 +21,7 @@ import { login } from "@/lib/api/auth";
 
 export default function LoginPage() {
   const { t } = useLocale();
-  const [email, setEmail] = useState("employer@sherin.test");
+  const [email, setEmail] = useState("employer@nexa.test");
   const [password, setPassword] = useState("password");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -46,8 +47,8 @@ export default function LoginPage() {
     <Card className="w-full max-w-md border-border/60 shadow-lg">
       <CardHeader className="space-y-4">
         <div className="flex items-center gap-3 lg:hidden">
-          <div className="flex size-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            <Sparkles className="size-4" />
+          <div className="flex size-9 items-center justify-center rounded-lg bg-primary p-1.5 text-primary-foreground">
+            <BrandLogo variant="on-primary" />
           </div>
           <div>
             <p className="font-semibold">{t("common.appName")}</p>
@@ -69,7 +70,7 @@ export default function LoginPage() {
               id="email"
               type="email"
               autoComplete="email"
-              placeholder="you@sherin.test"
+              placeholder="you@nexa.test"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               required

@@ -2,8 +2,8 @@
     <!--start navbar-->
     <nav class="navbar affix navbar-expand-lg fixed-top custom-nav white-bg">
         <div class="container">
-            <a class="navbar-brand" href="{{ url('/') }}"><img src="{{ asset('new/images/logo-sherin.webp') }}"
-                    width="120" alt="sherin.ma" class="images-fluid"></a>
+            <a class="navbar-brand" href="{{ url('/') }}"><img src="{{ asset('new/images/logo-nexa.webp') }}"
+                    width="120" alt="nexa.app" class="images-fluid"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="ti-menu"></span>

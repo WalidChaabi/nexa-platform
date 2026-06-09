@@ -31,8 +31,8 @@
         <div class="col-sm-12">
 			<div class="card">
                 <div class="card-header">
-                    <h2>La section "Caisse" de Sherin est maintenant en version bêta. Si vous rencontrez des problèmes, veuillez nous contacter 
-                        à sherin@sherin.ma ou au 00212 663 423 733. Votre avis est précieux pour nous. - L'équipe Sherin</h2>
+                    <h2>La section "Caisse" de Nexa est maintenant en version bêta. Si vous rencontrez des problèmes, veuillez nous contacter 
+                        à contact@nexa.app ou au 00212 663 423 733. Votre avis est précieux pour nous. - L'équipe Nexa</h2>
                 </div>
             </div>
         </div>

@@ -134,7 +134,7 @@ class CheckoutController extends Controller
     public function process(Request $request)
     {
         $amount = $this->checkoutService->getCampaignsSpent(auth()->user()->id, auth()->user()->stores->pluck('id')->toArray());
-        $amountWithTva = $amount * (1 + config('constant.sherin_tva'));
+        $amountWithTva = $amount * (1 + config('constant.nexa_tva'));
         $data   = [
             'cmd' => $request->cmd,
             'email' => auth()->user()->email,

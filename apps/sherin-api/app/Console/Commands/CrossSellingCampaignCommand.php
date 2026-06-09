@@ -8,7 +8,7 @@ use Illuminate\Console\Command;
 
 class CrossSellingCampaignCommand extends Command
 {
-    protected $signature = 'sherin:cross-selling';
+    protected $signature = 'nexa:cross-selling';
 
     protected $description = 'Queue cross-selling SMS for customers who bought linked products N days ago';
 

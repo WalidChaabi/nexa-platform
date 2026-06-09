@@ -36,7 +36,7 @@
                                  <h4 class="f-w-600">SALAM {{auth()->user()->firstname}}</h4>
                                  <p>A l'occasion de la fête sacrée</p>
                                  <p>de « Aïd El Adha »,</p>
-                                 <p>L’équipe Sherin vous souhaite une joyeuse fête,</p>
+                                 <p>L’équipe Nexa vous souhaite une joyeuse fête,</p>
                               </div>
                            </div>
                         </div>

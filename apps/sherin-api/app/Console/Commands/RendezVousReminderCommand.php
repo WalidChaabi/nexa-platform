@@ -8,7 +8,7 @@ use Illuminate\Console\Command;
 
 class RendezVousReminderCommand extends Command
 {
-    protected $signature = 'sherin:rendez-vous';
+    protected $signature = 'nexa:rendez-vous';
 
     protected $description = 'Send SMS reminders for appointments starting within 30 minutes';
 

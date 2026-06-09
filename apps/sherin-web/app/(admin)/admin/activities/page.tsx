@@ -45,7 +45,7 @@ export default function AdminActivitiesPage() {
   const [description, setDescription] = useState("");
 
   useEffect(() => {
-    let active = true;
+    const active = true;
 
     async function load() {
       setFetching(true);

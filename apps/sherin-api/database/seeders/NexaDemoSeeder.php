@@ -11,12 +11,12 @@ use App\Models\Store;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
-class SherinDemoSeeder extends Seeder
+class NexaDemoSeeder extends Seeder
 {
     public function run(): void
     {
-        $owner = User::query()->where('email', 'owner@sherin.test')->first();
-        $employer = User::query()->where('email', 'employer@sherin.test')->first();
+        $owner = User::query()->where('email', 'owner@nexa.test')->first();
+        $employer = User::query()->where('email', 'employer@nexa.test')->first();
 
         if (! $owner || ! $employer) {
             return;

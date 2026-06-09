@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'sherin_tva'=>0.2,
+    'nexa_tva'=>0.2,
     'exceptionnel_discount'=>0.1,
     'balance' => 150,
     'email_price' => '0.042',

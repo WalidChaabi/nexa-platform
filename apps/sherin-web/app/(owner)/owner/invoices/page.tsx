@@ -68,7 +68,7 @@ export default function OwnerInvoicesPage() {
   }, []);
 
   useEffect(() => {
-    let active = true;
+    const active = true;
 
     async function loadInvoices() {
       setFetching(true);

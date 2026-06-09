@@ -1,4 +1,4 @@
-# Sherin V2 local dev stack: MySQL + Laravel API + Next.js web UI.
+# Nexa local dev stack: MySQL + Laravel API + Next.js web UI.
 #
 # Hot reload: source is bind-mounted into api/web — edit files on the host and
 # refresh the browser. No image rebuild needed for normal code changes.
@@ -15,7 +15,7 @@ services:
     ports:
       - 3306:3306
     environment:
-      MYSQL_DATABASE: sherin_test
+      MYSQL_DATABASE: nexa_test
       MYSQL_USER: me
       MYSQL_PASSWORD: ok
       MYSQL_ROOT_PASSWORD: ok
@@ -41,7 +41,7 @@ services:
         - path: ./apps/sherin-api/composer.lock
           action: rebuild
     environment:
-      APP_NAME: SherinAPI
+      APP_NAME: Nexa
       APP_ENV: local
       APP_DEBUG: "true"
       PHP_OPCACHE_ENABLE: "0"
@@ -51,7 +51,7 @@ services:
       DB_CONNECTION: mysql
       DB_HOST: database
       DB_PORT: 3306
-      DB_DATABASE: sherin_test
+      DB_DATABASE: nexa_test
       DB_USERNAME: me
       DB_PASSWORD: ok
       SESSION_DRIVER: database

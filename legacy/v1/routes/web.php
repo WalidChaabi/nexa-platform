@@ -26,7 +26,7 @@ Broadcast::channel('user.{userId}', function ($user, $userId) {
     return $user->id === (int) $userId;
 });
 
-// Route::group(['domain' => 'www.sherin.ma','sherin.ma'], function () {
+// Route::group(['domain' => 'www.nexa.app','nexa.app'], function () {
 Route::group(['domain' => '127.0.0.1'], function () {
     /*Route::get('/', function () {
      return view('welcome');
@@ -39,13 +39,13 @@ Route::group(['domain' => '127.0.0.1'], function () {
     })->name('mention');
     Route::post('/contact-us', 'HomeController@contactUs')->name('contactus');
 });
-Route::group(['domain' => 'www.sherin.ma',], function () {
+Route::group(['domain' => 'www.nexa.app',], function () {
 
     Route::post('/contact-us', 'HomeController@contactUs')->name('contactus');
     Route::get('/cgv', 'CgvController@index')->name('cgv');
     Route::get('/', [GuestController::class, 'index'])->name('/');
 });
-Route::group(['domain' => 'sherin.ma',], function () {
+Route::group(['domain' => 'nexa.app',], function () {
 
     Route::post('/contact-us', 'HomeController@contactUs')->name('contactus');
     Route::get('/cgv', 'CgvController@index')->name('cgv');
@@ -53,7 +53,7 @@ Route::group(['domain' => 'sherin.ma',], function () {
 });
 //app.sherin.loc
 //sherin-old.herokuapp.com
-// Route::group(['domain' => 'app.sherin.ma'], function () {
+// Route::group(['domain' => 'app.nexa.app'], function () {
 Route::group(['domain' => '127.0.0.1'], function () {
     Auth::routes();
     Route::get('lang/{locale}', function ($lang) {

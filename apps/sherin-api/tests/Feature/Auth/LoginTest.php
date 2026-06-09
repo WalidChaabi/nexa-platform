@@ -13,14 +13,14 @@ class LoginTest extends TestCase
     public function test_user_can_login_with_valid_credentials(): void
     {
         $user = User::factory()->admin()->create([
-            'email' => 'admin@sherin.test',
+            'email' => 'admin@nexa.test',
             'password' => 'password',
         ]);
 
         $response = $this
             ->withHeader('Origin', 'http://localhost:3000')
             ->postJson('/api/v1/auth/login', [
-                'email' => 'admin@sherin.test',
+                'email' => 'admin@nexa.test',
                 'password' => 'password',
             ]);
 
@@ -35,14 +35,14 @@ class LoginTest extends TestCase
     public function test_inactive_user_cannot_login(): void
     {
         User::factory()->inactive()->create([
-            'email' => 'inactive@sherin.test',
+            'email' => 'inactive@nexa.test',
             'password' => 'password',
         ]);
 
         $this
             ->withHeader('Origin', 'http://localhost:3000')
             ->postJson('/api/v1/auth/login', [
-                'email' => 'inactive@sherin.test',
+                'email' => 'inactive@nexa.test',
                 'password' => 'password',
             ])
             ->assertForbidden();
@@ -54,7 +54,7 @@ class LoginTest extends TestCase
             $this
                 ->withHeader('Origin', 'http://localhost:3000')
                 ->postJson('/api/v1/auth/login', [
-                    'email' => 'missing@sherin.test',
+                    'email' => 'missing@nexa.test',
                     'password' => 'wrong-password',
                 ]);
         }
@@ -62,7 +62,7 @@ class LoginTest extends TestCase
         $this
             ->withHeader('Origin', 'http://localhost:3000')
             ->postJson('/api/v1/auth/login', [
-                'email' => 'missing@sherin.test',
+                'email' => 'missing@nexa.test',
                 'password' => 'wrong-password',
             ])
             ->assertStatus(429);

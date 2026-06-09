@@ -19,7 +19,7 @@
                         <span class="text-uppercase color-secondary font-weight-bold">MARKETING AUTOMATIQUE</span>
                         <h1 class="font-weight-bold">Nous Réalisons les Rêves de Vos Clients</h1>
                         <p class="lead">Faites de votre programme de fidélité un outil marketing puissant et intelligent.
-                            SHERIN propose automatiquement vos offres à vos clients à des moments clés adapter à leurs
+                            NEXA propose automatiquement vos offres à vos clients à des moments clés adapter à leurs
                             envies. </p>
                         <div class="action-btn mt-4">
                             <a href="#" class="btn solid-btn">Voir nos services</a>
@@ -102,7 +102,7 @@
                                 <div class="mr-3 icon-box">
                                     <img src="{{ asset('new/images/image-icon-1.webp')}}" alt="icon image" class="img-fluid">
                                 </div>
-                                <p class="mb-0">SHERIN vous permet de construire le programme de fidélité qui vous
+                                <p class="mb-0">NEXA vous permet de construire le programme de fidélité qui vous
                                     convient le mieux,
                                     en fonction de votre secteur, de votre positionnement et de vos objectifs.</p>
                             </div>
@@ -112,7 +112,7 @@
                                 <div class="mr-3 icon-box">
                                     <img src="{{ asset('new/images/image-icon-2.webp')}}" alt="icon image" class="img-fluid">
                                 </div>
-                                <p class="mb-0">SHERIN s'adapte à toutes les caisses, les ordinateurs et les télephones
+                                <p class="mb-0">NEXA s'adapte à toutes les caisses, les ordinateurs et les télephones
                                     portables, ainsi que tous les réseaux sociaux.</p>
                             </div>
                             <p></p>
@@ -122,7 +122,7 @@
                                 <div class="mr-3 icon-box">
                                     <img src="{{ asset('new/images/image-icon-3.webp')}}" alt="icon image" class="img-fluid">
                                 </div>
-                                <p class="mb-0">SHERIN diffuse votre offre de parrainage à vos clients par SMS, whatsapp
+                                <p class="mb-0">NEXA diffuse votre offre de parrainage à vos clients par SMS, whatsapp
                                     ou facebook. Les utilisateurs s’inscrivent,
                                     deviennent vos clients, et tout le monde est récompensé !</p>
                             </div>
@@ -172,7 +172,7 @@
                         </div>
                         <div class="icon-text">
                             <h5>Site Web adaptatif</h5>
-                            <p class="mb-0">SHERIN s'adapte à toutes les caisses tactiles, les ordinateurs et les
+                            <p class="mb-0">NEXA s'adapte à toutes les caisses tactiles, les ordinateurs et les
                                 télephones portable.</p>
                         </div>
                     </div>
@@ -184,7 +184,7 @@
                         </div>
                         <div class="icon-text">
                             <h5>Indicateurs techniques</h5>
-                            <p class="mb-0">SHERIN s'adapte à toutes les caisses tactiles, les ordinateurs et les
+                            <p class="mb-0">NEXA s'adapte à toutes les caisses tactiles, les ordinateurs et les
                                 télephones portable.</p>
                         </div>
                     </div>
@@ -196,7 +196,7 @@
                         </div>
                         <div class="icon-text">
                             <h5>Assistance en ligne conviviale</h5>
-                            <p class="mb-0">L'équipe SHERIN propose un accompagnement illimité</p>
+                            <p class="mb-0">L'équipe NEXA propose un accompagnement illimité</p>
                         </div>
                     </div>
                 </div>
@@ -214,7 +214,7 @@
                         </div>
                         <div class="icon-text">
                             <h5>Email et SMS…</h5>
-                            <p class="mb-0">SHERIN propose aux commerçants et aux entreprises, la communication par SMS et Email.</p>
+                            <p class="mb-0">NEXA propose aux commerçants et aux entreprises, la communication par SMS et Email.</p>
                         </div>
                     </div>
                     <div class="d-flex align-items-start mb-5">
@@ -225,7 +225,7 @@
                         </div>
                         <div class="icon-text">
                             <h5>Construit avec Sass</h5>
-                            <p class="mb-0">SHERIN propose aux commerçants et aux entreprises, la communication par SMS
+                            <p class="mb-0">NEXA propose aux commerçants et aux entreprises, la communication par SMS
                                 et Email.</p>
                         </div>
                     </div>
@@ -237,7 +237,7 @@
                         </div>
                         <div class="icon-text">
                             <h5>Créativité</h5>
-                            <p class="mb-0">SHERIN propose l’intelligence artificiel pour animer la base clients, et des
+                            <p class="mb-0">NEXA propose l’intelligence artificiel pour animer la base clients, et des
                                 fonctionnalités pour recruter de nouveaux clients</p>
                         </div>
                     </div>
@@ -309,7 +309,7 @@
                 </div>
                 <div class="col-lg-4 col-md">
                     <div class="card text-center popular-price single-pricing-pack p-5">
-                        <h5 class="mb-2">SHERIN QUARTIER</h5>
+                        <h5 class="mb-2">NEXA QUARTIER</h5>
                         <div class="pricing-img mt-3 mb-4">
                             <img src="{{ asset('new/images/standard.svg')}}" alt="pricing img" class="img-fluid">
                         </div>
@@ -388,7 +388,7 @@
                         <p> N 5, res Firdaous, Bd Moulay Rachid,Gueliz Marrakech 40000.</p>
                         <ul>
                             <li><span>Tél: 06 63 42 37 33</span></li>
-                            <li><span>Email : <a href="mailto:contact@sherin.ma">contact@sherin.ma</a></span>
+                            <li><span>Email : <a href="mailto:contact@nexa.app">contact@nexa.app</a></span>
                             </li>
                         </ul>
                     </div>

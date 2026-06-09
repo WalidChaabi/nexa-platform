@@ -29,7 +29,7 @@ Maintenance deployments for the Laravel 5.7 production application (`main` branc
 git pull origin main
 composer install --no-dev --optimize-autoloader
 php artisan migrate --force          # only if migrations included
-php artisan sherin:migrate-pos-tokens   # first deploy with POS hash column; see pos-token-migration.md
+php artisan nexa:migrate-pos-tokens   # first deploy with POS hash column; see pos-token-migration.md
 php artisan config:clear
 php artisan route:clear
 php artisan view:clear

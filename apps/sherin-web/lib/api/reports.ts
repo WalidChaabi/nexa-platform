@@ -125,7 +125,7 @@ export async function downloadReportExport(
   const url = URL.createObjectURL(blob);
   const anchor = document.createElement("a");
   anchor.href = url;
-  anchor.download = `sherin-${type}-${params.store_id}.html`;
+  anchor.download = `nexa-${type}-${params.store_id}.html`;
   anchor.click();
   URL.revokeObjectURL(url);
 }

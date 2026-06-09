@@ -72,7 +72,7 @@
         <div class="invoice">
           <div>
             <h4 class="media-heading">{{config('app.name')}}</h4>
-            <p>contact@sherin.ma<br><span>+212 (0) 6 63 42 37 33</span></p>
+            <p>contact@nexa.app<br><span>+212 (0) 6 63 42 37 33</span></p>
           </div>
           @if(empty($commandeSuccess))
           <div>
@@ -196,7 +196,7 @@
                 </tr>
                 <tr>
                   <td>
-                    <label>TVA : {{config('constant.sherin_tva') * 100}} %</label>
+                    <label>TVA : {{config('constant.nexa_tva') * 100}} %</label>
                     <p class="m-0"></p>
                   </td>
                   <td>
@@ -204,7 +204,7 @@
                   <td>
                   </td>
                   <td>
-                    {{ $finalTotal * ( config('constant.sherin_tva'))}} MAD
+                    {{ $finalTotal * ( config('constant.nexa_tva'))}} MAD
                   </td>
                 </tr>
                 <tr>
@@ -217,7 +217,7 @@
                   <td>
                   </td>
                   <td>
-                    {{ number_format((float) ( $finalTotal * (1 + config('constant.sherin_tva'))) , 2, '.', '')  }} MAD
+                    {{ number_format((float) ( $finalTotal * (1 + config('constant.nexa_tva'))) , 2, '.', '')  }} MAD
                   </td>
                 </tr>
               </tbody>
@@ -254,7 +254,7 @@
       </div>
       <div class="card-body">
         <p style="font-size: 30px;">
-          Bonjour, <br> Votre espace sur la plate-forme Sherin.ma est désactivé.
+          Bonjour, <br> Votre espace sur la plate-forme Nexa est désactivé.
           <br> Veillez procéder au règlement de la facture du magasin.
         </p>
         <br>
@@ -262,7 +262,7 @@
         <br>
         06 63 34 62 16
         <br>
-        L’équipe Sherin.
+        L’équipe Nexa.
       </div>
     </div>
 

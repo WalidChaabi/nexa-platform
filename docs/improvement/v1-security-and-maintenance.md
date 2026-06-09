@@ -3,7 +3,7 @@
 **Track:** Production maintenance on Laravel 5.7  
 **Branch base:** `main`  
 **Duration:** 2–4 weeks active work, then **feature freeze**  
-**Goal:** Keep Sherin.ma safe and functional while V2 is built — **no UI refactors, no framework upgrade on V1**
+**Goal:** Keep Nexa safe and functional while V2 is built — **no UI refactors, no framework upgrade on V1**
 
 ---
 
@@ -23,7 +23,7 @@
 
 ### 0.1 Remove malicious / foreign code from repository
 
-**Issue:** `gb/` directory contains phishing kit (Microsoft-login mimic). Not part of Sherin.
+**Issue:** `gb/` directory contains phishing kit (Microsoft-login mimic). Not part of Nexa.
 
 | Task | Detail |
 |------|--------|
@@ -402,7 +402,7 @@ Week 3–4:
 ### Ops gates (after merge)
 
 1. Rotate BulkSMS / CMI credentials — `docs/runbooks/secret-rotation.md`
-2. `php artisan migrate` + `php artisan sherin:migrate-pos-tokens` — `docs/runbooks/pos-token-migration.md`
+2. `php artisan migrate` + `php artisan nexa:migrate-pos-tokens` — `docs/runbooks/pos-token-migration.md`
 3. Enable cron: `* * * * * php artisan schedule:run`
 4. Remove `gb/` from production docroot if present
 

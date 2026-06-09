@@ -33,7 +33,7 @@ export default function OwnerProductsPage() {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    let active = true;
+    const active = true;
 
     async function loadProducts() {
       setFetching(true);

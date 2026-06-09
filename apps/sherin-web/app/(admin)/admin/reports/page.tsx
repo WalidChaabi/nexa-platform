@@ -13,7 +13,7 @@ export default function AdminReportsPage() {
   const [stores, setStores] = useState<StoreSummary[]>([]);
 
   useEffect(() => {
-    let active = true;
+    const active = true;
 
     async function load() {
       try {
