@@ -4,6 +4,7 @@ import {
   CreditCard,
   FileBarChart,
   UserCog,
+  UserCheck,
   LayoutDashboard,
   Megaphone,
   Package,
@@ -165,6 +166,11 @@ export const ownerNav: NavItem[] = [
     titleKey: "nav.reports",
     href: "/owner/reports",
     icon: FileBarChart,
+  },
+  {
+    titleKey: "nav.team",
+    href: "/owner/team",
+    icon: UserCheck,
   },
   {
     titleKey: "nav.stores",
