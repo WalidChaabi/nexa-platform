@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { CreditCard, List, Wallet } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { CreditCard, Wallet } from "lucide-react";
 
+import { DataTable } from "@/components/data-table/data-table";
 import { PageHeader } from "@/components/layout/page-header";
+import { createOwnerPaymentsColumns } from "@/components/payments/owner-payments-columns";
 import { useLocale } from "@/components/providers/locale-provider";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
@@ -16,14 +17,6 @@ import {
 } from "@/components/ui/card";
 import { NavLink } from "@/components/ui/nav-link";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { fetchPayments, type PaymentSummary } from "@/lib/api/payments";
 
 export default function OwnerPaymentsPage() {
@@ -33,7 +26,7 @@ export default function OwnerPaymentsPage() {
   const [errorKey, setErrorKey] = useState<string | null>(null);
 
   useEffect(() => {
-    const active = true;
+    let active = true;
 
     async function loadPayments() {
       setFetching(true);
@@ -56,7 +49,21 @@ export default function OwnerPaymentsPage() {
     }
 
     void loadPayments();
+
+    return () => {
+      active = false;
+    };
   }, []);
+
+  const columns = useMemo(
+    () =>
+      createOwnerPaymentsColumns({
+        t,
+        formatCurrency,
+        formatDateTime,
+      }),
+    [t, formatCurrency, formatDateTime],
+  );
 
   return (
     <div className="space-y-6">
@@ -65,7 +72,7 @@ export default function OwnerPaymentsPage() {
         title={t("owner.payments.title")}
         description={t("owner.payments.description")}
       >
-        <NavLink href="/owner/payments/checkout">
+        <NavLink href="/owner/payments/checkout" variant="default" size="sm">
           <Wallet />
           {t("owner.payments.payNow")}
         </NavLink>
@@ -80,53 +87,24 @@ export default function OwnerPaymentsPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <List className="size-4 text-primary" />
-            {t("owner.payments.listTitle")}
-          </CardTitle>
+          <CardTitle>{t("owner.payments.listTitle")}</CardTitle>
           <CardDescription>{t("owner.payments.listDescription")}</CardDescription>
         </CardHeader>
         <CardContent>
           {fetching ? (
-            <div className="space-y-2">
-              <Skeleton className="h-10 w-full" />
-              <Skeleton className="h-10 w-full" />
+            <div className="space-y-3">
+              <Skeleton className="h-9 w-full max-w-sm" />
+              <Skeleton className="h-64 w-full" />
             </div>
-          ) : payments.length === 0 ? (
-            <p className="text-sm text-muted-foreground">
-              {t("owner.payments.empty")}
-            </p>
           ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>{t("owner.payments.columns.invoice")}</TableHead>
-                  <TableHead>{t("owner.payments.columns.totalHt")}</TableHead>
-                  <TableHead>{t("owner.payments.columns.totalTtc")}</TableHead>
-                  <TableHead>{t("owner.payments.columns.date")}</TableHead>
-                  <TableHead>{t("owner.payments.columns.status")}</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {payments.map((payment) => (
-                  <TableRow key={payment.id}>
-                    <TableCell className="font-medium">{payment.cmd}</TableCell>
-                    <TableCell>{formatCurrency(payment.total_ht)}</TableCell>
-                    <TableCell>{formatCurrency(payment.total_ttc)}</TableCell>
-                    <TableCell>{formatDateTime(payment.created_at)}</TableCell>
-                    <TableCell>
-                      <Badge
-                        variant={
-                          payment.status_label === "paid" ? "default" : "secondary"
-                        }
-                      >
-                        {payment.status_label}
-                      </Badge>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <DataTable
+              columns={columns}
+              data={payments}
+              filterColumn="search"
+              filterPlaceholder={t("owner.payments.filterPlaceholder")}
+              emptyMessage={t("owner.payments.empty")}
+              initialColumnVisibility={{ search: false }}
+            />
           )}
         </CardContent>
       </Card>

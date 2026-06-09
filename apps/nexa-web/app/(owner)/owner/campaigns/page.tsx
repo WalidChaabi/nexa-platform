@@ -18,15 +18,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { createCampaignHistoriqueColumns } from "@/components/campaigns/campaign-historique-columns";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import {
   deleteCampaignDetail,
   fetchCampaignDetails,
@@ -122,6 +115,11 @@ export default function OwnerCampaignsPage() {
     }
   }, []);
 
+  const historyColumns = useMemo(
+    () => createCampaignHistoriqueColumns({ t }),
+    [t],
+  );
+
   const columns = useMemo(
     () =>
       createCampaignDetailColumns({
@@ -200,37 +198,15 @@ export default function OwnerCampaignsPage() {
         <CardContent>
           {fetching ? (
             <Skeleton className="h-24 w-full" />
-          ) : historiques.length === 0 ? (
-            <p className="text-sm text-muted-foreground">
-              {t("owner.campaigns.historyEmpty")}
-            </p>
           ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>{t("owner.campaigns.columns.customer")}</TableHead>
-                  <TableHead>{t("owner.campaigns.columns.phone")}</TableHead>
-                  <TableHead>{t("owner.campaigns.columns.code")}</TableHead>
-                  <TableHead>{t("owner.campaigns.columns.date")}</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {historiques.map((row) => (
-                  <TableRow key={row.id}>
-                    <TableCell>
-                      {row.customer?.display_name ?? row.customer_id}
-                    </TableCell>
-                    <TableCell>{row.phone}</TableCell>
-                    <TableCell>{row.code_red}</TableCell>
-                    <TableCell>
-                      {row.start_date
-                        ? new Date(row.start_date).toLocaleDateString()
-                        : "—"}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <DataTable
+              columns={historyColumns}
+              data={historiques}
+              filterColumn="search"
+              filterPlaceholder={t("owner.campaigns.historyFilterPlaceholder")}
+              emptyMessage={t("owner.campaigns.historyEmpty")}
+              initialColumnVisibility={{ search: false }}
+            />
           )}
         </CardContent>
       </Card>

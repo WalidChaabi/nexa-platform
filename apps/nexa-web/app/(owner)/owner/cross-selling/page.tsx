@@ -18,15 +18,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { createCrossSellingHistoryColumns } from "@/components/cross-selling/cross-selling-history-columns";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import {
   deleteCrossProduct,
   fetchCrossProducts,
@@ -100,6 +93,11 @@ export default function OwnerCrossSellingPage() {
       setErrorKey("owner.crossSelling.deleteError");
     }
   }, []);
+
+  const historyColumns = useMemo(
+    () => createCrossSellingHistoryColumns({ t }),
+    [t],
+  );
 
   const columns = useMemo(
     () =>
@@ -176,35 +174,15 @@ export default function OwnerCrossSellingPage() {
         <CardContent>
           {fetching ? (
             <Skeleton className="h-24 w-full" />
-          ) : smsHistory.length === 0 ? (
-            <p className="text-sm text-muted-foreground">
-              {t("owner.crossSelling.historyEmpty")}
-            </p>
           ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>{t("owner.crossSelling.columns.store")}</TableHead>
-                  <TableHead>{t("owner.crossSelling.columns.product")}</TableHead>
-                  <TableHead>{t("owner.crossSelling.columns.sentDate")}</TableHead>
-                  <TableHead>{t("owner.crossSelling.columns.credit")}</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {smsHistory.map((row) => (
-                  <TableRow key={row.id}>
-                    <TableCell>{row.store?.name ?? row.store_id}</TableCell>
-                    <TableCell>{row.product?.label ?? row.cross_product_id}</TableCell>
-                    <TableCell>
-                      {row.sent_date
-                        ? new Date(row.sent_date).toLocaleDateString()
-                        : "—"}
-                    </TableCell>
-                    <TableCell>{row.credit}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <DataTable
+              columns={historyColumns}
+              data={smsHistory}
+              filterColumn="search"
+              filterPlaceholder={t("owner.crossSelling.historyFilterPlaceholder")}
+              emptyMessage={t("owner.crossSelling.historyEmpty")}
+              initialColumnVisibility={{ search: false }}
+            />
           )}
         </CardContent>
       </Card>
