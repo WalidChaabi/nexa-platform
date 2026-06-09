@@ -54,6 +54,27 @@ class CrossSellingApiTest extends TestCase
             ->assertJsonPath('data.product.label', $product->label);
     }
 
+    public function test_owner_can_update_cross_product_rule(): void
+    {
+        $owner = User::factory()->owner()->create();
+        $store = Store::factory()->create(['user_id' => $owner->id]);
+        $product = Product::factory()->create(['store_id' => $store->id]);
+        $rule = CrossProduct::factory()->create([
+            'product_id' => $product->id,
+            'days' => 10,
+            'message' => 'Original',
+        ]);
+
+        $this->actingAs($owner)
+            ->putJson("/api/v1/cross-products/{$rule->id}", [
+                'days' => 21,
+                'message' => 'Updated follow-up',
+            ])
+            ->assertOk()
+            ->assertJsonPath('data.days', 21)
+            ->assertJsonPath('data.message', 'Updated follow-up');
+    }
+
     public function test_owner_cannot_create_rule_for_other_store_product(): void
     {
         $owner = User::factory()->owner()->create();

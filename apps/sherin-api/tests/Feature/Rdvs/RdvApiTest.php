@@ -88,6 +88,58 @@ class RdvApiTest extends TestCase
             ->assertJsonPath('data.id', $rdv->id);
     }
 
+    public function test_employer_can_delete_own_store_appointment(): void
+    {
+        $store = Store::factory()->create();
+        $employer = User::factory()->employer()->create(['store_id' => $store->id]);
+        $rdv = Rdv::factory()->create(['store_id' => $store->id]);
+
+        $this->actingAs($employer)
+            ->deleteJson("/api/v1/rdvs/{$rdv->id}")
+            ->assertOk();
+
+        $this->assertDatabaseMissing('rdvs', ['id' => $rdv->id]);
+    }
+
+    public function test_employer_cannot_delete_other_store_appointment(): void
+    {
+        $store = Store::factory()->create();
+        $employer = User::factory()->employer()->create(['store_id' => $store->id]);
+        $foreignRdv = Rdv::factory()->create();
+
+        $this->actingAs($employer)
+            ->deleteJson("/api/v1/rdvs/{$foreignRdv->id}")
+            ->assertForbidden();
+    }
+
+    public function test_owner_can_create_and_update_appointment(): void
+    {
+        $owner = User::factory()->owner()->create();
+        $store = Store::factory()->create(['user_id' => $owner->id]);
+        $customer = Customer::factory()->create(['store_id' => $store->id]);
+        $start = now()->addDay()->format('Y-m-d H:i:s');
+
+        $response = $this->actingAs($owner)
+            ->postJson('/api/v1/rdvs', [
+                'customer_id' => $customer->id,
+                'title' => 'Soin visage',
+                'event_id' => '#22c55e',
+                'start' => $start,
+            ])
+            ->assertCreated();
+
+        $rdvId = $response->json('data.id');
+        $newStart = now()->addDays(2)->format('Y-m-d H:i:s');
+
+        $this->actingAs($owner)
+            ->putJson("/api/v1/rdvs/{$rdvId}", [
+                'title' => 'Massage',
+                'start' => $newStart,
+            ])
+            ->assertOk()
+            ->assertJsonPath('data.title', 'Massage');
+    }
+
     public function test_employer_can_list_store_services(): void
     {
         $store = Store::factory()->create();

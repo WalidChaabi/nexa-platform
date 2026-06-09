@@ -135,7 +135,6 @@ export default function OwnerCampaignsPage() {
     }
 
     void load();
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- reload only on explicit refresh
   }, [reloadKey]);
 
   useEffect(() => {

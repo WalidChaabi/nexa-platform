@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { History, List, Plus, RefreshCw, Trash2 } from "lucide-react";
+import { History, List, Pencil, Plus, RefreshCw, Trash2 } from "lucide-react";
+
+import { CrossSellingFormSheet } from "@/components/cross-selling/cross-selling-form-sheet";
 
 import { PageHeader } from "@/components/layout/page-header";
 import { useLocale } from "@/components/providers/locale-provider";
@@ -55,6 +57,8 @@ export default function OwnerCrossSellingPage() {
   const [productId, setProductId] = useState("");
   const [message, setMessage] = useState("");
   const [days, setDays] = useState("20");
+  const [editRule, setEditRule] = useState<CrossProductRule | null>(null);
+  const [editOpen, setEditOpen] = useState(false);
 
   useEffect(() => {
     const active = true;
@@ -242,7 +246,18 @@ export default function OwnerCrossSellingPage() {
                     <TableCell>{rule.product?.store?.name ?? "—"}</TableCell>
                     <TableCell>{rule.days}</TableCell>
                     <TableCell className="max-w-xs truncate">{rule.message}</TableCell>
-                    <TableCell>
+                    <TableCell className="space-x-2">
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="outline"
+                        onClick={() => {
+                          setEditRule(rule);
+                          setEditOpen(true);
+                        }}
+                      >
+                        <Pencil className="size-4" />
+                      </Button>
                       <Button
                         type="button"
                         size="sm"
@@ -303,6 +318,13 @@ export default function OwnerCrossSellingPage() {
           )}
         </CardContent>
       </Card>
+
+      <CrossSellingFormSheet
+        open={editOpen}
+        onOpenChange={setEditOpen}
+        rule={editRule}
+        onSuccess={() => setReloadKey((value) => value + 1)}
+      />
     </div>
   );
 }

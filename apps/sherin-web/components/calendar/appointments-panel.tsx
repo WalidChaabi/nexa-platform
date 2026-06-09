@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { List, Plus, Trash2 } from "lucide-react";
+import { List, Pencil, Plus, Trash2 } from "lucide-react";
+
+import { AppointmentFormSheet } from "@/components/calendar/appointment-form-sheet";
 
 import { useLocale } from "@/components/providers/locale-provider";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -72,6 +74,9 @@ export function AppointmentsPanel({
   const [customerId, setCustomerId] = useState("");
   const [serviceKey, setServiceKey] = useState("");
   const [startAt, setStartAt] = useState("");
+  const [editAppointment, setEditAppointment] =
+    useState<AppointmentSummary | null>(null);
+  const [editOpen, setEditOpen] = useState(false);
 
   useEffect(() => {
     const active = true;
@@ -310,7 +315,18 @@ export function AppointmentsPanel({
                     <TableCell>
                       {appointment.store?.name ?? appointment.store_id}
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="space-x-2">
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="outline"
+                        onClick={() => {
+                          setEditAppointment(appointment);
+                          setEditOpen(true);
+                        }}
+                      >
+                        <Pencil className="size-4" />
+                      </Button>
                       <Button
                         type="button"
                         size="sm"
@@ -327,6 +343,15 @@ export function AppointmentsPanel({
           )}
         </CardContent>
       </Card>
+
+      <AppointmentFormSheet
+        open={editOpen}
+        onOpenChange={setEditOpen}
+        appointment={editAppointment}
+        services={services}
+        translationPrefix={prefix}
+        onSuccess={() => setReloadKey((value) => value + 1)}
+      />
     </div>
   );
 }

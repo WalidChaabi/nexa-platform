@@ -111,6 +111,23 @@ class ReportApiTest extends TestCase
             ->assertHeader('content-type', 'text/html; charset=UTF-8');
     }
 
+    public function test_owner_can_download_customers_and_products_exports(): void
+    {
+        $owner = User::factory()->owner()->create();
+        $store = Store::factory()->create(['user_id' => $owner->id]);
+        $query = 'store_id='.$store->id.'&from=2026-06-01&to=2026-06-30';
+
+        $this->actingAs($owner)
+            ->get('/api/v1/reports/customers/export?'.$query)
+            ->assertOk()
+            ->assertHeader('content-type', 'text/html; charset=UTF-8');
+
+        $this->actingAs($owner)
+            ->get('/api/v1/reports/products/export?'.$query)
+            ->assertOk()
+            ->assertHeader('content-type', 'text/html; charset=UTF-8');
+    }
+
     public function test_admin_can_fetch_sales_report_for_any_store(): void
     {
         $admin = User::factory()->admin()->create();

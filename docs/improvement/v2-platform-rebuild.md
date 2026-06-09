@@ -498,9 +498,9 @@ Work in **waves**. Finish each wave’s *verified* column before cutover. Roles:
 
 | ID | Task | Role | Priority | Depends on | Status |
 |----|------|------|----------|------------|--------|
-| W4-1 | Parity: owner/employer calendar — create, edit, delete RDV | QA | P1 | W2-1 | [ ] |
-| W4-2 | Parity: cross-selling rules UI + SMS history | QA | P1 | W3-3 | [ ] |
-| W4-3 | Parity: reports (sales, customers, products) + export | QA | P2 | W2-1 | [ ] |
+| W4-1 | Parity: owner/employer calendar — create, edit, delete RDV | QA | P1 | W2-1 | [x] |
+| W4-2 | Parity: cross-selling rules UI + SMS history | QA | P1 | W3-3 | [x] |
+| W4-3 | Parity: reports (sales, customers, products) + export | QA | P2 | W2-1 | [x] |
 
 #### Wave 5 — Excel & data import (post-core or parallel)
 
