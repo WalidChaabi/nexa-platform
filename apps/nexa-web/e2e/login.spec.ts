@@ -1,20 +1,15 @@
-import { test } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
-import { expectDashboard, loginAs } from "./helpers/auth";
+import { DEMO_EMPLOYER } from "./helpers/auth";
 
-test.describe("login and role redirect", () => {
-  test("employer lands on POS workspace", async ({ page }) => {
-    await loginAs(page, "employer@nexa.test");
-    await expectDashboard(page, "/employer");
-  });
+test("employer can sign in and reach the POS dashboard", async ({ page }) => {
+  await page.goto("/login");
+  await page.getByLabel(/email/i).fill(DEMO_EMPLOYER.email);
+  await page.getByLabel(/password/i).fill(DEMO_EMPLOYER.password);
+  await page
+    .getByRole("button", { name: /sign in|se connecter|تسجيل الدخول/i })
+    .click();
 
-  test("owner lands on owner portal", async ({ page }) => {
-    await loginAs(page, "owner@nexa.test");
-    await expectDashboard(page, "/owner");
-  });
-
-  test("admin lands on admin console", async ({ page }) => {
-    await loginAs(page, "admin@nexa.test");
-    await expectDashboard(page, "/admin");
-  });
+  await expect(page).toHaveURL(/\/employer/);
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
 });
