@@ -1,7 +1,9 @@
 "use client";
 
+import { ConfirmProvider } from "@/components/feedback/confirm-provider";
 import { LocaleProvider } from "@/components/providers/locale-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
 
 export function AppProviders({
   children,
@@ -10,7 +12,12 @@ export function AppProviders({
 }>) {
   return (
     <ThemeProvider>
-      <LocaleProvider>{children}</LocaleProvider>
+      <LocaleProvider>
+        <ConfirmProvider>
+          {children}
+          <Toaster richColors closeButton />
+        </ConfirmProvider>
+      </LocaleProvider>
     </ThemeProvider>
   );
 }
