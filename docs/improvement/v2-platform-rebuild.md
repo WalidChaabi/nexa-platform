@@ -433,19 +433,127 @@ Deploy **two apps** (or reverse proxy): `app.nexa.app` → Next.js, `api.nexa.ap
 
 ### Parity checklist
 
-| Flow | V1 route | V2 verified | Owner |
-|------|----------|---------------|-------|
-| Owner login | `auth.login` | [ ] | |
-| Create invoice | employer caisse | [ ] | |
-| Print invoice | `invoices.print` | [ ] | |
-| CMI checkout | `checkout` | [ ] | |
-| CMI callback | `success` / `callBack` | [ ] | |
-| Create campaign | owner campaigns | [ ] | |
-| Send birthday SMS | scheduler | [ ] | |
-| Cross-selling cron | command | [ ] | |
-| RDV calendar | owner calendar | [ ] | |
-| Admin owner CRUD | admin owners | [ ] | |
-| Excel import products | owner products | [ ] | |
+| Flow | V1 route | V2 built | V2 verified | Owner |
+|------|----------|----------|-------------|-------|
+| Owner login | `auth.login` | [x] | [ ] | Frontend + Backend |
+| Employer login | `auth.login` | [x] | [ ] | Frontend + Backend |
+| Admin login | `auth.login` | [x] | [ ] | Frontend + Backend |
+| Create invoice | employer caisse | [x] | [ ] | Frontend + Backend |
+| Print invoice | `invoices.print` | [x] | [ ] | Frontend + Backend |
+| CMI checkout | `checkout` | [x] | [ ] | Backend + Frontend |
+| CMI callback | `success` / `callBack` | [x] | [ ] | Backend |
+| Create campaign | owner campaigns | [x] | [ ] | Frontend + Backend |
+| Send birthday SMS | scheduler | [ ] | [ ] | Backend |
+| Cross-selling cron | command | [x] | [ ] | Backend |
+| RDV calendar + reminders | owner calendar | [x] | [ ] | Frontend + Backend |
+| Admin owner CRUD | admin owners | [x] | [ ] | Frontend + Backend |
+| Excel import products | owner products | [ ] | [ ] | Backend + Frontend |
+
+**Legend:** *V2 built* = code exists locally; *V2 verified* = manual + automated parity sign-off against V1 behavior.
+
+---
+
+### Remaining work board (ordered to cutover)
+
+Work in **waves**. Finish each wave’s *verified* column before cutover. Roles: **BE** = `apps/sherin-api`, **FE** = `apps/sherin-web`, **Ops** = infra/runbooks, **QA** = parity sign-off.
+
+#### Wave 0 — Stabilize current branch (now)
+
+| ID | Task | Role | Priority | Depends on | Status |
+|----|------|------|----------|------------|--------|
+| W0-1 | Commit + push uncommitted UI (login-02, form patterns, invoices DataTable, Docker naming) | FE + Ops | P0 | — | [ ] |
+| W0-2 | Smoke-test employer invoices list actions + create flow | QA | P0 | W0-1 | [ ] |
+| W0-3 | Confirm demo seed + `nexa_platform` Docker stack on fresh clone | Ops | P1 | — | [ ] |
+
+#### Wave 1 — Money path (cutover blocker)
+
+| ID | Task | Role | Priority | Depends on | Status |
+|----|------|------|----------|------------|--------|
+| W1-1 | E2E: owner checkout preview → redirect payload → return page | QA | P0 | W0-1 | [ ] |
+| W1-2 | Verify CMI callback idempotency + hash (staging with CMI sandbox) | BE + QA | P0 | — | [ ] |
+| W1-3 | Confirm payment confirmation email/SMS jobs run on `QUEUE_CONNECTION=redis` | BE + Ops | P0 | W1-2 | [ ] |
+| W1-4 | FE: checkout/return error states match V1 copy + i18n | FE | P1 | W1-1 | [ ] |
+
+#### Wave 2 — Core daily operations
+
+| ID | Task | Role | Priority | Depends on | Status |
+|----|------|------|----------|------------|--------|
+| W2-1 | Parity: login + role redirect (admin / owner / employer) | QA | P0 | W0-2 | [ ] |
+| W2-2 | Parity: employer create invoice (catalog, lines, payment, totals) | QA | P0 | W0-2 | [ ] |
+| W2-3 | Parity: invoice print/PDF matches V1 layout (logo, footer, lines) | BE + FE + QA | P0 | W2-2 | [ ] |
+| W2-4 | Parity: admin owner CRUD + activate/deactivate | QA | P1 | W2-1 | [ ] |
+| W2-5 | IDOR regression suite on store-scoped resources | BE | P1 | — | [ ] |
+
+#### Wave 3 — Campaigns & scheduler
+
+| ID | Task | Role | Priority | Depends on | Status |
+|----|------|------|----------|------------|--------|
+| W3-1 | **Wire birthday command** — `nexa:birthday-campaign` is currently a tick stub; port V1 `CampaignService` birthday logic + `SendCampaignSmsJob` | BE | P0 | — | [ ] |
+| W3-2 | Parity: owner create/edit campaign + filters | QA | P1 | W2-1 | [ ] |
+| W3-3 | Verify `nexa:cross-selling` against V1 sample data (queued SMS count) | BE + QA | P1 | — | [ ] |
+| W3-4 | Verify `nexa:rendez-vous` reminders (30-min window) | BE + QA | P1 | — | [ ] |
+| W3-5 | Ops: document scheduler cron (`schedule:run` every minute) + queue worker in prod | Ops | P0 | W3-1 | [ ] |
+
+#### Wave 4 — Calendar & CRM polish
+
+| ID | Task | Role | Priority | Depends on | Status |
+|----|------|------|----------|------------|--------|
+| W4-1 | Parity: owner/employer calendar — create, edit, delete RDV | QA | P1 | W2-1 | [ ] |
+| W4-2 | Parity: cross-selling rules UI + SMS history | QA | P1 | W3-3 | [ ] |
+| W4-3 | Parity: reports (sales, customers, products) + export | QA | P2 | W2-1 | [ ] |
+
+#### Wave 5 — Excel & data import (post-core or parallel)
+
+| ID | Task | Role | Priority | Depends on | Status |
+|----|------|------|----------|------------|--------|
+| W5-1 | Port V1 `ProductsImport` (Maatwebsite) → API endpoint + validation | BE | P2 | — | [ ] |
+| W5-2 | FE: upload UI on owner products (progress, row errors) | FE | P2 | W5-1 | [ ] |
+| W5-3 | Parity: import sample spreadsheet vs V1 row counts | QA | P2 | W5-2 | [ ] |
+
+#### Wave 6 — Quality gates (run in parallel with Waves 1–4)
+
+| ID | Task | Role | Priority | Depends on | Status |
+|----|------|------|----------|------------|--------|
+| W6-1 | Add PHPStan + Pint to V2 CI (per V2-PR-02 plan) | BE | P1 | — | [ ] |
+| W6-2 | Playwright: login, invoice create, checkout happy path | FE + QA | P1 | W1-1, W2-2 | [ ] |
+| W6-3 | API contract tests for critical Resources (invoice, payment) | BE | P2 | — | [ ] |
+| W6-4 | WCAG spot-check on login, invoice create, checkout | FE | P2 | W2-2 | [ ] |
+
+#### Wave 7 — Production readiness (before DNS flip)
+
+| ID | Task | Role | Priority | Depends on | Status |
+|----|------|------|----------|------------|--------|
+| W7-1 | Write `docs/runbooks/deployment-v2.md` | Ops | P0 | W1-3 | [ ] |
+| W7-2 | Write `docs/runbooks/incident-response.md` | Ops | P0 | — | [ ] |
+| W7-3 | Staging deploy with production DB copy; full parity pass | Ops + QA | P0 | W2–W4 | [ ] |
+| W7-4 | Sanctum cookie domains + CORS on production hostnames | BE + Ops | P0 | W7-3 | [ ] |
+| W7-5 | Horizon (queues) + error tracking (e.g. Sentry) | Ops | P1 | W7-1 | [ ] |
+| W7-6 | Rollback drill: restore DB + revert DNS within 14-day window | Ops | P0 | W7-3 | [ ] |
+
+#### Wave 8 — Cutover & decommission
+
+| ID | Task | Role | Priority | Depends on | Status |
+|----|------|------|----------|------------|--------|
+| W8-1 | Freeze V1 features (T-7) | All | P0 | W7-3 green | [ ] |
+| W8-2 | Maintenance window: DNS web → Next.js, API → Laravel | Ops | P0 | W8-1 | [ ] |
+| W8-3 | T+1 monitor: CMI callbacks, failed jobs, integrations log | Ops | P0 | W8-2 | [ ] |
+| W8-4 | T+7 decommission V1; archive `main` → `archive/v1` | Ops | P0 | W8-3 | [ ] |
+| W8-5 | Merge `v2/main` → `main` if production line still tracks V1 | Ops | P1 | W8-2 | [ ] |
+
+---
+
+### Suggested execution order (summary)
+
+```text
+W0 stabilize → W1 payments → W2 core POS/auth → W3 scheduler (birthday!) → W4 calendar/reports
+     ↘ W6 quality gates (parallel) ↗
+W7 staging + runbooks → W8 cutover
+W5 Excel import (can slip after cutover if owners accept manual import temporarily)
+```
+
+**Critical path:** W0-1 → W1 (payments) → W2 (invoice/print) → **W3-1 (birthday stub)** → W7 (staging) → W8.
+
+**Known gap:** `BirthdayCampaignCommand` logs a tick only — must be implemented before claiming campaign parity.
 
 ---
 
@@ -598,3 +706,4 @@ Before porting a service, optionally add a test **on V1** that captures current 
 |------|--------|
 | 2026-06-08 | Initial V2 rebuild plan |
 | 2026-06-08 | **ADR-002:** Next.js web + Laravel API; mobile Phase 5 on same API |
+| 2026-06-09 | Added remaining work board (W0–W8), expanded parity checklist with built vs verified |

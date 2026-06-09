@@ -1,14 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Eye, List, PlusCircle, Receipt, XCircle } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
+import { List, PlusCircle, Receipt } from "lucide-react";
 
+import { EmployerInvoicesTable } from "@/app/(employer)/employer/invoices/invoices-table";
 import { useDashboardAuth } from "@/components/layout/dashboard-auth";
 import { PageHeader } from "@/components/layout/page-header";
 import { useLocale } from "@/components/providers/locale-provider";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -19,14 +18,6 @@ import {
 import { NavLink } from "@/components/ui/nav-link";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
   cancelInvoice,
   fetchInvoices,
   type InvoiceSummary,
@@ -34,7 +25,7 @@ import {
 
 export default function EmployerInvoicesPage() {
   const { user } = useDashboardAuth();
-  const { t, formatCurrency, formatDateTime } = useLocale();
+  const { t } = useLocale();
   const [invoices, setInvoices] = useState<InvoiceSummary[]>([]);
   const [fetching, setFetching] = useState(true);
   const [errorKey, setErrorKey] = useState<string | null>(null);
@@ -42,20 +33,6 @@ export default function EmployerInvoicesPage() {
   const [reloadKey, setReloadKey] = useState(0);
 
   const storeId = user.store_id;
-
-  function customerName(invoice: InvoiceSummary): string {
-    const customer = invoice.customer;
-    if (!customer) {
-      return t("employer.invoices.customerFallback", {
-        id: invoice.customer_id,
-      });
-    }
-
-    const name = [customer.firstname, customer.lastname]
-      .filter(Boolean)
-      .join(" ");
-    return name || customer.phone;
-  }
 
   useEffect(() => {
     if (storeId == null) {
@@ -88,7 +65,7 @@ export default function EmployerInvoicesPage() {
     void loadInvoices();
   }, [storeId, reloadKey]);
 
-  async function handleCancel(invoiceId: number) {
+  const handleCancel = useCallback(async (invoiceId: number) => {
     setCancellingId(invoiceId);
     setErrorKey(null);
 
@@ -100,7 +77,7 @@ export default function EmployerInvoicesPage() {
     } finally {
       setCancellingId(null);
     }
-  }
+  }, []);
 
   return (
     <div className="space-y-6">
@@ -159,66 +136,11 @@ export default function EmployerInvoicesPage() {
               </NavLink>
             </div>
           ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>{t("employer.invoices.columns.id")}</TableHead>
-                  <TableHead>{t("employer.invoices.columns.date")}</TableHead>
-                  <TableHead>{t("employer.invoices.columns.customer")}</TableHead>
-                  <TableHead>{t("employer.invoices.columns.total")}</TableHead>
-                  <TableHead>{t("employer.invoices.columns.status")}</TableHead>
-                  <TableHead className="text-right">
-                    {t("employer.invoices.columns.actions")}
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {invoices.map((invoice) => (
-                  <TableRow key={invoice.id}>
-                    <TableCell className="font-medium">{invoice.id}</TableCell>
-                    <TableCell>{formatDateTime(invoice.invoice_date)}</TableCell>
-                    <TableCell>{customerName(invoice)}</TableCell>
-                    <TableCell>{formatCurrency(invoice.total)}</TableCell>
-                    <TableCell>
-                      <Badge
-                        variant={
-                          invoice.status_label === "pending"
-                            ? "default"
-                            : "secondary"
-                        }
-                      >
-                        {invoice.status_label}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex justify-end gap-2">
-                        <NavLink
-                          href={`/employer/invoices/${invoice.id}`}
-                          variant="outline"
-                          size="sm"
-                        >
-                          <Eye />
-                          {t("common.view")}
-                        </NavLink>
-                        {invoice.status_label === "pending" ? (
-                          <Button
-                            variant="destructive"
-                            size="sm"
-                            disabled={cancellingId === invoice.id}
-                            onClick={() => void handleCancel(invoice.id)}
-                          >
-                            <XCircle />
-                            {cancellingId === invoice.id
-                              ? t("common.cancelling")
-                              : t("common.cancel")}
-                          </Button>
-                        ) : null}
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <EmployerInvoicesTable
+              invoices={invoices}
+              cancellingId={cancellingId}
+              onCancel={(invoiceId) => void handleCancel(invoiceId)}
+            />
           )}
         </CardContent>
       </Card>

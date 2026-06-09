@@ -49,7 +49,7 @@ If Next.js stops picking up new routes (404 after adding pages), clear the dev c
 
 ```bash
 docker compose down
-docker volume rm nexa-platform_web-next
+docker volume rm nexa_platform_web-next
 docker compose up -d
 ```
 

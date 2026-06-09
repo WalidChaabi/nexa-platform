@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { List, Pencil, Plus, Store } from "lucide-react";
 
 import { PageHeader } from "@/components/layout/page-header";
+import { StoreFormSheet } from "@/components/stores/store-form-sheet";
 import { useLocale } from "@/components/providers/locale-provider";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
@@ -15,8 +16,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { NavLink } from "@/components/ui/nav-link";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
@@ -26,19 +26,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  createStore,
-  fetchStores,
-  updateStore,
-  type StoreInput,
-  type StoreSummary,
-} from "@/lib/api/stores";
-
-const emptyForm: StoreInput = {
-  name: "",
-  phone: "",
-  address: "",
-};
+import { fetchStores, type StoreSummary } from "@/lib/api/stores";
 
 export default function OwnerStoresPage() {
   const { t } = useLocale();
@@ -46,11 +34,8 @@ export default function OwnerStoresPage() {
   const [fetching, setFetching] = useState(true);
   const [errorKey, setErrorKey] = useState<string | null>(null);
   const [reloadKey, setReloadKey] = useState(0);
-  const [createForm, setCreateForm] = useState<StoreInput>(emptyForm);
-  const [creating, setCreating] = useState(false);
-  const [editingId, setEditingId] = useState<number | null>(null);
-  const [editForm, setEditForm] = useState<StoreInput>(emptyForm);
-  const [savingEdit, setSavingEdit] = useState(false);
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [editingStore, setEditingStore] = useState<StoreSummary | null>(null);
 
   useEffect(() => {
     const active = true;
@@ -78,50 +63,9 @@ export default function OwnerStoresPage() {
     void loadStores();
   }, [reloadKey]);
 
-  function startEdit(store: StoreSummary) {
-    setEditingId(store.id);
-    setEditForm({
-      name: store.name,
-      phone: store.phone,
-      address: store.address ?? "",
-      invoice_message: store.invoice_message ?? "",
-    });
-  }
-
-  async function handleCreate(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setCreating(true);
-    setErrorKey(null);
-
-    try {
-      await createStore(createForm);
-      setCreateForm(emptyForm);
-      setReloadKey((value) => value + 1);
-    } catch {
-      setErrorKey("owner.stores.createError");
-    } finally {
-      setCreating(false);
-    }
-  }
-
-  async function handleUpdate(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    if (editingId == null) {
-      return;
-    }
-
-    setSavingEdit(true);
-    setErrorKey(null);
-
-    try {
-      await updateStore(editingId, editForm);
-      setEditingId(null);
-      setReloadKey((value) => value + 1);
-    } catch {
-      setErrorKey("owner.stores.updateError");
-    } finally {
-      setSavingEdit(false);
-    }
+  function openEditSheet(store: StoreSummary) {
+    setEditingStore(store);
+    setSheetOpen(true);
   }
 
   return (
@@ -130,145 +74,18 @@ export default function OwnerStoresPage() {
         icon={Store}
         title={t("owner.stores.title")}
         description={t("owner.stores.description")}
-      />
+      >
+        <NavLink href="/owner/stores/new">
+          <Plus />
+          {t("owner.stores.create")}
+        </NavLink>
+      </PageHeader>
 
       {errorKey ? (
         <Alert variant="destructive">
           <AlertTitle>{t("common.error")}</AlertTitle>
           <AlertDescription>{t(errorKey)}</AlertDescription>
         </Alert>
-      ) : null}
-
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Plus className="size-4 text-primary" />
-            {t("owner.stores.createTitle")}
-          </CardTitle>
-          <CardDescription>{t("owner.stores.createDescription")}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form className="grid gap-4 sm:grid-cols-2" onSubmit={handleCreate}>
-            <div className="space-y-2">
-              <Label htmlFor="create-name">{t("owner.stores.fields.name")}</Label>
-              <Input
-                id="create-name"
-                required
-                value={createForm.name}
-                onChange={(event) =>
-                  setCreateForm((value) => ({
-                    ...value,
-                    name: event.target.value,
-                  }))
-                }
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="create-phone">{t("owner.stores.fields.phone")}</Label>
-              <Input
-                id="create-phone"
-                value={createForm.phone ?? ""}
-                onChange={(event) =>
-                  setCreateForm((value) => ({
-                    ...value,
-                    phone: event.target.value,
-                  }))
-                }
-              />
-            </div>
-            <div className="space-y-2 sm:col-span-2">
-              <Label htmlFor="create-address">
-                {t("owner.stores.fields.address")}
-              </Label>
-              <Input
-                id="create-address"
-                value={createForm.address ?? ""}
-                onChange={(event) =>
-                  setCreateForm((value) => ({
-                    ...value,
-                    address: event.target.value,
-                  }))
-                }
-              />
-            </div>
-            <div className="sm:col-span-2">
-              <Button type="submit" disabled={creating}>
-                <Plus />
-                {creating ? t("owner.stores.creating") : t("owner.stores.create")}
-              </Button>
-            </div>
-          </form>
-        </CardContent>
-      </Card>
-
-      {editingId != null ? (
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Pencil className="size-4 text-primary" />
-              {t("owner.stores.editTitle")}
-            </CardTitle>
-            <CardDescription>{t("owner.stores.editDescription")}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form className="grid gap-4 sm:grid-cols-2" onSubmit={handleUpdate}>
-              <div className="space-y-2">
-                <Label htmlFor="edit-name">{t("owner.stores.fields.name")}</Label>
-                <Input
-                  id="edit-name"
-                  required
-                  value={editForm.name}
-                  onChange={(event) =>
-                    setEditForm((value) => ({
-                      ...value,
-                      name: event.target.value,
-                    }))
-                  }
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="edit-phone">{t("owner.stores.fields.phone")}</Label>
-                <Input
-                  id="edit-phone"
-                  value={editForm.phone ?? ""}
-                  onChange={(event) =>
-                    setEditForm((value) => ({
-                      ...value,
-                      phone: event.target.value,
-                    }))
-                  }
-                />
-              </div>
-              <div className="space-y-2 sm:col-span-2">
-                <Label htmlFor="edit-address">
-                  {t("owner.stores.fields.address")}
-                </Label>
-                <Input
-                  id="edit-address"
-                  value={editForm.address ?? ""}
-                  onChange={(event) =>
-                    setEditForm((value) => ({
-                      ...value,
-                      address: event.target.value,
-                    }))
-                  }
-                />
-              </div>
-              <div className="flex gap-2 sm:col-span-2">
-                <Button type="submit" disabled={savingEdit}>
-                  {savingEdit ? t("owner.stores.saving") : t("owner.stores.save")}
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => setEditingId(null)}
-                >
-                  {t("common.cancel")}
-                </Button>
-              </div>
-            </form>
-          </CardContent>
-        </Card>
       ) : null}
 
       <Card>
@@ -286,9 +103,15 @@ export default function OwnerStoresPage() {
               <Skeleton className="h-10 w-full" />
             </div>
           ) : stores.length === 0 ? (
-            <p className="text-sm text-muted-foreground">
-              {t("owner.stores.empty")}
-            </p>
+            <div className="flex flex-col items-center gap-3 py-8 text-center">
+              <p className="text-sm text-muted-foreground">
+                {t("owner.stores.empty")}
+              </p>
+              <NavLink href="/owner/stores/new">
+                <Plus />
+                {t("owner.stores.createFirst")}
+              </NavLink>
+            </div>
           ) : (
             <Table>
               <TableHeader>
@@ -318,7 +141,7 @@ export default function OwnerStoresPage() {
                         type="button"
                         size="sm"
                         variant="outline"
-                        onClick={() => startEdit(store)}
+                        onClick={() => openEditSheet(store)}
                       >
                         <Pencil />
                         {t("owner.stores.edit")}
@@ -331,6 +154,13 @@ export default function OwnerStoresPage() {
           )}
         </CardContent>
       </Card>
+
+      <StoreFormSheet
+        open={sheetOpen}
+        onOpenChange={setSheetOpen}
+        store={editingStore}
+        onSuccess={() => setReloadKey((value) => value + 1)}
+      />
     </div>
   );
 }

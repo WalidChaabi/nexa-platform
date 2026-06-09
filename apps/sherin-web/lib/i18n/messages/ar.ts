@@ -1,4 +1,7 @@
 export const ar = {
+  forms: {
+    optional: "اختياري",
+  },
   common: {
     appName: "Nexa",
     navigation: "التنقل",
@@ -106,6 +109,8 @@ export const ar = {
       cancelError: "تعذر إلغاء هذه الفاتورة.",
       empty: "لا توجد فواتير لهذا المتجر بعد.",
       createFirst: "إنشاء أول فاتورة",
+      filterPlaceholder: "تصفية حسب العميل...",
+      openMenu: "فتح القائمة",
       columns: {
         id: "رقم",
         date: "التاريخ",
@@ -136,10 +141,13 @@ export const ar = {
       edit: "تعديل",
       save: "حفظ",
       saving: "جارٍ الحفظ...",
+      phoneRequired: "رقم الهاتف مطلوب.",
+      duplicatePhone: "يوجد عميل بهذا الرقم بالفعل.",
       fields: {
         phone: "الهاتف",
         firstname: "الاسم الأول",
         lastname: "اسم العائلة",
+        email: "البريد الإلكتروني",
       },
       columns: {
         name: "الاسم",
@@ -232,6 +240,10 @@ export const ar = {
       createError: "تعذر إنشاء الفاتورة.",
       customer: "العميل",
       selectCustomerPlaceholder: "اختر عميلاً",
+      searchCustomer: "البحث عن عميل...",
+      searchProduct: "البحث عن منتج...",
+      newCustomer: "عميل جديد",
+      changeDue: "الباقي للعميل",
       products: "المنتجات",
       addLine: "إضافة سطر",
       selectProduct: "اختر منتجاً",
@@ -752,6 +764,7 @@ export const ar = {
     stores: {
       title: "متاجري",
       description: "إنشاء وإدارة نقاط البيع.",
+      newPageTitle: "إضافة متجر",
       createTitle: "متجر جديد",
       createDescription: "أضف موقعاً إلى شبكتك.",
       editTitle: "تعديل المتجر",
@@ -761,7 +774,15 @@ export const ar = {
       loadError: "تعذر تحميل المتاجر.",
       createError: "تعذر إنشاء المتجر.",
       updateError: "تعذر تحديث المتجر.",
-      empty: "ليس لديك متاجر بعد. أنشئ واحداً أعلاه.",
+      empty: "ليس لديك متاجر بعد.",
+      createFirst: "إنشاء أول متجر",
+      backToStores: "العودة إلى المتاجر",
+      successTitle: "تم إنشاء المتجر",
+      successDescription: "{name} جاهز. أكمل الإعداد بالكتالوج والعملاء.",
+      nextStepsTitle: "الخطوات التالية الموصى بها",
+      nextStepsDescription: "أكمل الإعداد ليتمكن فريقك من البيع.",
+      nextProducts: "إضافة منتجات",
+      nextCustomers: "إضافة عملاء",
       create: "إنشاء متجر",
       creating: "جارٍ الإنشاء...",
       edit: "تعديل",
@@ -769,10 +790,19 @@ export const ar = {
       saving: "جارٍ الحفظ...",
       statusActive: "نشط",
       statusInactive: "غير نشط",
+      sections: {
+        identity: "هوية المتجر",
+        identityDescription: "الاسم الظاهر على الإيصالات والتقارير.",
+        location: "الموقع",
+        locationDescription: "العنوان الظاهر على الفواتير والمراسلات.",
+        operations: "التشغيل",
+        operationsDescription: "تذييل الإيصال ورسائل نقطة البيع.",
+      },
       fields: {
         name: "اسم المتجر",
         phone: "الهاتف",
         address: "العنوان",
+        invoiceMessage: "رسالة تذييل الفاتورة",
       },
       columns: {
         name: "الاسم",

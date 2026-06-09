@@ -9,6 +9,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -84,37 +85,43 @@ export function SidebarUserFooter({ user }: { user: AuthUser }) {
               align="end"
               sideOffset={4}
             >
-              <DropdownMenuLabel className="p-0 font-normal">
-                <div className="flex items-center gap-2 px-1 py-1.5 text-start text-sm">
-                  <Avatar className="size-8 rounded-lg">
-                    <AvatarFallback className="rounded-lg bg-primary/10 text-primary">
-                      {initials(user)}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="grid flex-1 text-start text-sm leading-tight">
-                    <span className="truncate font-semibold">
-                      {user.full_name}
-                    </span>
-                    <span className="truncate text-xs text-muted-foreground">
-                      {user.email}
-                    </span>
+              <DropdownMenuGroup>
+                <DropdownMenuLabel className="p-0 font-normal">
+                  <div className="flex items-center gap-2 px-1 py-1.5 text-start text-sm">
+                    <Avatar className="size-8 rounded-lg">
+                      <AvatarFallback className="rounded-lg bg-primary/10 text-primary">
+                        {initials(user)}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="grid flex-1 text-start text-sm leading-tight">
+                      <span className="truncate font-semibold">
+                        {user.full_name}
+                      </span>
+                      <span className="truncate text-xs text-muted-foreground">
+                        {user.email}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </DropdownMenuLabel>
+                </DropdownMenuLabel>
+              </DropdownMenuGroup>
               <DropdownMenuSeparator />
-              <DropdownMenuItem disabled>
-                <User />
-                {t("common.account", { role: t(`roles.${user.role}`) })}
-              </DropdownMenuItem>
+              <DropdownMenuGroup>
+                <DropdownMenuItem disabled>
+                  <User />
+                  {t("common.account", { role: t(`roles.${user.role}`) })}
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
               <DropdownMenuSeparator />
-              <DropdownMenuItem
-                variant="destructive"
-                disabled={loading}
-                onClick={() => void handleLogout()}
-              >
-                <LogOut />
-                {loading ? t("common.signingOut") : t("common.signOut")}
-              </DropdownMenuItem>
+              <DropdownMenuGroup>
+                <DropdownMenuItem
+                  variant="destructive"
+                  disabled={loading}
+                  onClick={() => void handleLogout()}
+                >
+                  <LogOut />
+                  {loading ? t("common.signingOut") : t("common.signOut")}
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
             </DropdownMenuContent>
           </DropdownMenu>
         </SidebarMenuItem>

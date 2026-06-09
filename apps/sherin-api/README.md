@@ -49,7 +49,7 @@ After seeding, demo accounts are available:
 | Owner | `owner@nexa.test` |
 | Employer | `employer@nexa.test` |
 
-Default factory password applies (see `UserFactory`).
+Password for all demo accounts: **`password`**
 
 ## Tests
 

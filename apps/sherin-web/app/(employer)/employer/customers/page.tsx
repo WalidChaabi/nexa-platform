@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { List, Pencil, Plus, Search, UserPlus, Users } from "lucide-react";
 
+import { CustomerFormSheet } from "@/components/customers/customer-form-sheet";
 import { useDashboardAuth } from "@/components/layout/dashboard-auth";
 import { PageHeader } from "@/components/layout/page-header";
 import { useLocale } from "@/components/providers/locale-provider";
@@ -16,7 +17,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
@@ -27,19 +27,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import {
-  createCustomer,
   fetchCustomers,
-  updateCustomer,
-  type CustomerInput,
   type CustomerSummary,
-  type CustomerUpdateInput,
 } from "@/lib/api/customers";
-
-const emptyCreate: Omit<CustomerInput, "store_id"> = {
-  phone: "",
-  firstname: "",
-  lastname: "",
-};
 
 export default function EmployerCustomersPage() {
   const { user } = useDashboardAuth();
@@ -49,11 +39,12 @@ export default function EmployerCustomersPage() {
   const [errorKey, setErrorKey] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [reloadKey, setReloadKey] = useState(0);
-  const [createForm, setCreateForm] = useState(emptyCreate);
-  const [creating, setCreating] = useState(false);
-  const [editingId, setEditingId] = useState<number | null>(null);
-  const [editForm, setEditForm] = useState<CustomerUpdateInput>({});
-  const [savingEdit, setSavingEdit] = useState(false);
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [sheetMode, setSheetMode] = useState<"create" | "edit">("create");
+  const [editingCustomer, setEditingCustomer] = useState<CustomerSummary | null>(
+    null,
+  );
+  const [highlightId, setHighlightId] = useState<number | null>(null);
 
   const storeId = user.store_id;
 
@@ -91,54 +82,21 @@ export default function EmployerCustomersPage() {
     void loadCustomers();
   }, [storeId, reloadKey, search]);
 
-  function startEdit(customer: CustomerSummary) {
-    setEditingId(customer.id);
-    setEditForm({
-      phone: customer.phone,
-      firstname: customer.firstname ?? "",
-      lastname: customer.lastname ?? "",
-      email: customer.email ?? "",
-    });
+  function openCreateSheet() {
+    setSheetMode("create");
+    setEditingCustomer(null);
+    setSheetOpen(true);
   }
 
-  async function handleCreate(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    if (storeId == null) {
-      return;
-    }
-
-    setCreating(true);
-    setErrorKey(null);
-
-    try {
-      await createCustomer({ store_id: storeId, ...createForm });
-      setCreateForm(emptyCreate);
-      setReloadKey((value) => value + 1);
-    } catch {
-      setErrorKey("employer.customers.createError");
-    } finally {
-      setCreating(false);
-    }
+  function openEditSheet(customer: CustomerSummary) {
+    setSheetMode("edit");
+    setEditingCustomer(customer);
+    setSheetOpen(true);
   }
 
-  async function handleUpdate(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    if (editingId == null) {
-      return;
-    }
-
-    setSavingEdit(true);
-    setErrorKey(null);
-
-    try {
-      await updateCustomer(editingId, editForm);
-      setEditingId(null);
-      setReloadKey((value) => value + 1);
-    } catch {
-      setErrorKey("employer.customers.updateError");
-    } finally {
-      setSavingEdit(false);
-    }
+  function handleSuccess(customer: CustomerSummary) {
+    setHighlightId(customer.id);
+    setReloadKey((value) => value + 1);
   }
 
   if (storeId == null) {
@@ -156,7 +114,12 @@ export default function EmployerCustomersPage() {
         icon={Users}
         title={t("employer.customers.title")}
         description={t("employer.customers.description")}
-      />
+      >
+        <Button type="button" onClick={openCreateSheet}>
+          <UserPlus />
+          {t("employer.customers.create")}
+        </Button>
+      </PageHeader>
 
       {errorKey ? (
         <Alert variant="destructive">
@@ -185,145 +148,6 @@ export default function EmployerCustomersPage() {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <UserPlus className="size-4 text-primary" />
-            {t("employer.customers.createTitle")}
-          </CardTitle>
-          <CardDescription>{t("employer.customers.createDescription")}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form className="grid gap-4 sm:grid-cols-2" onSubmit={handleCreate}>
-            <div className="space-y-2">
-              <Label htmlFor="create-phone">{t("employer.customers.fields.phone")}</Label>
-              <Input
-                id="create-phone"
-                required
-                value={createForm.phone}
-                onChange={(event) =>
-                  setCreateForm((value) => ({
-                    ...value,
-                    phone: event.target.value,
-                  }))
-                }
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="create-firstname">
-                {t("employer.customers.fields.firstname")}
-              </Label>
-              <Input
-                id="create-firstname"
-                value={createForm.firstname ?? ""}
-                onChange={(event) =>
-                  setCreateForm((value) => ({
-                    ...value,
-                    firstname: event.target.value,
-                  }))
-                }
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="create-lastname">
-                {t("employer.customers.fields.lastname")}
-              </Label>
-              <Input
-                id="create-lastname"
-                value={createForm.lastname ?? ""}
-                onChange={(event) =>
-                  setCreateForm((value) => ({
-                    ...value,
-                    lastname: event.target.value,
-                  }))
-                }
-              />
-            </div>
-            <div className="sm:col-span-2">
-              <Button type="submit" disabled={creating}>
-                <Plus />
-                {creating
-                  ? t("employer.customers.creating")
-                  : t("employer.customers.create")}
-              </Button>
-            </div>
-          </form>
-        </CardContent>
-      </Card>
-
-      {editingId != null ? (
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Pencil className="size-4 text-primary" />
-              {t("employer.customers.editTitle")}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <form className="grid gap-4 sm:grid-cols-2" onSubmit={handleUpdate}>
-              <div className="space-y-2">
-                <Label htmlFor="edit-phone">{t("employer.customers.fields.phone")}</Label>
-                <Input
-                  id="edit-phone"
-                  required
-                  value={editForm.phone ?? ""}
-                  onChange={(event) =>
-                    setEditForm((value) => ({
-                      ...value,
-                      phone: event.target.value,
-                    }))
-                  }
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="edit-firstname">
-                  {t("employer.customers.fields.firstname")}
-                </Label>
-                <Input
-                  id="edit-firstname"
-                  value={editForm.firstname ?? ""}
-                  onChange={(event) =>
-                    setEditForm((value) => ({
-                      ...value,
-                      firstname: event.target.value,
-                    }))
-                  }
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="edit-lastname">
-                  {t("employer.customers.fields.lastname")}
-                </Label>
-                <Input
-                  id="edit-lastname"
-                  value={editForm.lastname ?? ""}
-                  onChange={(event) =>
-                    setEditForm((value) => ({
-                      ...value,
-                      lastname: event.target.value,
-                    }))
-                  }
-                />
-              </div>
-              <div className="flex gap-2 sm:col-span-2">
-                <Button type="submit" disabled={savingEdit}>
-                  {savingEdit
-                    ? t("employer.customers.saving")
-                    : t("employer.customers.save")}
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => setEditingId(null)}
-                >
-                  {t("common.cancel")}
-                </Button>
-              </div>
-            </form>
-          </CardContent>
-        </Card>
-      ) : null}
-
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
             <List className="size-4 text-primary" />
             {t("employer.customers.listTitle")}
           </CardTitle>
@@ -335,9 +159,15 @@ export default function EmployerCustomersPage() {
               <Skeleton className="h-10 w-full" />
             </div>
           ) : customers.length === 0 ? (
-            <p className="text-sm text-muted-foreground">
-              {t("employer.customers.empty")}
-            </p>
+            <div className="flex flex-col items-center gap-3 py-8 text-center">
+              <p className="text-sm text-muted-foreground">
+                {t("employer.customers.empty")}
+              </p>
+              <Button type="button" onClick={openCreateSheet}>
+                <Plus />
+                {t("employer.customers.create")}
+              </Button>
+            </div>
           ) : (
             <Table>
               <TableHeader>
@@ -352,7 +182,12 @@ export default function EmployerCustomersPage() {
               </TableHeader>
               <TableBody>
                 {customers.map((customer) => (
-                  <TableRow key={customer.id}>
+                  <TableRow
+                    key={customer.id}
+                    className={
+                      highlightId === customer.id ? "bg-primary/5" : undefined
+                    }
+                  >
                     <TableCell className="font-medium">
                       {customer.display_name}
                     </TableCell>
@@ -363,7 +198,7 @@ export default function EmployerCustomersPage() {
                         type="button"
                         size="sm"
                         variant="outline"
-                        onClick={() => startEdit(customer)}
+                        onClick={() => openEditSheet(customer)}
                       >
                         <Pencil />
                         {t("employer.customers.edit")}
@@ -376,6 +211,16 @@ export default function EmployerCustomersPage() {
           )}
         </CardContent>
       </Card>
+
+      <CustomerFormSheet
+        open={sheetOpen}
+        onOpenChange={setSheetOpen}
+        storeId={storeId}
+        mode={sheetMode}
+        customer={editingCustomer}
+        existingPhones={customers.map((customer) => customer.phone)}
+        onSuccess={handleSuccess}
+      />
     </div>
   );
 }

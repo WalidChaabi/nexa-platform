@@ -1,4 +1,7 @@
 export const en = {
+  forms: {
+    optional: "optional",
+  },
   common: {
     appName: "Nexa",
     navigation: "Navigation",
@@ -105,6 +108,8 @@ export const en = {
       cancelError: "Unable to cancel this invoice.",
       empty: "No invoices yet for this store.",
       createFirst: "Create first invoice",
+      filterPlaceholder: "Filter by customer...",
+      openMenu: "Open menu",
       columns: {
         id: "#",
         date: "Date",
@@ -135,10 +140,13 @@ export const en = {
       edit: "Edit",
       save: "Save",
       saving: "Saving...",
+      phoneRequired: "Phone number is required.",
+      duplicatePhone: "A customer with this phone number already exists.",
       fields: {
         phone: "Phone",
         firstname: "First name",
         lastname: "Last name",
+        email: "Email",
       },
       columns: {
         name: "Name",
@@ -231,6 +239,10 @@ export const en = {
       createError: "Unable to create invoice.",
       customer: "Customer",
       selectCustomerPlaceholder: "Select customer",
+      searchCustomer: "Search customers...",
+      searchProduct: "Search products...",
+      newCustomer: "New customer",
+      changeDue: "Change due",
       products: "Products",
       addLine: "Add line",
       selectProduct: "Select product",
@@ -751,6 +763,7 @@ export const en = {
     stores: {
       title: "My stores",
       description: "Create and manage your retail locations.",
+      newPageTitle: "Add a store",
       createTitle: "New store",
       createDescription: "Add a location to your network.",
       editTitle: "Edit store",
@@ -760,7 +773,15 @@ export const en = {
       loadError: "Could not load stores.",
       createError: "Could not create store.",
       updateError: "Could not update store.",
-      empty: "You have no stores yet. Create one above.",
+      empty: "You have no stores yet.",
+      createFirst: "Create your first store",
+      backToStores: "Back to stores",
+      successTitle: "Store created",
+      successDescription: "{name} is ready. Complete setup with catalog and clients.",
+      nextStepsTitle: "Recommended next steps",
+      nextStepsDescription: "Finish setup so your team can start selling.",
+      nextProducts: "Add products",
+      nextCustomers: "Add customers",
       create: "Create store",
       creating: "Creating...",
       edit: "Edit",
@@ -768,10 +789,19 @@ export const en = {
       saving: "Saving...",
       statusActive: "Active",
       statusInactive: "Inactive",
+      sections: {
+        identity: "Store identity",
+        identityDescription: "How this location appears on receipts and reports.",
+        location: "Location",
+        locationDescription: "Address shown on invoices and customer communications.",
+        operations: "Operations",
+        operationsDescription: "Receipt footer and POS messaging.",
+      },
       fields: {
         name: "Store name",
         phone: "Phone",
         address: "Address",
+        invoiceMessage: "Invoice footer message",
       },
       columns: {
         name: "Name",

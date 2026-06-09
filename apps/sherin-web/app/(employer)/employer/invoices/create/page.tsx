@@ -6,6 +6,8 @@ import { ArrowLeft, Plus, PlusCircle, Trash2 } from "lucide-react";
 
 import { useDashboardAuth } from "@/components/layout/dashboard-auth";
 import { PageHeader } from "@/components/layout/page-header";
+import { CustomerPicker } from "@/components/pos/customer-picker";
+import { ProductLinePicker } from "@/components/pos/product-line-picker";
 import { useLocale } from "@/components/providers/locale-provider";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
@@ -28,10 +30,9 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
+import type { CustomerSummary } from "@/lib/api/customers";
 import { createInvoice } from "@/lib/api/invoices";
-import { fetchPosCatalog, type PosProduct } from "@/lib/api/pos";
-
-const EMPTY_PRODUCT = "__none__";
+import { fetchPosCatalog, type PosCustomer, type PosProduct } from "@/lib/api/pos";
 
 type LineDraft = {
   productId: string;
@@ -49,22 +50,16 @@ function lineTotal(product: PosProduct | undefined, qte: number): number {
 export default function CreateInvoicePage() {
   const router = useRouter();
   const { user } = useDashboardAuth();
-  const { t } = useLocale();
+  const { t, formatCurrency } = useLocale();
   const [catalogLoading, setCatalogLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [errorKey, setErrorKey] = useState<string | null>(null);
   const [customerId, setCustomerId] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("0");
   const [paidAmount, setPaidAmount] = useState("");
-  const [lines, setLines] = useState<LineDraft[]>([
-    { productId: "", qte: 1 },
-  ]);
-  const [customers, setCustomers] = useState<
-    Awaited<ReturnType<typeof fetchPosCatalog>>["customers"]
-  >([]);
-  const [products, setProducts] = useState<
-    Awaited<ReturnType<typeof fetchPosCatalog>>["products"]
-  >([]);
+  const [lines, setLines] = useState<LineDraft[]>([{ productId: "", qte: 1 }]);
+  const [customers, setCustomers] = useState<PosCustomer[]>([]);
+  const [products, setProducts] = useState<PosProduct[]>([]);
 
   const storeId = user.store_id;
 
@@ -101,6 +96,8 @@ export default function CreateInvoicePage() {
   }, [lines, products]);
 
   const totalHt = useMemo(() => Number((total / 1.2).toFixed(2)), [total]);
+  const paidValue = paidAmount === "" ? total : Number(paidAmount);
+  const changeDue = Math.max(0, Number((paidValue - total).toFixed(2)));
 
   function updateLine(index: number, patch: Partial<LineDraft>) {
     setLines((current) =>
@@ -114,6 +111,20 @@ export default function CreateInvoicePage() {
 
   function removeLine(index: number) {
     setLines((current) => current.filter((_, i) => i !== index));
+  }
+
+  function handleCustomerCreated(customer: CustomerSummary) {
+    const posCustomer: PosCustomer = {
+      id: customer.id,
+      store_id: customer.store_id,
+      firstname: customer.firstname,
+      lastname: customer.lastname,
+      phone: customer.phone,
+      email: customer.email,
+      points: customer.points,
+      display_name: customer.display_name,
+    };
+    setCustomers((current) => [posCustomer, ...current]);
   }
 
   async function handleSubmit(event: React.FormEvent) {
@@ -141,8 +152,6 @@ export default function CreateInvoicePage() {
       return;
     }
 
-    const paid = paidAmount === "" ? total : Number(paidAmount);
-
     setSubmitting(true);
     setErrorKey(null);
 
@@ -151,7 +160,7 @@ export default function CreateInvoicePage() {
         store_id: user.store_id,
         customer_id: Number(customerId),
         payment_method: Number(paymentMethod),
-        paid_amount: paid,
+        paid_amount: paidValue,
         total,
         total_ht: totalHt,
         products: productLines,
@@ -165,7 +174,7 @@ export default function CreateInvoicePage() {
   }
 
   return (
-    <div className="mx-auto w-full max-w-3xl space-y-6">
+    <div className="relative mx-auto w-full max-w-4xl space-y-6 pb-28">
       <PageHeader
         icon={PlusCircle}
         title={t("employer.create.title")}
@@ -192,8 +201,14 @@ export default function CreateInvoicePage() {
               <Skeleton className="h-24 w-full" />
               <Skeleton className="h-10 w-full" />
             </div>
+          ) : storeId == null ? (
+            <p className="text-sm text-muted-foreground">{t("common.noStore")}</p>
           ) : (
-            <form className="space-y-6" onSubmit={(e) => void handleSubmit(e)}>
+            <form
+              id="create-invoice-form"
+              className="space-y-6"
+              onSubmit={(event) => void handleSubmit(event)}
+            >
               {errorKey ? (
                 <Alert variant="destructive">
                   <AlertTitle>{t("employer.create.saveError")}</AlertTitle>
@@ -201,36 +216,18 @@ export default function CreateInvoicePage() {
                 </Alert>
               ) : null}
 
-              <div className="space-y-2">
-                <Label>{t("employer.create.customer")}</Label>
-                <Select
-                  value={customerId}
-                  onValueChange={(value) => setCustomerId(value ?? "")}
-                >
-                  <SelectTrigger className="w-full">
-                    <SelectValue
-                      placeholder={t("employer.create.selectCustomerPlaceholder")}
-                    />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {customers.map((customer) => (
-                      <SelectItem key={customer.id} value={String(customer.id)}>
-                        {customer.display_name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+              <CustomerPicker
+                storeId={storeId}
+                customers={customers}
+                value={customerId}
+                onValueChange={setCustomerId}
+                onCustomerCreated={handleCustomerCreated}
+              />
 
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <Label>{t("employer.create.products")}</Label>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    onClick={addLine}
-                  >
+                  <Button type="button" variant="outline" size="sm" onClick={addLine}>
                     <Plus />
                     {t("employer.create.addLine")}
                   </Button>
@@ -240,50 +237,31 @@ export default function CreateInvoicePage() {
                   const product = products.find(
                     (p) => String(p.id) === line.productId,
                   );
-                  const selectValue = line.productId || EMPTY_PRODUCT;
 
                   return (
                     <div
                       key={index}
                       className="grid gap-3 rounded-xl border bg-muted/20 p-4 md:grid-cols-[1fr_100px_120px_auto]"
                     >
-                      <Select
-                        value={selectValue}
-                        onValueChange={(value) =>
-                          updateLine(index, {
-                            productId:
-                              !value || value === EMPTY_PRODUCT ? "" : value,
-                          })
+                      <ProductLinePicker
+                        products={products}
+                        value={line.productId}
+                        onValueChange={(productId) =>
+                          updateLine(index, { productId })
                         }
-                      >
-                        <SelectTrigger className="w-full">
-                          <SelectValue
-                            placeholder={t("employer.create.selectProduct")}
-                          />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value={EMPTY_PRODUCT}>
-                            {t("employer.create.selectProduct")}
-                          </SelectItem>
-                          {products.map((item) => (
-                            <SelectItem key={item.id} value={String(item.id)}>
-                              {item.label} — {item.price} MAD
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      />
                       <Input
                         type="number"
                         min={1}
                         value={line.qte}
-                        onChange={(e) =>
+                        onChange={(event) =>
                           updateLine(index, {
-                            qte: Number(e.target.value) || 1,
+                            qte: Number(event.target.value) || 1,
                           })
                         }
                       />
                       <div className="flex items-center text-sm font-medium">
-                        {lineTotal(product, line.qte).toFixed(2)} MAD
+                        {formatCurrency(lineTotal(product, line.qte))}
                       </div>
                       <Button
                         type="button"
@@ -334,30 +312,43 @@ export default function CreateInvoicePage() {
                     step="0.01"
                     placeholder={total.toFixed(2)}
                     value={paidAmount}
-                    onChange={(e) => setPaidAmount(e.target.value)}
+                    onChange={(event) => setPaidAmount(event.target.value)}
                   />
                 </div>
               </div>
-
-              <div className="rounded-xl border bg-muted/40 p-4 text-sm">
-                <p>
-                  {t("employer.create.totalTtc")}:{" "}
-                  <strong className="text-foreground">
-                    {total.toFixed(2)} MAD
-                  </strong>
-                </p>
-                <p className="text-muted-foreground">
-                  {t("employer.create.totalHt")}: {totalHt.toFixed(2)} MAD
-                </p>
-              </div>
-
-              <Button type="submit" disabled={submitting} className="w-full sm:w-auto">
-                {submitting ? t("employer.create.saving") : t("employer.create.submit")}
-              </Button>
             </form>
           )}
         </CardContent>
       </Card>
+
+      {!catalogLoading && storeId != null ? (
+        <div className="fixed inset-x-0 bottom-0 z-30 border-t bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/80">
+          <div className="mx-auto flex w-full max-w-4xl flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="text-sm">
+              <p>
+                {t("employer.create.totalTtc")}:{" "}
+                <strong className="text-foreground">{formatCurrency(total)}</strong>
+              </p>
+              <p className="text-muted-foreground">
+                {t("employer.create.totalHt")}: {formatCurrency(totalHt)}
+              </p>
+              {changeDue > 0 ? (
+                <p className="text-muted-foreground">
+                  {t("employer.create.changeDue")}: {formatCurrency(changeDue)}
+                </p>
+              ) : null}
+            </div>
+            <Button
+              type="submit"
+              form="create-invoice-form"
+              disabled={submitting}
+              className="w-full sm:w-auto"
+            >
+              {submitting ? t("employer.create.saving") : t("employer.create.submit")}
+            </Button>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

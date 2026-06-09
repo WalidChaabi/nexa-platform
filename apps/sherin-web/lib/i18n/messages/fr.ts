@@ -1,4 +1,7 @@
 export const fr = {
+  forms: {
+    optional: "facultatif",
+  },
   common: {
     appName: "Nexa",
     navigation: "Navigation",
@@ -106,6 +109,8 @@ export const fr = {
       cancelError: "Impossible d'annuler cette facture.",
       empty: "Aucune facture pour ce magasin.",
       createFirst: "Créer la première facture",
+      filterPlaceholder: "Filtrer par client...",
+      openMenu: "Ouvrir le menu",
       columns: {
         id: "N°",
         date: "Date",
@@ -136,10 +141,13 @@ export const fr = {
       edit: "Modifier",
       save: "Enregistrer",
       saving: "Enregistrement...",
+      phoneRequired: "Le numéro de téléphone est obligatoire.",
+      duplicatePhone: "Un client avec ce numéro existe déjà.",
       fields: {
         phone: "Téléphone",
         firstname: "Prénom",
         lastname: "Nom",
+        email: "E-mail",
       },
       columns: {
         name: "Nom",
@@ -233,6 +241,10 @@ export const fr = {
       createError: "Impossible de créer la facture.",
       customer: "Client",
       selectCustomerPlaceholder: "Sélectionner un client",
+      searchCustomer: "Rechercher un client...",
+      searchProduct: "Rechercher un produit...",
+      newCustomer: "Nouveau client",
+      changeDue: "Monnaie à rendre",
       products: "Produits",
       addLine: "Ajouter une ligne",
       selectProduct: "Sélectionner un produit",
@@ -753,6 +765,7 @@ export const fr = {
     stores: {
       title: "Mes magasins",
       description: "Créez et gérez vos points de vente.",
+      newPageTitle: "Ajouter un magasin",
       createTitle: "Nouveau magasin",
       createDescription: "Ajoutez un lieu à votre réseau.",
       editTitle: "Modifier le magasin",
@@ -762,7 +775,17 @@ export const fr = {
       loadError: "Impossible de charger les magasins.",
       createError: "Impossible de créer le magasin.",
       updateError: "Impossible de mettre à jour le magasin.",
-      empty: "Vous n'avez pas encore de magasin. Créez-en un ci-dessus.",
+      empty: "Vous n'avez pas encore de magasin.",
+      createFirst: "Créer votre premier magasin",
+      backToStores: "Retour aux magasins",
+      successTitle: "Magasin créé",
+      successDescription:
+        "{name} est prêt. Complétez la configuration avec le catalogue et les clients.",
+      nextStepsTitle: "Prochaines étapes recommandées",
+      nextStepsDescription:
+        "Terminez la configuration pour que votre équipe puisse vendre.",
+      nextProducts: "Ajouter des produits",
+      nextCustomers: "Ajouter des clients",
       create: "Créer le magasin",
       creating: "Création...",
       edit: "Modifier",
@@ -770,10 +793,21 @@ export const fr = {
       saving: "Enregistrement...",
       statusActive: "Actif",
       statusInactive: "Inactif",
+      sections: {
+        identity: "Identité du magasin",
+        identityDescription:
+          "Nom affiché sur les reçus et les rapports.",
+        location: "Localisation",
+        locationDescription:
+          "Adresse affichée sur les factures et communications.",
+        operations: "Exploitation",
+        operationsDescription: "Pied de page des reçus et messages PDV.",
+      },
       fields: {
         name: "Nom du magasin",
         phone: "Téléphone",
         address: "Adresse",
+        invoiceMessage: "Message pied de facture",
       },
       columns: {
         name: "Nom",

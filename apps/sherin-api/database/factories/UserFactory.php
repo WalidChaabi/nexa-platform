@@ -5,7 +5,6 @@ namespace Database\Factories;
 use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 /**
@@ -28,7 +27,7 @@ class UserFactory extends Factory
             'phone' => fake()->numerify('06########'),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
+            'password' => static::$password ??= 'password',
             'allow_share' => 0,
             'status' => 1,
             'is_active' => 1,
