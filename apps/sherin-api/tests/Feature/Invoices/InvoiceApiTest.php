@@ -91,15 +91,31 @@ class InvoiceApiTest extends TestCase
 
     public function test_employer_can_fetch_invoice_print_payload(): void
     {
-        $store = Store::factory()->create(['name' => 'Print Store']);
+        $store = Store::factory()->create([
+            'name' => 'Print Store',
+            'invoice_message' => 'Merci pour votre visite.',
+        ]);
         $employer = User::factory()->employer()->create(['store_id' => $store->id]);
-        $invoice = \App\Models\Invoice::factory()->forStore($store)->create();
+        $product = Product::factory()->create([
+            'store_id' => $store->id,
+            'label' => 'Brushing',
+            'price' => 80,
+        ]);
+        $invoice = Invoice::factory()->forStore($store)->create();
+        $invoice->items()->create([
+            'product_id' => $product->id,
+            'qte' => 2,
+            'price' => 80,
+        ]);
 
         $this->actingAs($employer)
             ->getJson("/api/v1/invoices/{$invoice->id}/print")
             ->assertOk()
             ->assertJsonPath('data.id', $invoice->id)
-            ->assertJsonPath('data.store.name', 'Print Store');
+            ->assertJsonPath('data.store.name', 'Print Store')
+            ->assertJsonPath('data.store.invoice_message', 'Merci pour votre visite.')
+            ->assertJsonPath('data.items.0.label', 'Brushing')
+            ->assertJsonPath('data.items.0.qte', 2);
     }
 
     public function test_cannot_create_invoice_for_inaccessible_store(): void

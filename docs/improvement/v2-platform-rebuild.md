@@ -478,11 +478,11 @@ Work in **waves**. Finish each wave’s *verified* column before cutover. Roles:
 
 | ID | Task | Role | Priority | Depends on | Status |
 |----|------|------|----------|------------|--------|
-| W2-1 | Parity: login + role redirect (admin / owner / employer) | QA | P0 | W0-2 | [ ] |
-| W2-2 | Parity: employer create invoice (catalog, lines, payment, totals) | QA | P0 | W0-2 | [ ] |
-| W2-3 | Parity: invoice print/PDF matches V1 layout (logo, footer, lines) | BE + FE + QA | P0 | W2-2 | [ ] |
-| W2-4 | Parity: admin owner CRUD + activate/deactivate | QA | P1 | W2-1 | [ ] |
-| W2-5 | IDOR regression suite on store-scoped resources | BE | P1 | — | [ ] |
+| W2-1 | Parity: login + role redirect (admin / owner / employer) | QA | P0 | W0-2 | [x] |
+| W2-2 | Parity: employer create invoice (catalog, lines, payment, totals) | QA | P0 | W0-2 | [x] |
+| W2-3 | Parity: invoice print/PDF matches V1 layout (logo, footer, lines) | BE + FE + QA | P0 | W2-2 | [x] |
+| W2-4 | Parity: admin owner CRUD + activate/deactivate | QA | P1 | W2-1 | [x] |
+| W2-5 | IDOR regression suite on store-scoped resources | BE | P1 | — | [x] |
 
 #### Wave 3 — Campaigns & scheduler
 

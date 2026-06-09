@@ -27,9 +27,46 @@ class LoginTest extends TestCase
         $response
             ->assertOk()
             ->assertJsonPath('user.email', $user->email)
-            ->assertJsonPath('user.role', 'admin');
+            ->assertJsonPath('user.role', 'admin')
+            ->assertJsonPath('user.dashboard_path', '/admin');
 
         $this->assertAuthenticatedAs($user);
+    }
+
+    public function test_owner_login_returns_owner_dashboard_path(): void
+    {
+        User::factory()->owner()->create([
+            'email' => 'owner@nexa.test',
+            'password' => 'password',
+        ]);
+
+        $this
+            ->withHeader('Origin', 'http://localhost:3000')
+            ->postJson('/api/v1/auth/login', [
+                'email' => 'owner@nexa.test',
+                'password' => 'password',
+            ])
+            ->assertOk()
+            ->assertJsonPath('user.role', 'owner')
+            ->assertJsonPath('user.dashboard_path', '/owner');
+    }
+
+    public function test_employer_login_returns_employer_dashboard_path(): void
+    {
+        User::factory()->employer()->create([
+            'email' => 'employer@nexa.test',
+            'password' => 'password',
+        ]);
+
+        $this
+            ->withHeader('Origin', 'http://localhost:3000')
+            ->postJson('/api/v1/auth/login', [
+                'email' => 'employer@nexa.test',
+                'password' => 'password',
+            ])
+            ->assertOk()
+            ->assertJsonPath('user.role', 'employer')
+            ->assertJsonPath('user.dashboard_path', '/employer');
     }
 
     public function test_inactive_user_cannot_login(): void
