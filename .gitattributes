@@ -3,3 +3,7 @@
 *.scss linguist-vendored
 *.js linguist-vendored
 CHANGELOG.md export-ignore
+
+# Keep GitHub language stats focused on the active V2 codebase
+legacy/** linguist-vendored
+legacy/v1/** linguist-generated
