@@ -11,6 +11,26 @@ Multi-store retail and POS platform — campaigns, payments, reporting, and team
 
 ---
 
+## Project focus
+
+This portfolio project demonstrates a Laravel backend connected to a Next.js interface for multi-store retail operations.
+
+- **Business workflows:** products, customers, POS invoices, campaigns and reporting.
+- **Backend engineering:** REST endpoints, Sanctum authentication, policies and request validation.
+- **Frontend engineering:** separate workspaces for platform administrators, business owners and store staff.
+- **Modernization:** an API-first V2 alongside a legacy Laravel reference.
+
+## Technical decisions
+
+- Keep the API and web app separate so business rules and authorization live in the backend.
+- Use role-based workspaces to make each user's responsibilities explicit.
+- Retain the legacy reference separately from active development to support domain comparisons.
+- Combine backend feature tests with browser tests; see the commands below and the linked CI workflow for verification.
+
+## Suggested review path
+
+Start with the V2 architecture below, then inspect the API policies and feature tests, followed by the web workspaces. Use the local setup guide to explore the interface. Release hardening remains in progress; the status section links the checklist.
+
 ## Highlights
 
 - **API-first architecture** — Laravel 12 REST API + Next.js 16 web app (Sanctum auth, policies, form requests)
