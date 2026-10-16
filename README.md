@@ -7,6 +7,24 @@
 
 Multi-store retail and POS platform — campaigns, payments, reporting, and team management for business owners and store staff.
 
+**V2 is the current application**, built in `apps/nexa-api` and `apps/nexa-web`. The Laravel 5.7 monolith in `legacy/v1/` is retained for reference only.
+
+## Screenshots
+
+Local captures of the V2 interface; these illustrate screens, not verified functionality, test results, or production readiness.
+
+![V2 owner dashboard with a store onboarding checklist at 75% completion](docs/screenshots/dashboard.png)
+
+Owner dashboard with store setup tasks and the sales overview below.
+
+![V2 POS new-invoice form with customer and product selectors, payment fields, and MAD totals](docs/screenshots/pos.png)
+
+POS invoice form for selecting a customer, adding product lines, and entering payment details.
+
+![V2 product catalog with category controls, search, and a product table](docs/screenshots/products.png)
+
+Product catalog with category filtering, search, prices, and quantities.
+
 **Author:** [Walid Chaabi](https://github.com/WalidChaabi)
 
 ---
@@ -18,8 +36,6 @@ Multi-store retail and POS platform — campaigns, payments, reporting, and team
 - **Core retail flows** — POS invoices, product catalog, customers, campaigns, cross-selling, calendar
 - **Quality gates** — PHPUnit feature tests, Playwright E2E, Laravel Pint, ESLint, Docker dev stack
 - **Trilingual UI** — English, French, and Arabic (RTL)
-
-> **Note:** `legacy/v1/` is a reference Laravel 5.7 monolith kept for domain parity only. Active development lives in `apps/nexa-api` and `apps/nexa-web`.
 
 ---
 
@@ -107,7 +123,7 @@ CI workflow: [.github/workflows/v2-ci.yml](.github/workflows/v2-ci.yml)
 
 ## Status
 
-Portfolio showcase project — V2 is feature-rich with ongoing v1.0 GA hardening (production Docker, subscriptions, expanded E2E). See the [GA implementation plan](docs/improvement/nexa-v1-ga-implementation-plan.md) for the release checklist.
+V2 is under active development. See the [GA implementation plan](docs/improvement/nexa-v1-ga-implementation-plan.md) for the release checklist; the v1.0 release label is separate from the legacy V1 application.
 
 ---
 
